@@ -34,3 +34,13 @@ p {color:blue;}
 <link rel="stylesheet" type="text/css" hreg="style.css">
 </head>
 ```
+
+## 简介
+- CSS即层叠样式表 (Cascading Style Sheets)
+- 用来定义HTML元素的显示方式
+- 染内容和表现分离
+
+## CSS 语法
+- CSS实例
+CSS 规则由两个主要的部分构成：选择器，以及一条或多条声明
+![](img/note-2018-12-26-CSS_Note/实例.jpg)
