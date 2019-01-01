@@ -80,6 +80,7 @@ p.xxx {text-align:center;}
 ```
 
 ## CSS创建
+[:link](http://www.runoob.com/css/css-howto.html)
 
 1. **外部样式表**
 
@@ -108,6 +109,18 @@ body {background-image:url("images/back40.gif");}
 </style>
 </head>
 ```
+
+[**样式表导入**](http://www.runoob.com/w3cnote/html-import-css-method.html)
+```html
+<style>
+    @import url(style.css);
+</style>
+```
+- @import 导入语句应写在 CSS 中，写在样式表的开头才能正确导入
+- CSS2.1才支持的
+- HTML 文件被加载时，link 引用的文件会同时被加载。@import 引用的文件则要等页面全部下载完毕再被加载；
+
+*尽量使用 \<link\> 标签导入外部 CSS 文件，避免或者少用使用其他三种方式*
 
 3. **内联样式表**
 
@@ -149,7 +162,67 @@ font-size:20pt;
 
 **内联样式）Inline style \> （内部样式）Internal style sheet \>（外部样式）External style sheet \> 浏览器默认样式**
 
-### CSS 样式优先级
+### 多重样式优先级深入概念
+
 优先级由选择器组成的匹配规则决定
+优先级顺序
+以下优先级逐级增加：
+- 通用选择器（*）
+- 元素(类型)选择器
+- 类选择器
+- 属性选择器
+- 伪类
+- ID 选择器
+- 内联样式
+
+使用**!important**声明覆盖其他任何样式
+- 尽量不使用importent
+- 只在需要覆盖全站或外部CSS的特定页面使用（影响范围尽量小）
+- 绝对不在全站范围的CSS用!important
+- 绝不要在插件里用!important
+
+**~~优先级权重计算~~**
+**这里使用权重的方法是错误的，CSS是用优先级的方式来处理**
+[CSS 利用选择器的权值进行计算比较](https://c.runoob.com/codedemo/3048)
+
+**CSS 优先级法则：**
+1. 选择器都有一个权值，权值越大越优先；
+2. 当权值相等时，后出现的样式表设置优先；
+3. 创作者的规则高于浏览器所设置的样式；
+4. 继承的CSS 样式不如后来指定的CSS 样式；
+5. 同一组属性设置中标有“!important”规则的优先级最大；
+![CSS权重关系](img/note-2018-12-26-CSS_Note/CSS权重关系.png)
+
+### CSS 样式优先级
 
 [CSS 样式优先级](http://www.runoob.com/w3cnote/css-style-priority.html)
+ 1. **CSS 继承性**
+
+- 最近继承的样式比先前继承样式优先级高
+- 内联样式比继承样式优先级高
+
+
+2. **选择器的优先级**
+
+CSS的选择器：
+
+| 选择器          |                                   |
+|:--------------- | --------------------------------- |
+| 1. ID 选择器    | 如 #id{}                          |
+| 2. 类选择器     | 如 .class{}                       |
+| 2. 属性选择器   | 如 a\[href="segmentfault.com"\]{} |
+| 2. 伪类选择器   | 如 :hover{}                       |
+| 3. 伪元素选择器 | 如 ::before{}                     |
+| 3. 标签选择器   | 如 span{}                         |
+| 4. 通配选择器   | 如 *{}                            |
+
+选择器的优先级：
+内联样式
+ID 选择器
+类选择器 = 属性选择器 = 伪类选择器
+标签选择器 = 伪元素选择器
+
+- 依次按上面各优先级顺序计算优先级内选择器的总和，如果所有优先级里选择器的总和都相等则按就近原则判断
+
+*这里不同的选择器属性和值是不同的，怎么计算个数？*
+- !important 的属性拥有最高优先级。若同时插有 !important，则再利用上面规则判断优先级。
