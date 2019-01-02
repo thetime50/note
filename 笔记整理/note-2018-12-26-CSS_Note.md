@@ -8,7 +8,30 @@
       - [ID选择器](#ID选择器)
       - [class选择器](#class选择器)
     - [CSS创建](#CSS创建)
+      - [多重样式优先级深入概念](#多重样式优先级深入概念)
       - [CSS 样式优先级](#CSS-样式优先级)
+    - [CSS背景](#CSS背景)
+      - [background-color](#background-color)
+        - [CSS颜色](#CSS颜色)
+      - [background-image](#background-image)
+      - [background-repeat](#background-repeat)
+      - [background-attachment](#background-attachment)
+      - [background-position](#background-position)
+      - [CSS简写](#CSS简写)
+    - [CSS文本](#CSS文本)
+      - [color](#color)
+      - [direction](#direction)
+      - [letter-spacing](#letter-spacing)
+      - [line-height](#line-height)
+      - [text-alight](#text-alight)
+      - [text-decoration](#text-decoration)
+      - [text-indent](#text-indent)
+      - [text-shadow](#text-shadow)
+      - [text-transform](#text-transform)
+      - [unicode-bidi](#unicode-bidi)
+      - [vertical-align](#vertical-align)
+      - [white-space](#white-space)
+      - [word-spacing](#word-spacing)
 
 [TOCEND]
 
@@ -226,3 +249,257 @@ ID 选择器
 
 *这里不同的选择器属性和值是不同的，怎么计算个数？*
 - !important 的属性拥有最高优先级。若同时插有 !important，则再利用上面规则判断优先级。
+
+## CSS背景
+[link](http://www.runoob.com/css/css-background.html)
+定义HTML元素的背景
+- [background-color 颜色][bg-color]
+- [background-image 图片][bg-image]
+- [background-repeat 重复][bg-repeat]
+- [background-attachment 依附（滚动关系）][bg-attachment]
+- [background-position 位置][bg-position]
+
+[bg-color]:http://www.runoob.com/cssref/pr-background-color.html
+[bg-image]:http://www.runoob.com/cssref/pr-background-image.html
+[bg-repeat]:http://www.runoob.com/cssref/pr-background-repeat.html
+[bg-attachment]:http://www.runoob.com/cssref/pr-background-attachment.html
+[bg-position]:http://www.runoob.com/cssref/pr-background-position.html
+
+### background-color
+取值：
+| 值          | 描述               |
+|:----------- |:------------------ |
+| color       | CSS颜色            |
+| transparent | 透明(默认)         |
+| inherit     | 指定应继承的父对象 |
+
+#### CSS颜色
+1. 十六进制颜色 #RRGGBB
+2. RGB颜色rgb(r,b,g) grb(255,0,0) rgb(%100,0%,0%)
+3. GRBA颜色 A即透明度alpha 0.0~1.0 rgba(255,0,0,0.5)
+4. HSL颜色 色调360 饱和度% 明度% hsl(240,100%,0%)
+5. HSLA颜色 加透明度通道 hsl(240,100%,0%,0.5)
+6.[预定义颜色名称](http://www.runoob.com/cssref/css-colornames.html)
+
+### background-image
+| 值         | 描述         |
+|:---------- |:------------ |
+| url('URL') | 图像的URL    |
+| none       | 无背景(默认) |
+| inherit    | 指定继承     |
+
+### background-repeat
+| 值        | 描述                   |
+|:--------- |:---------------------- |
+| repeat    | 垂直水平方向重复(默认) |
+| repeat-x  | 水平方向重复           |
+| repeat-y  | 垂直方向重复           |
+| no-repeat | 不重复                 |
+| inherit   | 指定继承               |
+
+### background-attachment
+| 值      | 描述           |
+|:------- |:-------------- |
+| scroll  | 跟随滚动(默认) |
+| fixed   | 固定           |
+| inherit | 指定继承       |
+
+### background-position
+| 值            | 描述 |
+|:------------- |:---- |
+| left top</br> left center</br>left bottom</br>right top </br>right center</br>right bottom</br>center top</br>center center</br>center bottom</br> |   如果仅指定一个关键字，其他值将会是"center"   |
+
+| 值        | 描述                                   |
+|:--------- |:-------------------------------------- |
+| x%y%      | 水平位置 垂直位置 只定义x则y为50%      |
+| xpos ypos | 水平位置 垂直位置       (0 0) (0px0px) |
+| inherit   | 指定继承                               |
+
+### CSS简写
+将属性值按指定默认顺序合并在一起写
+```css
+body {background:#ffffff url('img_tree.png') no-repeat right top;}
+```
+
+## CSS文本
+
+### color
+定义文本颜色
+
+| 值          | 描述             |
+|:----------- |:---------------- |
+| color       | CSS颜色          |
+| transparent | 透明(默认)       |
+| inherit     | 指定应继承父对象 |
+
+### direction
+定义显示方向
+
+| 值      | 描述           |
+|:------- |:-------------- |
+| ltr     | 从左到右(默认) |
+| rtl     | 从右到左       |
+| inherit | 继承           |
+
+### letter-spacing
+定义字母间距
+
+| 值      | 描述               |
+|:------- |:------------------ |
+| normal  | 无间距(默认)       |
+| length  | 指定间距(可为负数) |
+| inherit | 继承               |
+
+### line-height
+定义行高
+
+| 值      | 描述                               |
+|:------- |:---------------------------------- |
+| normal  | 默认间距                           |
+| number  | 行间距为number与当前字体尺寸的倍数 |
+| lenght  | 固定行间距 px??                    |
+| %       | 当前字体尺寸的百分比               |
+| inherit | 继承                               |
+
+### text-alight
+元素对齐
+默认值: left if direction is ltr, and right if direction is rtl
+
+| 值      | 描述     |
+|:------- |:-------- |
+| left    | 左对齐   |
+| right   | 右对齐   |
+| center  | 居中     |
+| justify | 两端对齐 |
+| inherit | 继承     |
+
+### text-decoration
+装饰 文本修饰
+
+| 值           | 描述           |
+|:------------ |:-------------- |
+| none         | 标准文本(默认) |
+| underline    | 下划线         |
+| overline     | 上划线         |
+| line-through | 删除线         |
+| blink        | 闪烁文本       |
+| inherit      | 继承           |
+
+### text-indent
+首行缩进
+
+| 值      | 描述                                     |
+|:------- |:---------------------------------------- |
+| lenght  | 指定缩进 px?? 默认0                      |
+| %       | 父元素text-indent的百分比 (试了效果不对) |
+| inherit | 继承                                     |
+
+### text-shadow
+显示阴影
+```css
+div {text-shadow:h-shadow v-shadow blur color;}
+```
+| 值       | 描述                  |
+|:-------- |:--------------------- |
+| h-shadow | 必需，水平偏移 可正负 |
+| v-shadow | 必需，查找偏移 可正负 |
+| blur     | 可选，模糊的距离      |
+| color    | 可选，CSS颜色         |
+
+### text-transform
+大小写控制
+
+| 值         | 描述               |
+|:---------- |:------------------ |
+| none       | 不改变大小写(默认) |
+| capitalize | 单词大写字母开头   |
+| uppercase  | 全大写             |
+| lowercase  | 全小写             |
+| inherit    | 继承               |
+
+### unicode-bidi
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>unicode-bidi test</title>
+<style>
+div.ltr {direction:ltr;}
+div.rtl {direction:rtl;}
+
+p.normal {unicode-bidi: normal}
+p.embed {unicode-bidi: embed}
+p.bidi-override	{unicode-bidi: bidi-override}
+p.initial {unicode-bidi: initial}
+
+</style>
+</head>
+<body>
+
+<div>一些文本。默认的书写方向。</div>
+
+<div class="ltr">
+	<p class='normal'>abc defg ijkl,</p>
+	<p class='embed'>abc defg ijkl,</p>
+	<p class='bidi-override'>abc defg ijkl,</p>
+	<p class='initial'>abc defg ijkl,</p>
+	</div>
+
+<div class="rtl">
+	<p class='normal'>abc defg ijkl,</p>
+	<p class='embed'>abc defg ijkl,</p>
+	<p class='bidi-override'>abc defg ijkl,</p>
+	<p class='initial'>abc defg ijkl,</p>
+	</div>
+</body>
+</html>
+```
+
+
+| 值            | 描述                                        |
+|:------------- |:------------------------------------------- |
+| normal        | 默认。不使用附加的嵌入层面                  |
+| embed         | 创建附加的嵌入层面(隔离?)                   |
+| bidi-override | 创建附加的嵌入层面。重新排序取决于direction |
+| initial       | 设置该属性为它的默认值。请参阅 initial      |
+| inherit       | 从父元素继承该属性。请参阅 inherit          |
+
+### vertical-align
+垂直对齐
+
+| 值          | 描述                                   |
+|:----------- |:-------------------------------------- |
+| baseline    | 元素在父元素的基线上(默认)             |
+| sub         | 元素的顶端对齐文本的下标的顶端         |
+| super       | 元素的底端对齐文本的上标底端           |
+| top         | 元素的顶端与行中最高元素的顶端对齐     |
+| text-top    | 元素的顶端与父元素字体的顶端对齐       |
+| middle      | 此元素放置在父元素的中部。             |
+| bottom      | 元素的底端与行中最低的元素的顶端对齐。 |
+| text-bottom | 元素的底端与父元素字体的底端对齐。     |
+| length      |                                        |
+| %           | 用 "line-height" 百分比,允许负值。     |
+| inherit     | 继承                                   |
+
+### white-space
+元素中空白的处理方式
+
+| 值       | 描述                                 |
+|:-------- |:------------------------------------ |
+| normal   | 浏览器忽略空白(默认)                 |
+| pre      | 空白会被浏览器保留。类似\<pre\> 标签 |
+| nowrap   | 文本不自动换行，直到遇到 \<br\> 标签 |
+| pre-wrap | 保留空白符序列，但是正常地进行换行   |
+| pre-line | 合并空白符序列，但是保留换行符       |
+| inherit  | 继承                                 |
+
+
+### word-spacing
+单词间隔
+
+| 值      | 描述         |
+|:------- |:------------ |
+| normal  | (默认)       |
+| length  | 定义单词间隔 |
+| inherit | 继承         |
