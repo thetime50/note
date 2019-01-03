@@ -40,6 +40,12 @@
       - [font-style](#font-style)
       - [font-variant](#font-variant)
       - [font-weight](#font-weight)
+    - [CSS链接](#CSS链接)
+    - [CSS列表](#CSS列表)
+      - [图像作为列表标记](#图像作为列表标记)
+      - [list-style-type](#list-style-type)
+      - [list-style-position](#list-style-position)
+      - [list-style-image](#list-style-image)
 
 [TOCEND]
 
@@ -602,3 +608,99 @@ p {font-family:"Times New Roman",Times,serif}
 | lighter | 更细的              |
 | 100-900 | 指定粗细            |
 | inherit | 继承                |
+
+## CSS链接
+链接的状态
+- a:link 正常状态，未访问过
+- a:vidited 已访问过
+- a:hover 鼠标悬停 必须在a:link a:vidited后面
+- a:active 鼠标按下 必须在a:hover后面
+
+```css
+a:link,a:visited
+{
+	/*display:block;*/
+	display:block;
+	font-weight:bold;
+	background-color:#98bf21;
+	width:120px;
+	text-align:center;
+	padding:4px;
+	text-decoration:none;
+}
+a:hover,a:active
+{
+	background-color:#7A991A;
+}
+```
+
+## CSS列表
+[link](http://www.runoob.com/css/css-list.html)
+
+- 无序列表 ul-li
+- 有序列表 ol-li
+
+### 图像作为列表标记
+```css
+ul {list-style-image: url('xxxx.jpg')}
+```
+不同浏览器显示位置会有所差异
+兼容的方案为
+```css
+ul {
+  list-style-type: none;/*去除列表标记*/
+  padding: 0px;/*填充边距为0*/
+  margin: 0px;/*填充边距为0*/
+}
+ul li {/*为什么这里是空格分割的*/
+  background-image: url(xxx.png);/*用背景作为标记*/
+  background-repeat: no-repeat;/*不重复*/
+  background-position: 0px 5px;/*背景位置*/
+  padding-left: 14px;/*内边距*/
+}
+```
+
+### list-style-type
+列表项标记类型
+
+| 值                   | 描述                                    |
+|:-------------------- |:--------------------------------------- |
+| none                 | 无标记                                  |
+| disc                 | 标记是实心圆(默认)                      |
+| circle               | 标记是空心圆                            |
+| square               | 标记是实心方块                          |
+| decimal              | 标记是数字                              |
+| decimal-leading-zero | 0开头的数字标记(01,02,03,等)            |
+| lower-roman          | 小写罗马数字(i,ii,iii,iv,v,等)          |
+| upper-roman          | 大写罗马数字(I,II,III,IV,V,等)          |
+| lower-alpha          | 小写英文字母 (a,b,c,d,e,等)             |
+| upper-alpha          | 大写英文字母 (A,B,C,D,E,等)             |
+| lower-greek          | 小写希腊字母(alpha,beta,gamma,等)       |
+| lower-latin          | 小写拉丁字母(a, b, c, d, e, 等)         |
+| upper-latin          | 大写拉丁字母(A, B, C, D, E, 等)         |
+| hebrew               | 传统的希伯来编号方式                    |
+| armenian             | 传统的亚美尼亚编号方式                  |
+| georgian             | 传统的乔治亚编号方式(an,ban,gan,等)     |
+| cjk-ideographic      | 简单的表意数字                          |
+| hiragana             | 标记是a,i,u,e,o,ka,ki,等（日文片假名）  |
+| katakana             | 标记是A,I,U,E,O,KA,KI,等（日文片假名）  |
+| hiragana-iroha       | 标记是i,ro,ha,ni,ho,he,等（日文片假名） |
+| katakana-iroha       | 标记是I,RO,HA,NI,HO,HE,等（日文片假名） |
+
+### list-style-position
+标记位置
+
+| 值      | 描述                                         |
+|:------- |:-------------------------------------------- |
+| nside   | 标记在文本以内，且环绕文本根据标记对齐       |
+| outside | (默认)标记在文本以外，环绕文本不根据标记对齐 |
+| inherit | 继承                                         |
+
+### list-style-image
+用图像替换列表标记
+
+| 值      | 描述         |
+|:------- |:------------ |
+| URL     | 图像的路径   |
+| none    | 无图形(默认) |
+| inherit | 继承         |
