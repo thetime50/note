@@ -32,6 +32,14 @@
       - [vertical-align](#vertical-align)
       - [white-space](#white-space)
       - [word-spacing](#word-spacing)
+    - [CSS字体](#CSS字体)
+      - [字体命名问题](#字体命名问题)
+      - [通用字体系列](#通用字体系列)
+      - [font-family](#font-family)
+      - [font-size](#font-size)
+      - [font-style](#font-style)
+      - [font-variant](#font-variant)
+      - [font-weight](#font-weight)
 
 [TOCEND]
 
@@ -503,3 +511,94 @@ p.initial {unicode-bidi: initial}
 | normal  | (默认)       |
 | length  | 定义单词间隔 |
 | inherit | 继承         |
+
+## CSS字体
+[菜鸟](http://www.runoob.com/css/css-font.html)
+[W3C](http://www.w3school.com.cn/css/css_font-family.asp)
+
+### 字体命名问题
+在不同系统中Times字体的名字可能是Times、Times New Roman 和 TimesNR。
+Slanted斜体可能被描述为oblique、incline(或inclined)、cursive、kursiv、italic等
+黑体可能描述为 bold black heavy
+
+### 通用字体系列
+字体可能包含粗体、斜体字等体变形。如Times包含TimeaRegular、TImesBold、TimesItalic、TimesOblique、TimesBoldItalic、TimesBoldOblique等。
+
+1. Serif 字体：不定宽，笔画末端有断线装饰。包含Times、Georgia 和 New Century Schoolbook。
+2. Sans-Serif 字体：不定宽，没末端断线装饰。包含Helvetica、Geneva、Verdana、Arial 或 Univers
+3. Monospace 字体：等宽字体，可能包含短线装饰。包含Courier、Courier New 和 Andale Mono。
+4. Cursive 字体：手写字体，由曲线和末端装饰或者花体部分和装饰组成。包括 Zapf Chancery、Author 和 Comic Sans
+5. Fantasy 字体：不好按上面归类的字体。包含Zapf Chancery、Author 和 Comic Sans。
+
+> *特定字体系列*和*通用字体系列*应该不是两种类别， *特定的字体系列*一般会分类到某一*通用字体类别*下面。
+
+### font-family
+设定字体系列
+可设置多个字体'后备'，含有空格的字体名称需加引号，多个字体间用逗号分隔
+```css
+p {font-family:"Times New Roman",Times,serif}
+```
+[常用后备字体组合](http://www.runoob.com/cssref/css-websafe-fonts.html)
+
+| 值                             | 描述                                                |
+|:------------------------------ |:--------------------------------------------------- |
+| family-name</br>generic-family | 字体族名称 或/及 类族名称列表 </br>默认取决于浏览器 |
+| inherit                        | 继承                                                |
+
+### font-size
+元素字体大小
+
+<table>
+<thead><td>值</td><td>描述</td></thead>
+<tr>
+ <td>
+ <ul>
+  <li>xx-small</li>
+  <li>x-small</li>
+  <li>small</li>
+  <li>medium</li>
+  <li>large</li>
+  <li>x-large</li>
+  <li>xx-large</li>
+ </ul>
+ </td>
+ <td>字体的尺寸</td>
+</tr>
+<tr><td>smaller</td><td>设为比父对象更小的尺寸</td></tr>
+<tr><td>larger</td><td>设为比父对象更大的尺寸</td></tr>
+<tr><td>length</td><td>固定尺寸</td></tr>
+<tr><td>%</td><td>基于父对象的百分比</td></tr>
+<tr><td>inherit</td><td>继承</td></tr>
+</table>
+
+### font-style
+文本样式
+
+| 值      | 描述            |
+|:------- |:--------------- |
+| normal  | 标准样式 (默认) |
+| italic  | 使用倾斜字体    |
+| oblique | 倾斜效果        |
+| inherit | 继承            |
+
+### font-variant
+设为小型大写字母
+所有小写字母变成尺寸小一点的大写字母
+
+| 值         | 描述            |
+|:---------- |:--------------- |
+| normal     | 标准样式 (默认) |
+| small-caps | 小型大写字母    |
+| inherit    | 继承            |
+
+### font-weight
+文本粗细
+
+| 值      | 描述                |
+|:------- |:------------------- |
+| normal  | 标准样式 400 (默认) |
+| bold    | 粗体 700            |
+| bolder  | 更粗                |
+| lighter | 更细的              |
+| 100-900 | 指定粗细            |
+| inherit | 继承                |
