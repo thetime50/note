@@ -46,14 +46,60 @@
       - [list-style-type](#list-style-type)
       - [list-style-position](#list-style-position)
       - [list-style-image](#list-style-image)
+    - [CSS表格](#CSS表格)
+      - [border](#border)
+      - [border-width](#border-width)
+      - [border-style](#border-style)
+      - [border-color](#border-color)
+      - [border-collapse](#border-collapse)
+      - [border-speacing](#border-speacing)
+      - [caption-side](#caption-side)
+      - [empty-cells](#empty-cells)
+      - [table-layout](#table-layout)
+    - [CSSbox模型](#CSSbox模型)
+    - [CSS边框](#CSS边框)
+    - [CSS轮廓](#CSS轮廓)
+    - [margin 外边距](#margin-外边距)
+    - [padding 填充](#padding-填充)
+    - [css分组和嵌套](#css分组和嵌套)
+      - [分组选择器](#分组选择器)
+      - [嵌套选择器](#嵌套选择器)
+    - [CSS尺寸 Dimension](#CSS尺寸-Dimension)
+    - [Display 显示 与 Visibility 可见性](#Display-显示-与-Visibility-可见性)
+      - [display](#display)
+    - [Position 定位](#Position-定位)
+      - [position](#position)
+      - [top](#top)
+      - [right](#right)
+      - [bottom](#bottom)
+      - [left](#left)
+      - [overflow](#overflow)
+      - [clip](#clip)
+      - [vertical-align](#vertical-align-1)
+      - [z-index](#z-index)
+      - [cursor](#cursor)
+    - [Overflow](#Overflow)
+    - [Float](#Float)
+      - [float](#float)
+      - [clear](#clear)
+    - [对齐](#对齐)
+      - [居中对齐](#居中对齐)
+      - [文本居中](#文本居中)
+      - [图片居中](#图片居中)
+      - [左右对齐-使用定位方式](#左右对齐-使用定位方式)
+      - [左右对齐-使用float方式](#左右对齐-使用float方式)
+      - [垂直居中对齐-使用padding](#垂直居中对齐-使用padding)
+      - [垂直居中-使用line-height](#垂直居中-使用line-height)
+      - [垂直居中-使用position和transform](#垂直居中-使用position和transform)
 
 [TOCEND]
 
+
 ## 回顾
-html页面head里的style标签，或者标签里的style属性
+html页面head里的style元素，或者标签里的style属性
 1. 内联样式 使用起始标签里的style属性 >style="属性:值;"
-2. 内部样式 写在head里的style标签中 每一行>标签 {属性:值;}
-3. 外部引用 用head里的link链接 不区分换行>标签 {属性:值;}
+2. 内部样式 写在head里的style元素中 每一行>元素 {属性:值;}
+3. 外部引用 用head里的link链接 不区分换行>元素 {属性:值;}
 
 ```html
 <!-- 1. 内联样式 使用起始标签里的style属性 >style="属性:值;" -->
@@ -136,7 +182,7 @@ body {background-image:url("/images/back40.gif");}
 
 2. **内部样式表**
 
-使用 \<style\> 标签在文档头部定义内部样式表
+使用 \<style\> 元素在文档头部定义内部样式表
 ```html
 <head>
 <style>
@@ -480,7 +526,7 @@ p.initial {unicode-bidi: initial}
 | inherit       | 从父元素继承该属性。请参阅 inherit          |
 
 ### vertical-align
-垂直对齐
+垂直对齐(垂直方向上移动)
 
 | 值          | 描述                                   |
 |:----------- |:-------------------------------------- |
@@ -704,3 +750,454 @@ ul li {/*为什么这里是空格分割的*/
 | URL     | 图像的路径   |
 | none    | 无图形(默认) |
 | inherit | 继承         |
+
+## CSS表格
+
+### border
+依次设置 border-width,border-style,border-color
+
+### border-width
+边框宽度，边框样式不是none时有效
+```css
+/*依次设置上、右、下、左边框*/
+p {border-width:thin thin thin thin;}
+p {border-width:thin thin thin;}
+
+/*分别设置上下边框、左右边框*/
+p {border-width:thin thin;}
+
+/*设置所有边框*/
+p {border-width:thin;}
+```
+
+| 值      | 描述                              |
+|:------- |:--------------------------------- |
+| thin    | 细边框                            |
+| medium  | 中等边框(默认)                    |
+| thick   | 粗边框                            |
+| length  | 定义宽度 定位可以为px, pt, cm, em |
+| inherit | 继承                              |
+
+- px 魔法单位 所有打印结果上为96分之1英寸
+- pt point 一般不用
+- cm
+- em 以当前字体为标准
+
+[CSS长度单位](https://www.w3.org/Style/Examples/007/units.zh_CN.html)
+
+### border-style
+设置4个边框的样式 同上
+
+| 值      | 描述                         |
+|:------- |:---------------------------- |
+| none    | 无边框                       |
+| hiddent | 与none相同 解决表的边框冲突  |
+| dotted  | 点(多数浏览器显示为实线)     |
+| dashed  | 虚线(多数浏览器显示为实线)   |
+| solid   | 实线                         |
+| double  | 双线                         |
+| groove  | 3D凹槽 与border-color有关    |
+| ridge   | 3D垄状 与border-color有关    |
+| inset   | 3D inset 与border-color有关  |
+| outset  | 3D outset 与border-color有关 |
+| inherit | 继承                         |
+
+### border-color
+设置4个边框颜色 同上
+
+### border-collapse
+合并边框
+
+| 值       | 描述                                    |
+|:-------- |:--------------------------------------- |
+| separate | 边框分开(默认)                          |
+| collapse | 合并边框 忽略border-spacing empty-cells |
+| inherit  | 继承                                    |
+
+### border-speacing
+设置相邻对单元格边框间距
+
+| 值            | 描述                                                    |
+|:------------- |:------------------------------------------------------- |
+| length length | 一个length定义所有间距 两个length分别定义水平和垂直间距 |
+| inherit       | 继承                                                    |
+
+### caption-side
+设置标题位置
+
+| 值      | 描述                 |
+|:------- |:-------------------- |
+| top     | 标题在表格上方(默认) |
+| bottom  | 标题在表格下方       |
+| inherit | 继承                 |
+
+### empty-cells
+设置空单元格是否显示边框和背景
+
+| 值      | 描述           |
+|:------- |:-------------- |
+| hide    | 不显示边框     |
+| show    | 显示边框(默认) |
+| inherit | 继承           |
+
+### table-layout
+设置表格布局算法
+
+| 值        | 描述                   |
+|:--------- |:---------------------- |
+| automatic | 自动根据内容布局(默认) |
+| fixed     | 根据表格设置布局       |
+| inherit   | 继承                   |
+
+## CSSbox模型
+![BoxModel](img/note-2018-12-26-CSS_Note/BoxModel.gif)
+- Margin 边缘 外边距
+- Border 边框
+- Padding 填充 内边距
+- Content 内容
+
+width height设置的是content的尺寸
+
+## CSS边框
+[边框](http://www.runoob.com/css/css-border.html)
+
+- [border](#border)
+- [border-width](#border-width)
+- [border-style](#border-style)
+- [border-color](#border-color)
+
+
+- border-bottom
+- border-left
+- border-right
+- border-top
+
+
+- border-bottom-width
+- border-bottom-style
+
+## CSS轮廓
+[link](http://www.runoob.com/css/css-outline.html)
+
+outline
+```css
+p {outline:green dotted thick;}
+```
+包围在边框的外边缘，类似border
+与margin区域重合，不计入尺寸计算
+
+## margin 外边距
+margin 清除（外边框）周围的元素区域，没有背景颜色
+同border，只定义尺寸
+
+## padding 填充
+ padding（填充）清除内边距，会填充背景颜色
+ 同border，只定义尺寸
+
+## css分组和嵌套
+
+### 分组选择器
+相同样式的元素一起定义样式
+分组选择器：用逗号分隔
+```css
+h1,h2,p {color:black;}
+```
+
+### 嵌套选择器
+```css
+.marked p/*所以空格是选择器嵌套*/
+{
+    color:white;
+}
+p.marked{
+    text-decoration:underline;
+}
+ul li/*作用所有ul元素内的li元素*/
+{
+    color:white;
+}
+```
+
+## CSS尺寸 Dimension
+- height	设置元素的高度。
+- width	设置元素的宽度。
+- line-height	设置行高。
+- max-height	设置元素的最大高度。
+- max-width	设置元素的最大宽度。
+- min-height	设置元素的最小高度。
+- min-width	设置元素的最小宽度。
+
+## Display 显示 与 Visibility 可见性
+
+### display
+[link](http://www.w3school.com.cn/cssref/pr_class_display.asp)
+定义元素显示方式
+
+块级元素占用全部宽度，前后自动换行
+内联元素只有内容的宽度，前后无换行
+
+| 值                 | 描述                                            |
+|:------------------ |:----------------------------------------------- |
+| none               | 不显示 不占位置                                 |
+| block              | 显示为块级元素 前后带换行符                     |
+| inline             | 显示为内联元素 前后无换行符(默认)               |
+| inline-block       | 行内块元素（CSS2.1 新增的值）                   |
+| list-item          | 作为列表显示                                    |
+| run-in             | 根据上下文作为块级或内联元素显示                |
+| compact            | 缺乏支持 CSS2.1 已删除                          |
+| marker             | 缺乏支持 CSS2.1 已删除                          |
+| table              | 作为块级表格显示（类似 <table>） 前后带换行符   |
+| inline-table       | 作为内联表格显示（类似 <table>） 前后没换行符   |
+| table-row-group    | 作为一个或多个行的分组来显示（类似 <tbody>）    |
+| table-header-group | 作为一个或多个行的分组来显示（类似 <thead>）    |
+| table-footer-group | 作为一个或多个行的分组来显示（类似 <tfoot>）    |
+| table-row          | 作为表格行显示（类似 <tr>）                     |
+| table-column-group | 作为一个或多个列的分组来显示（类似 <colgroup>） |
+| table-column       | 作为单元格列显示（类似 <col>）                  |
+| table-cell         | 作为表格单元格显示（类似 <td> 和 <th>）         |
+| table-caption      | 作为表格标题显示（类似 <caption>）              |
+| inherit            | 继承                                            |
+
+**注意：** 变更元素的显示类型改变了该元素如何显示，但不改变它这个元素本身的类型。例如：一个内联元素设置为display:block是不允许有它内部的嵌套块元素。
+
+## Position 定位
+
+### position
+
+1. static 定位
+默认值，元素正常显示在流中
+不受top, bottom, left, right影响
+
+2. fixed 定位
+确定的 相对浏览器窗口定位，不会随页面滚动
+不占据空间，与其他元素重叠
+
+3. relative 定位
+相对定位 相对于默认（static）位置，占据原本的空间
+(占据空间不变，但是所有显示加了offset)
+相对定位元素经常被用来作为绝对定位元素的容器块??
+
+4. absolute 定位
+相对于用static以外定位的第一个父对象，如果没有则相对于html
+不占据空间，与其他元素重叠
+
+5. stick 定位
+黏性定位 由bottom,lift,right,top设定阈值，
+元素位置在阈值范围内随页面滚动，超出阈值则固定显示
+
+```css
+div.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    background-color: green;
+    border: 2px solid #4CAF50;
+}
+```
+
+### top
+设置元素外边界和其包含块边界的偏移
+
+### right
+同上
+
+### bottom
+同上
+
+### left
+同上
+
+### overflow
+内容溢出处理
+- overflow-x
+- overflow-y
+
+| visidle | 不处理，超出显示(默认) |
+| hidden  | 裁剪隐藏               |
+| scroll  | 总是出现滚动条         |
+| auto    | 内容超出时显示滚动条   |
+| inherit | 继承                   |
+
+### clip
+元素裁剪，超出区域按overflow处理(在图片上尝试 overflow没有效果)
+**仅对定位元素(非static定位)有效**
+
+| 值      | 描述                                           |
+|:------- |:---------------------------------------------- |
+| shape   | 唯一有效形状{clip:rect(top,tight,bottom,left)} |
+| auto    | 不裁剪(默认)                                   |
+| interit | 继承                                           |
+
+### vertical-align
+[vertical-align](#vertical-align)
+
+### z-index
+设置元素堆叠顺序，数字越大的越靠前显示
+**仅对定位元素(非static定位)有效**
+
+| 值      | 描述                       |
+|:------- |:-------------------------- |
+| auto    | 堆叠顺序与父元素相等(默认) |
+| number  | 设置元素的堆叠顺序 可正负  |
+| interit | 继承                       |
+
+### cursor
+鼠标指在元素内时的光标形状
+
+| 值        | 描述                                           |
+|:--------- |:---------------------------------------------- |
+| url       | 光标的URL **cursor:url(),default;防止URL失效** |
+| default   | 默认光标（通常是箭头）                         |
+| auto      | 浏览器设置的光标(默认)                         |
+| crosshair | 十字线                                         |
+| pointer   | 指示链接的指针（手）                           |
+| move      | 指示某象可移动。                               |
+| e-resize  | 指示边框可向右移动。                           |
+| ne-resize | 指示边框可向上右移动                           |
+| nw-resize | 指示边框可向上左移动                           |
+| n-resize  | 指示边框可向上移动                             |
+| se-resize | 指示边框可向下右移动                           |
+| sw-resize | 指示边框可向下左移动                           |
+| s-resize  | 指示边框可向下移动                             |
+| w-resize  | 指示边框可向左移动                             |
+| text      | 指示文本                                       |
+| wait      | 指示程序正忙                                   |
+| help      | 指示可用的帮助（问号或气球）                   |
+
+<p>请把鼠标移动到单词上，可以看到鼠标指针发生变化：</p>
+<span style="cursor:auto">auto</span>
+<span style="cursor:crosshair">crosshair</span>
+<span style="cursor:default">default</span>
+<span style="cursor:e-resize">e-resize</span>
+<span style="cursor:help">help</span>
+<span style="cursor:move">move</span>
+<span style="cursor:n-resize">n-resize</span>
+<span style="cursor:ne-resize">ne-resize</span>
+<span style="cursor:nw-resize">nw-resize</span>
+<span style="cursor:pointer">pointer</span>
+<span style="cursor:progress">progress</span>
+<span style="cursor:s-resize">s-resize</span>
+<span style="cursor:se-resize">se-resize</span>
+<span style="cursor:sw-resize">sw-resize</span>
+<span style="cursor:text">text</span>
+<span style="cursor:w-resize">w-resize</span>
+<span style="cursor:wait">wait</span>
+
+## Overflow
+[overflow](#overflow)
+
+## Float
+### float
+窗口发送变化后出现布局方式
+浮动元素会生成一个块级框
+非替换元素需要指定一个明确的宽度，否则会尽可能地窄。
+
+| 值      | 描述         |
+|:------- |:------------ |
+| left    | 向左         |
+| right   | 向右         |
+| none    | 不浮动(默认) |
+| inherit | 继承         |
+
+[没有表格的网页](http://www.runoob.com/try/try.php?filename=trycss_float6)
+
+### clear
+不需两侧的浮动元素
+
+| 值      | 描述                     |
+|:------- |:------------------------ |
+| left    | 左侧不允许浮动元素       |
+| right   | 右侧不允许浮动元素       |
+| both    | 左右两侧均不允许浮动元素 |
+| none    | 允许两侧的浮动元素(默认) |
+| inherit | 继承                     |
+
+## 对齐
+
+### 居中对齐
+1. 设置元素宽度，防止溢出容器
+2. 两边外边距平均
+3. margin: auto;
+```css
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+```
+
+### 文本居中
+text-align: center;
+
+### 图片居中
+margin: auto 在块内居中
+
+### 左右对齐-使用定位方式
+position对齐元素时, 通常预定义\<body\>元素*margin*和*padding*避免浏览器差异
+
+```css
+body {
+    margin: 0;
+    padding: 0;
+}
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+}
+```
+
+### 左右对齐-使用float方式
+预定义\<body\>元素*margin*和*padding*避免浏览器差异
+子元素大于父元素时会溢出，加overflow: auto;处理
+
+```css
+.right {
+    float: right;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+}
+```
+### 垂直居中对齐-使用padding
+```css
+.center {
+    padding: 70px 0;
+    border: 3px solid green;
+}
+```
+
+### 垂直居中-使用line-height
+```css
+.center {
+    line-height: 200px;
+    height: 200px;
+    border: 3px solid green;
+    text-align: center;
+}
+
+/* 如果文本有多行，添加以下代码: */
+.center p {
+    line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+```
+
+### 垂直居中-使用position和transform
+```css
+.center {
+    height: 200px;
+    position: relative;
+    border: 3px solid green;
+}
+
+.center p {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
