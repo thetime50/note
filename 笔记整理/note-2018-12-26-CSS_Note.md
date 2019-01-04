@@ -936,28 +936,27 @@ ul li/*作用所有ul元素内的li元素*/
 块级元素占用全部宽度，前后自动换行
 内联元素只有内容的宽度，前后无换行
 
-| 值                 | 描述                                            |
-|:------------------ |:----------------------------------------------- |
-| none               | 不显示 不占位置                                 |
-| block              | 显示为块级元素 前后带换行符                     |
-| inline             | 显示为内联元素 前后无换行符(默认)               |
-| inline-block       | 行内块元素（CSS2.1 新增的值）                   |
-| list-item          | 作为列表显示                                    |
-| run-in             | 根据上下文作为块级或内联元素显示                |
-| compact            | 缺乏支持 CSS2.1 已删除                          |
-| marker             | 缺乏支持 CSS2.1 已删除                          |
-| table              | 作为块级表格显示（类似 <table>） 前后带换行符   |
-| inline-table       | 作为内联表格显示（类似 <table>） 前后没换行符   |
-| table-row-group    | 作为一个或多个行的分组来显示（类似 <tbody>）    |
-| table-header-group | 作为一个或多个行的分组来显示（类似 <thead>）    |
-| table-footer-group | 作为一个或多个行的分组来显示（类似 <tfoot>）    |
-| table-row          | 作为表格行显示（类似 <tr>）                     |
-| table-column-group | 作为一个或多个列的分组来显示（类似 <colgroup>） |
-| table-column       | 作为单元格列显示（类似 <col>）                  |
-| table-cell         | 作为表格单元格显示（类似 <td> 和 <th>）         |
-| table-caption      | 作为表格标题显示（类似 <caption>）              |
-| inherit            | 继承                                            |
-
+| 值                 | 描述                                             |
+|:------------------ |:------------------------------------------------ |
+| none               | 不显示 不占位置                                  |
+| block              | 显示为块级元素 前后带换行符                      |
+| inline             | 显示为内联元素 前后无换行符(默认)                |
+| inline-block       | 行内块元素（CSS2.1 新增的值）                    |
+| list-item          | 作为列表显示                                     |
+| run-in             | 根据上下文作为块级或内联元素显示                 |
+| compact            | 缺乏支持 CSS2.1 已删除                           |
+| marker             | 缺乏支持 CSS2.1 已删除                           |
+| table              | 作为块级表格显示（类似\<table\>）前后带换行符    |
+| inline-table       | 作为内联表格显示（类似\<table\>）前后没换行符    |
+| table-row-group    | 作为一个或多个行的分组来显示（类似\<tbody\>）    |
+| table-header-group | 作为一个或多个行的分组来显示（类似\<thead\>）    |
+| table-footer-group | 作为一个或多个行的分组来显示（类似\<tfoot\>）    |
+| table-row          | 作为表格行显示（类似\<tr\>）                     |
+| table-column-group | 作为一个或多个列的分组来显示（类似\<colgroup\>） |
+| table-column       | 作为单元格列显示（类似\<col\>）                  |
+| table-cell         | 作为表格单元格显示（类似\<td\>和\<th\>）         |
+| table-caption      | 作为表格标题显示（类似\<caption\>）              |
+| inherit            | 继承                                             |
 
 **注意：** 变更元素的显示类型改变了该元素如何显示，但不改变它这个元素本身的类型。例如：一个内联元素设置为display:block是不允许有它内部的嵌套块元素。
 
