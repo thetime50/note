@@ -752,6 +752,7 @@ ul li {/*为什么这里是空格分割的*/
 | inherit | 继承         |
 
 ## CSS表格
+[link](http://www.runoob.com/css/css-table.html)
 
 ### border
 依次设置 border-width,border-style,border-color
@@ -850,7 +851,7 @@ p {border-width:thin;}
 | inherit   | 继承                   |
 
 ## CSSbox模型
-![BoxModel](img/note-2018-12-26-CSS_Note/BoxModel.gif)
+![link](img/note-2018-12-26-CSS_Note/BoxModel.gif)
 - Margin 边缘 外边距
 - Border 边框
 - Padding 填充 内边距
@@ -859,7 +860,7 @@ p {border-width:thin;}
 width height设置的是content的尺寸
 
 ## CSS边框
-[边框](http://www.runoob.com/css/css-border.html)
+[link](http://www.runoob.com/css/css-border.html)
 
 - [border](#border)
 - [border-width](#border-width)
@@ -887,14 +888,17 @@ p {outline:green dotted thick;}
 与margin区域重合，不计入尺寸计算
 
 ## margin 外边距
+[link](http://www.runoob.com/css/css-margin.html)
 margin 清除（外边框）周围的元素区域，没有背景颜色
 同border，只定义尺寸
 
 ## padding 填充
+[link](http://www.runoob.com/css/css-padding.html)
  padding（填充）清除内边距，会填充背景颜色
  同border，只定义尺寸
 
 ## css分组和嵌套
+[link](http://www.runoob.com/css/css-grouping-nesting.html)
 
 ### 分组选择器
 相同样式的元素一起定义样式
@@ -919,6 +923,7 @@ ul li/*作用所有ul元素内的li元素*/
 ```
 
 ## CSS尺寸 Dimension
+[link](http://www.runoob.com/css/css-dimension.html)
 - height	设置元素的高度。
 - width	设置元素的宽度。
 - line-height	设置行高。
@@ -928,6 +933,7 @@ ul li/*作用所有ul元素内的li元素*/
 - min-width	设置元素的最小宽度。
 
 ## Display 显示 与 Visibility 可见性
+[link](http://www.runoob.com/css/css-display-visibility.html)
 
 ### display
 [link](http://www.w3school.com.cn/cssref/pr_class_display.asp)
@@ -961,6 +967,7 @@ ul li/*作用所有ul元素内的li元素*/
 **注意：** 变更元素的显示类型改变了该元素如何显示，但不改变它这个元素本身的类型。例如：一个内联元素设置为display:block是不允许有它内部的嵌套块元素。
 
 ## Position 定位
+[link](http://www.runoob.com/css/css-positioning.html)
 
 ### position
 
@@ -1087,6 +1094,8 @@ div.sticky {
 [overflow](#overflow)
 
 ## Float
+[link](http://www.runoob.com/css/css-float.html)
+
 ### float
 窗口发送变化后出现布局方式
 浮动元素会生成一个块级框
@@ -1113,6 +1122,7 @@ div.sticky {
 | inherit | 继承                     |
 
 ## 对齐
+[link](http://www.runoob.com/css/css-align.html)
 
 ### 居中对齐
 1. 设置元素宽度，防止溢出容器
@@ -1179,7 +1189,7 @@ body {
 
 /* 如果文本有多行，添加以下代码: */
 .center p {
-    line-height: 1.5;
+    line-height: 1.5;/*这里的行高要小于.center的行高 否则会溢出*/
     display: inline-block;
     vertical-align: middle;
 }
