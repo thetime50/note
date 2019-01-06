@@ -109,6 +109,10 @@
         - [子串多类选择器](#子串多类选择器)
         - [特定属性选择器](#特定属性选择器)
       - [后代选择器](#后代选择器-1)
+      - [子元素选择器](#子元素选择器-1)
+      - [相邻兄弟选择器](#相邻兄弟选择器-1)
+      - [伪类](#伪类)
+        - [:first-line 伪元素](#:first-line-伪元素)
 
 [TOCEND]
 
@@ -1361,3 +1365,11 @@ p[class~="important"] {color: red;}
 
 ### 伪类
 [link](http://www.w3school.com.cn/css/css_pseudo_classes.asp)
+用:分隔
+```css
+selector:pseudo-element {property:value;}
+/*和class一起使用*/
+selector.class:pseudo-element {property:value;}
+```
+
+#### :first-line 伪元素
