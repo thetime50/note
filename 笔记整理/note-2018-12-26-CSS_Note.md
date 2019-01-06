@@ -1253,7 +1253,7 @@ div+p { }/*匹配跟在div元素后面的p元素*/
 ```
 
 ### 后续兄弟选择器
-用~连接，a~b所有出现在a后面的b元素，必须拥有相同的父元素但是不必连续
+用\~连接，a\~b所有出现在a后面的b元素，必须拥有相同的父元素但是不必连续
 
 ## CSS选择器
 [link](http://www.w3school.com.cn/css/css_selector_type.asp)
@@ -1271,7 +1271,7 @@ div+p { }/*匹配跟在div元素后面的p元素*/
 用*号
 
 ### 声明分组
-将样式声明通过;封号连接写在一起 要在各个声明的最后使用分号
+将样式声明通过;分号连接写在一起 要在各个声明的最后使用分号
 即
 ```css
 {
@@ -1289,7 +1289,7 @@ div+p { }/*匹配跟在div元素后面的p元素*/
 css中.class_name对应html里的class='class_name'属性
 *.class_name 和 .class_name 是相同的
 
-结合元素选择器 p.class_name
+结合元素选择器： p.class_name
 
 #### 多类选择器
 - 多类的元素
@@ -1339,6 +1339,7 @@ p[class~="important"] {color: red;}
 
 #### 子串多类选择器
 [link](https://www.cnblogs.com/gugege/p/6340422.html)
+
 | 类型         | 描述                                  |
 |:------------ |:------------------------------------- |
 | \[abc^="def"\] | 以 "def" 开头的元素                   |
