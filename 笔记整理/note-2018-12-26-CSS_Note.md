@@ -112,7 +112,14 @@
       - [子元素选择器](#子元素选择器-1)
       - [相邻兄弟选择器](#相邻兄弟选择器-1)
       - [伪类](#伪类)
-        - [:first-line 伪元素](#:first-line-伪元素)
+        - [first-child伪类](#first-child伪类)
+        - [lang伪类](#lang伪类)
+      - [伪元素](#伪元素)
+        - [first-line伪元素](#first-line伪元素)
+        - [first-letter伪元素](#first-letter伪元素)
+        - [before伪元素](#before伪元素)
+        - [after伪元素](#after伪元素)
+        - [伪类和伪元素的区别](#伪类和伪元素的区别)
 
 [TOCEND]
 
@@ -1372,4 +1379,88 @@ selector:pseudo-element {property:value;}
 selector.class:pseudo-element {property:value;}
 ```
 
-#### :first-line 伪元素
+| 类型         | 描述                     |
+|:------------ |:------------------------ |
+| :active      | 被激活的元素             |
+| :focus       | 拥有键盘输入焦点         |
+| :hover       | 鼠标悬浮                 |
+| :link        | 未被访问的链接           |
+| :visited     | 已被访问的链接           |
+| :first-child | 元素的第一个子元素       |
+| :lang        | 带有指定 lang 属性的元素 |
+#### first-child伪类
+匹配作为第一个元素的指定元素
+```css
+/*在其他元素内作为开始第一个元素的p元素*/
+p:first-child{}
+```
+
+#### lang伪类
+:lang 伪类根据元素的语言编码匹配元素
+语言信息必须包含在文档中，或者与文档关联，不能从 CSS 指定
+处理与 |= 选择器相同(:lang(no)去匹配lang属性的值)
+```html
+<head>
+<style type="text/css">
+q:lang(no)
+  {
+  quotes: "~" "~"
+  }
+</style>
+</head>
+
+<body>
+<p>Some text <q lang="no">A quote in a paragraph</q> Some text.</p>
+</body>
+```
+
+### 伪元素
+[link](http://www.w3school.com.cn/css/css_pseudo_elements.asp)
+语法和伪类相同
+
+#### first-line伪元素
+匹配文本的首行，只能用于块级元素
+
+下面的属性可应用：
+- font
+- color
+- background
+- word-spacing
+- letter-spacing
+- text-decoration
+- vertical-align
+- text-transform
+- line-height
+- clear
+
+#### first-letter伪元素
+匹配首字母，只能用于块级元素
+
+下面的属性可应用
+- font
+- color
+- background
+- margin
+- padding
+- border
+- text-decoration
+- vertical-align (仅当 float 为 none 时)
+- text-transform
+- line-height
+- float
+- clear
+
+#### before伪元素
+在元素的内容前面插入新内容
+```css
+h1:before
+  {
+  content:url(logo.gif);
+  }
+```
+
+#### after伪元素
+在元素的内容后面插入新内容
+
+#### 伪类和伪元素的区别
+[link](https://www.cnblogs.com/ihardcoder/p/5294927.html)
