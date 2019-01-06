@@ -91,6 +91,24 @@
       - [垂直居中对齐-使用padding](#垂直居中对齐-使用padding)
       - [垂直居中-使用line-height](#垂直居中-使用line-height)
       - [垂直居中-使用position和transform](#垂直居中-使用position和transform)
+    - [组合选择符](#组合选择符)
+      - [后代选择器](#后代选择器)
+      - [子元素选择器](#子元素选择器)
+      - [相邻兄弟选择器](#相邻兄弟选择器)
+      - [后续兄弟选择器](#后续兄弟选择器)
+    - [CSS选择器](#CSS选择器)
+      - [元素选择器](#元素选择器)
+      - [选择器分组](#选择器分组)
+      - [通配符选择器](#通配符选择器)
+      - [声明分组](#声明分组)
+      - [类选择器](#类选择器)
+        - [多类选择器](#多类选择器)
+      - [ID选择器](#ID选择器-1)
+      - [属性选择器](#属性选择器)
+        - [部分属性值选择器](#部分属性值选择器)
+        - [子串多类选择器](#子串多类选择器)
+        - [特定属性选择器](#特定属性选择器)
+      - [后代选择器](#后代选择器-1)
 
 [TOCEND]
 
@@ -1211,3 +1229,134 @@ body {
     transform: translate(-50%, -50%);
 }
 ```
+
+## 组合选择符
+[link](http://www.runoob.com/css/css-combinators.html)
+筛选符合关系的元素
+
+### 后代选择器
+用空格链接，包含元素内的所有层(所有后代)
+```css
+div p { }/*div元素内的p后代*/
+```
+
+### 子元素选择器
+用>连接，只有子元素一代
+```css
+div>p { }
+```
+
+### 相邻兄弟选择器
+用+号连接，筛选紧接在一元素后面的元素，且二者有相同父元素
+```css
+div+p { }/*匹配跟在div元素后面的p元素*/
+```
+
+### 后续兄弟选择器
+用~连接，a~b所有出现在a后面的b元素，必须拥有相同的父元素但是不必连续
+
+## CSS选择器
+[link](http://www.w3school.com.cn/css/css_selector_type.asp)
+
+### 元素选择器
+通过元素来设置元素的样式，比如使用p、h1、em、a甚至可以是 html
+(~~又叫类型选择器 这不重要~~)
+(~~也可以为XML文档中的元素设置样式 这也不重要~~)
+
+### 选择器分组
+[link](http://www.w3school.com.cn/css/css_selector_grouping.asp)
+用,分隔，设置列出所有元素的样式
+
+### 通配符选择器
+用*号
+
+### 声明分组
+将样式声明通过;封号连接写在一起 要在各个声明的最后使用分号
+即
+```css
+{
+  font: 28px Verdana;
+  color: white;
+  background: black;
+}
+```
+浏览器会忽略样式表中的空白符
+
+### 类选择器
+[link](http://www.w3school.com.cn/css/css_selector_class.asp)
+
+类选择器使用.标识
+css中.class_name对应html里的class='class_name'属性
+*.class_name 和 .class_name 是相同的
+
+结合元素选择器 p.class_name
+
+#### 多类选择器
+- 多类的元素
+html元素中class属性内类名间用空格分隔 class="class_name1 class_name2"
+元素**需要**包含选择器中的所有类名才匹配
+元素**只要**包含选择器中的所有类名即可匹配
+\<p class='a b'\>可以同时匹配选择器.a/.b/.a.b
+
+- 多类的选择器
+匹配需要同时包含多个类的元素可以写作
+```css
+.class1.class2 {
+
+}
+```
+
+### ID选择器
+[link](http://www.w3school.com.cn/css/css_selector_id.asp)
+ID选择器使用#标识
+css中#class_name对应html里的id='id_name'属性
+*#id_name 和 #id_name 是相同的
+
+1. 一个html文档中一个ID只会使用一次(唯一的)
+2. 一个元素仅能有一个ID,b不允许有多个ID
+3. 类选择器和 ID 选择器可能区分大小写。取决于文档的语言。HTML 和 XHTML 将类和 ID 值定义为区分大小写
+
+### 属性选择器
+[link](http://www.w3school.com.cn/css/css_selector_attribute.asp)
+用[]标识，匹配包含属性的元素
+css中[attribute]对应html里的attribute=xxx
+*[att] 和 [att] 是相同的
+**attribute可以包含attribute和value**
+属性选择器可以连着一起
+**属性和值必须完全匹配，没有class那样的多类特征**从效果上来看属性值''和""没有影响
+```css
+[title] {color:red;}
+*[title] {color:red;}
+a[href] {color:red;}
+a[href="http://www.w3school.com.cn/"][title="W3School"] {color: red;}
+```
+
+#### 部分属性值选择器
+\[attribute~='xxx'\]匹配属性值中的完整单词(有点像多类选择器)
+```css
+p[class~="important"] {color: red;}
+```
+
+#### 子串多类选择器
+[link](https://www.cnblogs.com/gugege/p/6340422.html)
+| 类型         | 描述                                  |
+|:------------ |:------------------------------------- |
+| \[abc^="def"\] | 以 "def" 开头的元素                   |
+| \[abc$="def"\] | 以 "def" 结尾的元素                   |
+| \[abc*="def"\] | 包含子串 "def" 的元素(包含空格标点等) |
+
+#### 特定属性选择器
+[att|="val"]匹配val必须是完整且唯一的单词，或者以-分隔开
+[lang|=en]     --\>  \<p lang="en"\>  \<p lang="en-us"\>
+
+### 后代选择器
+[后代选择器](#后代选择器)
+
+### 子元素选择器
+[子元素选择器](#子元素选择器)
+
+### 相邻兄弟选择器
+[相邻兄弟选择器](#相邻兄弟选择器)
+
+### 伪类
+[link](http://www.w3school.com.cn/css/css_pseudo_classes.asp)
