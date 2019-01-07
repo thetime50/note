@@ -1464,3 +1464,127 @@ h1:before
 
 #### 伪类和伪元素的区别
 [link](https://www.cnblogs.com/ihardcoder/p/5294927.html)
+
+## CSS导航栏
+<iframe style="height: 100px;">
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<style>
+body {
+    margin: 0;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background-color: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#home">主页</a></li>
+  <li><a href="#news">新闻</a></li>
+  <li><a href="#contact">联系</a></li>
+  <li><a href="#about">关于</a></li>
+</ul>
+
+</body>
+</html>
+</iframe>
+
+```css
+body {
+    margin: 0;/*无外边距*/
+}
+
+ul {
+    list-style-type: none;/*无列表标记*/
+    margin: 0;
+    padding: 0;
+    width: 25%;
+    background-color: #f1f1f1;
+    position: fixed;/*导航列表固定位置*/
+    height: 100%;/*全屏高度*/
+    overflow: auto;/*超出滚动*/
+}
+
+li a {
+    display: block;/*块级显示*/
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;/*无下划线*/
+}
+
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+/*处于悬停状态的链接，并且:not(.active)非.active类*/
+li a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+```
+
+## CSS下拉菜单
+[link](http://www.runoob.com/try/try.php?filename=trycss_dropdown_button)
+
+```css
+<style>
+/*整个下拉容器*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+/*下拉显示的内容*/
+.dropdown-content {
+    display: none;/*内容不显示*/
+    position: absolute;/*随父对象定位*/
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;/*堆叠显示*/
+}
+/*
+如果容器处于鼠标悬停状态
+含.dropdown-content类的子元素为块级显示状态
+*/
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
+
+<div class="dropdown">
+  <span>Mouse over me</span>
+  <div class="dropdown-content">
+    <p>Hello World!</p>
+  </div>
+</div>
+```
