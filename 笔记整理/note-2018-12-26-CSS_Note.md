@@ -120,6 +120,11 @@
         - [before伪元素](#before伪元素)
         - [after伪元素](#after伪元素)
         - [伪类和伪元素的区别](#伪类和伪元素的区别)
+    - [CSS导航栏](#CSS导航栏)
+    - [CSS下拉菜单](#CSS下拉菜单)
+    - [提示工具](#提示工具)
+      - [添加箭头](#添加箭头)
+      - [淡入效果](#淡入效果)
 
 [TOCEND]
 
@@ -1466,57 +1471,9 @@ h1:before
 [link](https://www.cnblogs.com/ihardcoder/p/5294927.html)
 
 ## CSS导航栏
-<iframe style="height: 100px;">
-<html>
-<head>
-<meta charset="utf-8">
-<title>菜鸟教程(runoob.com)</title>
-<style>
-body {
-    margin: 0;
-}
+[link](http://www.runoob.com/css/css-navbar.html)
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    width: 25%;
-    background-color: #f1f1f1;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-}
-
-li a {
-    display: block;
-    color: #000;
-    padding: 8px 16px;
-    text-decoration: none;
-}
-
-li a.active {
-    background-color: #4CAF50;
-    color: white;
-}
-
-li a:hover:not(.active) {
-    background-color: #555;
-    color: white;
-}
-</style>
-</head>
-<body>
-
-<ul>
-  <li><a class="active" href="#home">主页</a></li>
-  <li><a href="#news">新闻</a></li>
-  <li><a href="#contact">联系</a></li>
-  <li><a href="#about">关于</a></li>
-</ul>
-
-</body>
-</html>
-</iframe>
+- [全屏高度的固定导航条](http://www.runoob.com/try/try.php?filename=trycss_navbar_vertical_fixed&basepath=0)
 
 ```css
 body {
@@ -1552,10 +1509,48 @@ li a:hover:not(.active) {
 }
 ```
 
-## CSS下拉菜单
-[link](http://www.runoob.com/try/try.php?filename=trycss_dropdown_button)
-
+- [水平导航栏](http://www.runoob.com/try/try.php?filename=trycss_navbar_horizontal_gray&basepath=0)
 ```css
+body {margin:0;}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;/*导航列表固定位置*/
+    bottom: 0;/*在底部*/
+    width: 100%;/*全屏宽度*/
+}
+
+li {
+    float: left;/*左侧浮动 水平列表*/
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+```
+
+## CSS下拉菜单
+[link](http://www.runoob.com/css/css-dropdowns.html)
+
+[实例](http://www.runoob.com/try/try.php?filename=trycss_dropdown_button)
+
+```html
 <style>
 /*整个下拉容器*/
 .dropdown {
@@ -1588,3 +1583,37 @@ li a:hover:not(.active) {
   </div>
 </div>
 ```
+
+## 提示工具
+[link](http://www.runoob.com/css/css-tooltip.html)
+
+和下拉菜单差不多
+
+### 添加箭头
+用伪元素 ::after 及 content 属性添加剪头
+```css
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* 提示工具底部 */
+    left: 50%;
+    margin-left: -5px;/*位置*/
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;/*方向*/
+}
+```
+
+### 淡入效果
+[link](http://www.runoob.com/css/css-tooltip.html)
+```css
+.tooltip .tooltiptext {
+    opacity: 0;/*不透明度*/
+    transition: opacity 1s;
+}
+
+.tooltip:hover .tooltiptext {
+    opacity: 1;
+}
+```
+[transition ](http://www.w3school.com.cn/cssref/pr_transition.asp)
