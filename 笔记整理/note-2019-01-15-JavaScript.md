@@ -37,6 +37,28 @@
       - [try-catch](#try-catch)
       - [throw](#throw)
     - [验证](#验证)
+    - [DOM简介](#DOM简介)
+    - [DOM HTML](#DOM-HTML)
+    - [DOM CSS](#DOM-CSS)
+    - [DOM 事件](#DOM-事件)
+      - [onload和onunload事件](#onload和onunload事件)
+      - [onchange事件](#onchange事件)
+      - [onmouseover和onmouseout事件](#onmouseover和onmouseout事件)
+      - [onmousedown、onmouseup、onclick事件](#onmousedown、onmouseup、onclick事件)
+    - [DOM节点（元素）](#DOM节点（元素）)
+      - [添加元素](#添加元素)
+      - [删除元素](#删除元素)
+    - [JS对象](#JS对象)
+      - [直接创建对象实例](#直接创建对象实例)
+      - [使用对象构造器](#使用对象构造器)
+      - [JS的类](#JS的类)
+    - [JS数字](#JS数字)
+    - [JS字符串](#JS字符串)
+    - [JS日期](#JS日期)
+    - [数组](#数组-1)
+    - [JS逻辑](#JS逻辑)
+    - [JS算数](#JS算数)
+    - [JS正则](#JS正则)
 
 [TOCEND]
 
@@ -557,6 +579,7 @@ function myFunction(){
 ```
 
 ## 验证
+[link](http://www.w3school.com.cn/js/js_form_validation.asp)
 
 ```html
 <head>
@@ -602,6 +625,427 @@ Email: <input type="text" name="email" size="30">
 </body>
 ```
 原本例程中有使用with语句，关于with语句的介绍[link](https://blog.csdn.net/zwkkkk1/article/details/79725934)
-相对于在with的变量内部的作用域进行操作
+相当于在with的变量内部的作用域进行操作
 容易造成数据的泄漏
 with 或者 eval的代码会不做任何优化，效率低下
+
+## DOM简介
+[link](http://www.w3school.com.cn/js/js_htmldom.asp)
+
+当网页被加载时，浏览器会创建页面的文档对象模型(Document Object Model)
+HTML DOM模型被构造为对象的树
+
+**HTML DOM 树**
+![HTML DOM tree](img/note-2019-01-15-JavaScript/HTMLDOMtree.gif)
+
+通过可编程的对象模型，JavaScript 获得了足够的能力来创建动态的 HTML。
+
+- JS能改变所有 HTML 元素
+- JS能改变所有 HTML 属性
+- JS能改变所有 CSS 样式
+- JS能对所有事件做出反应
+
+**获取HTML元素**
+- 通过 id 找到元素
+- 通过标签名找到元素
+- 通过类名找到元素
+
+```js
+var ele=document.getElementById("idname")//根据ID获取元素
+var eleP=document.getElementsByTagName("p")//获取ele元素内的所有p标签数组
+//getElementsByTagName() 在IE5-8无效
+```
+
+## DOM HTML
+[link](http://www.w3school.com.cn/js/js_htmldom_html.asp)
+
+1. 在**加载HTML文档的过程中**使用document.write()向HTML输出流写内容
+2. 使用元素的innerHTML属性修改元素的内容
+3. 使用获取元素后用element.attributeName修改属性值
+
+```js
+document.write(Date());
+
+document.getElementById("p1").innerHTML="New text!";
+var element=document.getElementById("header");
+element.innerHTML="New Header";
+
+document.getElementById("id").srt="xxx.jpg"
+```
+
+## DOM CSS
+[link](http://www.w3school.com.cn/js/js_htmldom_css.asp)
+
+document.getElementById(id).style.property=new style
+
+```js
+document.getElementById("p2").style.color="blue"
+document.getElementById("id1").style.color="red"
+document.getElementById("p1").style.visibility="hidden"
+document.getElementById("p1").style.visibility="visible"
+```
+ [**HTML DOM Style 对象参考手册**](http://www.w3school.com.cn/jsref/dom_obj_style.asp)
+
+## DOM 事件
+[link](http://www.w3school.com.cn/js/js_htmldom_events.asp)
+
+可以在HTML元素里使用事件属性分配事件，也可以在JS脚本中对事件属性分配事件
+
+```html
+<button onclick="displayDate()">点击这里</button>
+
+<script>
+document.getElementById("myBtn").onclick=function(){displayDate()};
+</script>
+```
+
+使用this传递元素
+```html
+<script>
+function changetext(ele){
+  ele.innerHTML="谢谢!";
+}
+</script>
+<h1 onclick="changetext(this)">请点击该文本</h1>
+```
+
+### onload和onunload事件
+
+onload和onunload事件会在用户进入或离开页面时被触发。
+onload事件可检测浏览器类型和浏览器版本，并基于这些信息来加载网页的正确版本。
+onload和onunload可用于处理cookie。
+
+```html
+<body onload="checkCookies()">
+
+<script>
+if (navigator.cookieEnabled==true){
+	alert("已启用 cookie")
+}else{
+	alert("未启用 cookie")
+}
+</script>
+```
+
+### onchange事件
+改变输入内容时触发，验证或者修改输入内容
+```html
+<input type="text" id="fname" onchange="upperCase()">
+<!--为什么这里不用传入参数-->
+```
+
+### onmouseover和onmouseout事件
+鼠标移入和移除事件
+```html
+<div onmouseover="mOver(this)" onmouseout="mOut(this)" style="background-color:green;width:120px;height:20px;padding:40px;color:#ffffff;">把鼠标移到上面</div>
+
+<script>
+function mOver(obj){
+  obj.innerHTML="谢谢"
+}
+
+function mOut(obj){
+  obj.innerHTML="把鼠标移到上面"
+}
+</script>
+```
+
+### onmousedown、onmouseup、onclick事件
+onmousedown 点击鼠标按钮
+onmouseup 释放鼠标按钮
+onclick 完成鼠标点击
+
+[**HTML DOM Event 对象参考手册**](http://www.w3school.com.cn/jsref/dom_obj_event.asp)
+
+## DOM节点（元素）
+[link](http://www.w3school.com.cn/js/js_htmldom_elements.asp)
+
+### 添加元素
+
+```html
+<div id="div1">
+<p id="p1">段落1</p>
+<p id="p2">段落2</p>
+</div>
+
+<script>
+var ele=document.createElement("p")//创建段落p节点
+var node=document.createTextNode("JS添加的段落内容")//创建文本节点，用于添加到段落节点中
+ele.appendChild(node)
+
+var eleDiv=document.getElementById("div1")
+eleDiv.appendChild(ele)
+</script>
+```
+关于[JavaScript中innerHTML与innerText、createTextNode的区别](https://www.cnblogs.com/miracle-d/p/6323002.html)
+innerHTML是将字符串直接输出到文件中
+innerText和createTextNode()会对需要转义的字符修饰，让他们原样输出
+createTextNode()创建的对象用appendChild()添加到节点的末尾
+
+### 删除元素
+
+DOM 需要清楚需要删除的元素，以及父元素
+可以使用parentNode属性获得父元素
+```html
+<div id="div1">
+<p id="p1">这是一个段落。</p>
+<p id="p2">这是另一个段落。</p>
+</div>
+
+<script>
+var parent=document.getElementById("div1");
+var child=document.getElementById("p1");
+parent.removeChild(child);
+
+child.parentNode.removeChild(child);
+</script>
+```
+[**HTML DOM 教程**](http://www.w3school.com.cn/js/js_htmldom_elements.asp)
+
+## JS对象
+[link](http://www.w3school.com.cn/js/js_objects.asp)
+
+对象只是带有属性和方法的特殊数据类型。
+
+### 直接创建对象实例
+
+```js
+person=new Object()
+person.name="abc"
+person.age=12
+person.eyecolor="blue"
+
+person={firstname:"John",lastname:"Doe",age:50,eyecolor:"blue"};
+```
+
+### 使用对象构造器
+
+```js
+function person(firstname,lastname,age,eyecolor)
+{
+  this.firstname=firstname;
+  this.lastname=lastname;
+  this.age=age;
+  this.eyecolor=eyecolor;
+
+  this.changeName=changeName;
+  function changeName(name){
+    this.lastname=name;
+  }
+}
+
+myFather=new person("Bill","Gates",56,"blue");
+```
+new会创建一个空的对象Obj,
+将对象的__proto__成员指针指向构造函数的prototype成员，
+构造函数的this指针换成Obj，然后执行构造函数
+
+new创建对象的容器
+构造函数在该容器的作用域内执行
+通过构造函数的this指针在容器里添加属性
+
+### JS的类
+JS不用类来构造对象，而是基于prototype(原型)
+
+使用for-in遍历对象属性的值
+```html
+for (x in obj){
+  document.write(x+<br>)
+}
+```
+
+## JS数字
+[link](http://www.w3school.com.cn/js/js_obj_number.asp)
+
+```html
+var pi=3.14;    // 使用小数点
+var x=34;       // 不使用小数点
+var y=123e5;    // 12300000
+var z=123e-5;   // 0.00123
+```
+
+**所有 JavaScript 数字均为 64 位**
+整数（不使用小数点或指数计数法）最多为 15 位
+小数的最大位数是 17 //什么意思
+
+八进制数前缀0
+16进制数前缀0x
+
+**Number 对象属性**
+
+| 属性              | 描述                                   |
+|:----------------- |:-------------------------------------- |
+| constructor       | 返回对创建此对象的 Number 函数的引用。 |
+| MAX_VALUE         | 可表示的最大的数。                     |
+| MIN_VALUE         | 可表示的最小的数。                     |
+| NaN               | 非数字值。                             |
+| NEGATIVE_INFINITY | 负无穷大，溢出时返回该值。             |
+| POSITIVE_INFINITY | 正无穷大，溢出时返回该值。             |
+| prototype         | 使您有能力向对象添加属性和方法。       |
+
+**Number 对象方法**
+
+| 方法           | 描述                                 |
+|:-------------- |:------------------------------------ |
+| toString       | 转换为字符串，使用指定的基数。       |
+| toLocaleString | 转换为字符串，使用本地数字格式顺序。 |
+| toFixed        | 转换为字符串，指定小数点后的位数。   |
+| toExponential  | 把对象的值转换为指数计数法。         |
+| toPrecision    | 把数字格式化为指定的长度。           |
+| valueOf        | 返回一个 Number 对象的基本数字值。   |
+
+[**Number 对象参考手册**](http://www.w3school.com.cn/jsref/jsref_obj_number.asp)
+
+## JS字符串
+```js
+//长度
+"".length
+//改变文字样式
+txt.big() //Big
+txt.small() //Small
+
+txt.bold() //Bold
+txt.italics() //Italic
+
+txt.blink() //Blink
+txt.fixed() //Fixed
+txt.strike() //Strike
+
+txt.fontcolor("Red") //Fontcolor
+txt.fontsize(16) //Fontsize
+
+txt.toLowerCase() //Lowercase
+txt.toUpperCase() //Uppercase
+
+txt.sub() //Subscript
+txt.sup() //Superscript
+
+txt.link("http://www.w3school.com.cn") //Link
+//indexOf查找返回首次出现位置
+"hello".indexOf("ll")
+//match查找字符串(正则)，返回规定要检索的字符串值
+var str="Hello world!"
+str.match("world")//world
+str.match("World")//null
+//replace替换字符串(正则)
+str.replace(/Microsoft/,"W3School")
+```
+
+[**JavaScript String 对象参考手册**](http://www.w3school.com.cn/jsref/jsref_obj_string.asp)
+
+## JS日期
+[link](http://www.w3school.com.cn/js/js_obj_date.asp)
+
+```js
+Date()//String
+
+d=new Date()
+d.getTime()//1970年1月1日至今的毫秒数
+d.setFullYear(1992,10,3)//设置日期
+d.toUTCString()//转换为UTC时间的字符串
+d.getDay()//返回星期几0-6对应周日到周六
+```
+
+时钟
+```html
+<head>
+<script type="text/javascript">
+function startTime(){
+  var today=new Date()
+  var h=today.getHours()
+  var m=today.getMinutes()
+  var s=today.getSeconds()
+  // add a zero in front of numbers<10
+  m=num_2(m)
+  s=num_2(s)
+  document.getElementById('txt').innerHTML=h+":"+m+":"+s
+  t=setTimeout('startTime()',100)
+}
+
+function num_2(i){
+  if (i<10)
+    {i="0" + i}
+  return i
+}
+</script>
+</head>
+
+<body onload="startTime()">
+<div id="txt"></div>
+</body>
+```
+
+[**JavaScript Date 对象参考手册**](http://www.w3school.com.cn/js/js_obj_date.asp)
+
+## 数组
+[link](http://www.w3school.com.cn/js/js_obj_array.asp)
+
+```js
+//c创建数组
+var arr=new Array()//长度为0
+arr[0]=1
+
+var arr=new Array(3)//长度为3 值为undifined
+var arr=new Array(1,2,3)//初始化长度为3的数组
+//...
+
+//concat连接数组
+arr1.concate(arr1)
+//转换为字符串
+arr.join()//默认,分隔
+arr.join("..")//".."分隔
+//short排序
+arr.short()
+```
+
+## JS逻辑
+[link](http://www.w3school.com.cn/js/js_obj_boolean.asp)
+
+```js
+new Boolean(0)      //false
+new Boolean(1)      //true
+new Boolean("")     //false
+new Boolean(null)   //false
+new Boolean(NaN)    //false //NaN 判断不是数值isNaN()的结果
+new Boolean("false")//true
+```
+
+[JavaScript Boolean 对象参考手册](http://www.w3school.com.cn/jsref/jsref_obj_boolean.asp)
+
+## JS算数
+[link](http://www.w3school.com.cn/js/js_obj_math.asp)
+
+```js
+Math.round(2.2)//四舍五入
+Math.random()//0 到 1 之间的随机数
+Math.max(5,7)
+Math.min(5,7)
+```
+[**JavaScript Math 对象的参考手册**](http://www.w3school.com.cn/jsref/jsref_obj_math.asp)
+|              |                       |
+|:------------ |:--------------------- |
+| Math.E       | 常数                  |
+| Math.PI      | 圆周率                |
+| Math.SQRT2   | 2 的平方根            |
+| Math.SQRT1_2 | 1/2 的平方根          |
+| Math.LN2     | 2 的自然对数          |
+| Math.LN10    | 10 的自然对数         |
+| Math.LOG2E   | 以 2 为底的 e 的对数  |
+| Math.LOG10E  | 以 10 为底的 e 的对数 |
+
+## JS正则
+[link](http://www.w3school.com.cn/js/js_obj_regexp.asp)
+
+```js
+var patt1=new RegExp("e");
+patt1.test("The best things in life are free")//返回true false
+
+var patt1=new RegExp("e");
+patt1.exec("The best things in life are free")//返回匹配字符
+
+var patt1=new RegExp("e","g");//指定搜索模式"global" 会返回 eeeeeenull
+
+var patt1=new RegExp("e");//改变检索模式
+patt1.compile("d");
+```
+[RegExp 对象参考手册](http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp)
