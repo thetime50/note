@@ -55,10 +55,17 @@
     - [JS数字](#JS数字)
     - [JS字符串](#JS字符串)
     - [JS日期](#JS日期)
-    - [数组](#数组-1)
+    - [JS数组](#JS数组)
     - [JS逻辑](#JS逻辑)
     - [JS算数](#JS算数)
     - [JS正则](#JS正则)
+    - [BOM对象](#BOM对象)
+    - [JS screen](#JS-screen)
+    - [JS location](#JS-location)
+    - [JS history](#JS-history)
+    - [JS Navigator](#JS-Navigator)
+    - [JS PopupAlert](#JS-PopupAlert)
+    - [JS coocks](#JS-coocks)
 
 [TOCEND]
 
@@ -977,7 +984,7 @@ function num_2(i){
 
 [**JavaScript Date 对象参考手册**](http://www.w3school.com.cn/js/js_obj_date.asp)
 
-## 数组
+## JS数组
 [link](http://www.w3school.com.cn/js/js_obj_array.asp)
 
 ```js
@@ -1049,3 +1056,169 @@ var patt1=new RegExp("e");//改变检索模式
 patt1.compile("d");
 ```
 [RegExp 对象参考手册](http://www.w3school.com.cn/jsref/jsref_obj_regexp.asp)
+
+## BOM对象
+[link](http://www.w3school.com.cn/js/js_window.asp)
+
+浏览器对象模型（Browser Object Model）JS的浏览器接口，尚无正式标准
+所有浏览器都支持 window 浏览器窗口对象
+JavaScript 全局对象、函数以及变量都是 window 对象的成员
+DOM 的 document 也是 window 对象的属性
+```js
+//这两个是等价的
+window.document.getElementById("header");
+document.getElementById("header");
+```
+
+获取浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）。
+
+对于Internet Explorer、Chrome、Firefox、Opera 以及 Safari：
+- window.innerHeight - 浏览器窗口的内部高度
+- window.innerWidth - 浏览器窗口的内部宽度
+对于 Internet Explorer 8、7、6、5：
+- document.documentElement.clientHeight
+- document.documentElement.clientWidth
+或者
+- document.body.clientHeight
+- document.body.clientWidth
+实用的 JavaScript 方案（涵盖所有浏览器）：
+
+```js
+var w=window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+
+var h=window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+```
+
+## JS screen
+[link](http://www.w3school.com.cn/js/js_window_screen.asp)
+
+- screen.availWidth - 可用的屏幕宽度
+- screen.availHeight - 可用的屏幕高度
+
+## JS location
+[link](http://www.w3school.com.cn/js/js_window_location.asp)
+
+获得当前页面的地址 (URL)，并把浏览器重定向到新的页面
+window.location 可不使用 window 前缀
+location.hostname 返回 web 主机的域名
+location.pathname 返回当前页面的路径和文件名
+location.port 返回 web 主机的端口 （80 或 443）
+location.protocol 返回所使用的 web 协议（http:// 或 https://）
+location.href 属性返回当前页面的 URL
+location.assign() 方法加载新的文档（跳转）
+
+## JS history
+[link](http://www.w3school.com.cn/js/js_window_history.asp)
+
+浏览历史
+可不使用 window 前缀
+JavaScript 访问该对象的方法做出了限制
+
+- history.back() - 与在浏览器点击后退按钮相同
+- history.forward() - 与在浏览器中点击按钮向前相同
+
+## JS Navigator
+[link](http://www.w3school.com.cn/js/js_window_navigator.asp)
+
+浏览器信息
+可不使用 window 前缀
+```js
+navigator.appCodeName     //Browser CodeName
+navigator.appName         //Browser Name
+navigator.appVersion      //Browser Version
+navigator.cookieEnabled   //Cookies Enabled
+navigator.platform        //Platform
+navigator.userAgent       //User-agent header
+navigator.systemLanguage  //User-agent language
+```
+- navigator 数据可被浏览器使用者更改
+- 浏览器无法报告晚于浏览器发布的新操作系统
+
+以使用不同的浏览器支持不同的对象来检测浏览器
+例如，只有 Opera 支持属性 "window.opera"
+
+## JS PopupAlert
+[link](http://www.w3school.com.cn/js/js_popup.asp)
+
+警告框 alert("文本")
+确认框 confirm("文本")
+提示框 prompt("文本","默认值")
+
+```js
+var t=setTimeout("javascript语句",ms)
+clearTimeout(setTimeout_variable)
+```
+
+## JS coocks
+[link](http://www.w3school.com.cn/js/js_cookies.asp)
+
+cookie 是存储于访问者的计算机中的变量。
+每当同一台计算机通过浏览器请求某个页面时，就会发送 cookie。
+可以使用 JavaScript 来创建和取回 cookie 的值。
+```htlm
+<html>
+<head>
+<script type="text/javascript">
+  function getCookie(c_name)  {
+    if (document.cookie.length>0)  {
+      c_start=document.cookie.indexOf(c_name + "=")
+      if (c_start!=-1)  {
+        c_start=c_start + c_name.length+1
+        c_end=document.cookie.indexOf(";",c_start)
+        if (c_end==-1){
+          c_end=document.cookie.length
+        }
+        return unescape(document.cookie.substring(c_start,c_end))
+      }
+    }
+    return ""
+  }
+
+  function setCookie(c_name,value,expiredays)  {
+    var exdate=new Date()
+    exdate.setDate(exdate.getDate()+expiredays)
+    document.cookie=c_name+ "=" +escape(value)+
+      ((expiredays==null) ? "" : "; expires="+exdate.toGMTString())
+  }
+
+/*
+setCookie(this,'username','KangKang',365)
+username=KangKang; expires=Sat, 18 Jan 2020 18:35:50 GMT
+*/
+
+  function checkCookie(){
+    username=getCookie('username')
+    if (username!=null && username!=""){
+      /*alert('Welcome again '+username+'!')*/
+    }else{
+      username=prompt('Please enter your name:',"")
+      if (username!=null && username!=""){
+        setCookie('username',username,365)
+      }
+    }
+    ele = document.getElementById("welcome")
+    if (username!=null && username!=""){
+      ele.innerHTML='Welcome again '+username+'!'
+    }else{
+      ele.innerHTML='Who are you.'
+    }
+  }
+
+  function putCookit(ele){
+    ele.innerHTML=document.cookie
+  }
+</script>
+
+</head>
+<body onLoad="checkCookie()">
+  <div id="welcome"></div>
+  <p onClick="putCookit(this)" style="background-color:#ff8080;">
+    click this put cookie
+  </p>
+</body>
+</html>
+```
