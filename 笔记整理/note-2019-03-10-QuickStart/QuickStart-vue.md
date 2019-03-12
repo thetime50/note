@@ -1,9 +1,7 @@
 # QuickStart-vue
 
-[vue-en][vue-en]  
-[vue-ch][vue-ch]  
-[vue-en]:https://vuejs.org
-[vue-ch]:https://cn.vuejs.org
+[vue-en](https://vuejs.org)  
+[vue-ch](https://cn.vuejs.org)
 
 ## vue实例
 所有的 Vue 组件都是 Vue 实例，并且大部分接受相同的选项对象
@@ -128,7 +126,7 @@ watch 选项允许我们执行异步操作 (为什么？？)
 ###别的HTML Class
 ```
 v-bind:class="a b:'b-value'"
-//一般class b-value为true 
+//一般class b-value为boolean
 
 v-bind:class="{ active: isActive, 'text-danger': hasError }"
 //多class
@@ -158,3 +156,113 @@ v-bind:style
 ```
 
 note:还是太细了
+
+## 条件渲染
+(构建dom)  
+```
+<div v-if="type === 'A'">
+</div>
+<div v-else-if="type === 'B'">
+</div>
+<div v-else>
+</div>
+```
+
+v-if 监听事件 组件按需销毁重构  
+*v-if命令下相识结构的DOM将会复用，输入框会保留内容*  
+给输入表单添加不同的key属性就能保持标签独立
+```
+<template v-if="loginType === 'username'">
+  <input placeholder="Enter your username" key="username-input">
+</template>
+<template v-else>
+  <input placeholder="Enter your email address" key="email-input">
+</template>
+```
+
+v-show 切换CSS 属性 display
+
+避免 v-if 和 v-for 用在一起(虽然for优先级高但是这不利于阅读)
+1. 将v-if替换为计算属性
+2. 加一层容器
+
+## 列表渲染
+用 v-for 把一个数组对应为一组元素
+```
+//作用于数组
+<li v-for="item in items"> {{ item.message }}
+<li v-for="(item, index) in items"> {{ index }} - {{ item.message }}
+
+//作用于对象
+<li v-for="value in object"> {{ value }}
+<div v-for="(value, key) in object"> {{ key }}: {{ value }}
+<div v-for="(value, key, index) in object"> ...
+
+//是按 Object.keys()的顺序遍历
+```
+
+数组顺序改变时默认只修改复用已有DOM将不会排序  
+绑定item的id到ket属性可以在数组改变时重新更新  
+```
+v-for="item in items" :key="item.id"
+```
+
+**数组更新检测**
+
+变异方法(修改自身)将观察数组数据跟新
+- push() //末尾添加
+- pop() //末尾删除
+- shift() //开头删除
+- unshift() //开头添加
+- splice() //删除并添加
+- sort() //排序
+- reverse() //反序
+
+非变异方法(返回新数组)替换vue会尽量少的改动DOM
+- filter() //过滤
+- concat() //连接
+- slice() //截取
+
+```
+vm.items[indexOfItem] = newValue
+//替换为
+vm.$set(vm.items, indexOfItem, newValue)
+
+vm.items.length = newLength
+//替换为
+vm.items.splice(newLength)
+
+//vue对象添加属性使用
+Vue.set(object, key, value)//vue方法
+vm.$set(vm.userProfile, 'age', 27)//实例的方法
+vm.userProfile = Object.assign({}, vm.userProfile, {
+  age: 27,
+  favoriteColor: 'Vue Green'
+})
+
+```
+
+使用computed: 或者 methods： 计算获取新对象
+
+```
+<span v-for="n in 10">{{ n }}
+```
+
+v-for在组件上使用必须显示绑定key属性
+```
+:key="item.id"
+```
+
+*组件在模板内使用时，将<comp>替换为 is="comp"属性 避免模板解析错误*
+```
+ <ul>
+    <li
+      is="todo-item"
+      v-for="(todo, index) in todos"
+      v-bind:key="todo.id"
+      v-bind:title="todo.title"
+      v-on:remove="todos.splice(index, 1)"
+    ></li>
+  </ul>
+```
+[解析 DOM 模板时的注意事项](https://cn.vuejs.org/v2/guide/components.html#解析-DOM-模板时的注意事项)
