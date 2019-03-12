@@ -125,8 +125,10 @@ watch 选项允许我们执行异步操作 (为什么？？)
 ## Class 与 Style 绑定
 ###别的HTML Class
 ```
-v-bind:class="a b:'b-value'"
-//一般class b-value为boolean
+//不使用vue语法的为一般的html
+
+v-bind:class="b:'b-value'"
+//b-value为boolean
 
 v-bind:class="{ active: isActive, 'text-danger': hasError }"
 //多class
@@ -242,7 +244,7 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
 
 ```
 
-使用computed: 或者 methods： 计算获取新对象
+使用computed: 或者 methods： 计算获取新建的对象
 
 ```
 <span v-for="n in 10">{{ n }}
@@ -266,3 +268,193 @@ v-for在组件上使用必须显示绑定key属性
   </ul>
 ```
 [解析 DOM 模板时的注意事项](https://cn.vuejs.org/v2/guide/components.html#解析-DOM-模板时的注意事项)
+
+## 事件处理
+### 监听事件
+
+```
+v-on:xxx="expression"
+@xxx="expression"
+
+ methods: {
+    greet: function (event) {// `event` 是原生 DOM 事件
+      alert('Hello ' + this.name + '!') // `this` 指向当前 Vue 实例
+      if (event) {
+        alert(event.target.tagName)
+      }
+    }
+  }
+
+  //传递参数
+  <button v-on:click="say('hi')">Say hi</button>
+  //特殊变量$event (和函数内默认的event是一样的)
+  <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+```
+
+### 事件修饰符
+- .stop //阻止传播
+- .prevent //阻止默认行为
+- .capture //捕获模式 (优先于冒泡 由外到内)
+- .self //自身事件
+- .once //单次 2.1.4 新增
+- .passive //2.3.0 新增
+
+可串联 从左到右
+
+.passive  
+页面滚动事件会先执行监听器(回调)再执行系统默认行为产生卡顿  
+passive内preventDefault()是无效的，可以直接执行默认行为(滚动)
+[link](https://blog.csdn.net/hhlljj0828/article/details/79497734)
+
+### 按键修饰符
+
+```
+<input v-on:keyup.enter="submit">
+//即过滤$event.key
+```
+
+按键码可用数字v-on:keyup.13 ie部分编码不同
+
+- .enter
+- .tab
+- .delete (捕获“删除”和“退格”键)
+- .esc
+- .space
+- .up
+- .down
+- .left
+- .right
+
+config.keyCodes 对象自定义按键修饰符别名
+
+2.1.0 新增
+- .ctrl
+- .alt
+- .shift
+- .meta
+
+.exact 精确的系统修饰符
+```
+@click.ctrl //ctrl + *
+@click.ctrl.a //ctrl + * + a
+@click.ctrl.exact //only ctrl + *
+@click.exact //没有任何系统修饰符
+```
+
+鼠标按钮修饰符
+- .left
+- .right
+- .middle
+
+## 表单输入绑定
+### 基础
+用v-model 指令双向绑定 input txtarea select
+
+> 会忽略原本HTML的value、checked、selected属性，始终用Vue实例的数据作为数据来源，需要在data对象内初始化
+
+- text 和 textarea 元素使用 value 属性和 input 事件；
+- checkbox 和 radio 使用 checked 属性和 change 事件；
+- select 字段将 value 作为 prop 并将 change 作为事件。
+
+使用输入法过程中v-model的值不会改变，但是input事件会响应
+
+checkbox 绑定数组选中项目填充value属性值字符串  
+radio 填充value属性   
+select option中的value或者content（需要加一个disabled 选项，iOS 可能会无法选择第一个选项）  
+selected 绑定数组
+
+```
+<input
+  type="checkbox"
+  v-model="toggle"
+  true-value="yes"//只影响v-model 不会影响value
+  false-value="no"
+>
+```
+
+### 修饰符
+v-model修饰符
+|         |                                |
+| :--     | :--                            |
+| .lazy   | v-model input同步改为change同步 |
+| .number | 转为数值                        |
+| .trim   | 过滤首尾空白字符                 |
+
+## 组件基础
+组件是可复用的 Vue 实例  
+通过 new Vue 创建的 Vue 根实例中
+new Vue() 接收的属性和组件的属性相同，但是多了le
+
+```html
+<!-- 定义组件 -->
+<script>
+// 定义一个名为 button-counter 的新组件
+Vue.component(//(全局注册)
+	'button-counter', //组件名字
+	{
+		data: function () {
+			return {
+				count: 0
+			}
+		},
+		template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+	}
+)
+
+<!-- 引用组件 -->
+<div id="components-demo"> 
+  <button-counter></button-counter><!-- 应用组件 -->
+</div>
+new Vue({ el: '#components-demo' })//创建根组件components-demo
+<script>
+
+```
+
+data:为函数 需要返回一个对象(这样可以保证实例的参数独立)
+
+### 通过 Prop 向子组件传递数据
+ props:[]接收属性作为参数
+
+### 监听子组件事件
+v-on:click="$emit('enlarge-text',event)"  
+$emit('enlarge-text',event)触发一个自定义的事件，在父级引用的地方绑定这个事件,并带上事件参数  
+如果引用处绑定一个方法，参数会自动填充
+
+### 组件上使用 v-model
+- value属性绑定到prop 的value里
+- 抛出input 事件
+```
+<input v-model="searchText">
+//等价于：
+<input
+  v-bind:value="searchText" //自动在prop 内定义了value
+  v-on:input="searchText = $event.target.value"
+>
+```
+
+### 插槽
+组件内使用<slot/>占位，用引用组件时的内容填充
+
+### 动态组件
+```
+  <component
+    v-bind:is="currentTabComponent"
+    class="tab"
+  ></component>
+  
+  computed: {
+    currentTabComponent: function () {
+      return 'tab-' + this.currentTab.toLowerCase()
+    }
+  }
+  ```
+
+  ### 解析 DOM 模板时的注意事项
+有些 HTML 元素，诸如 <ul>、<ol>、<table> 和 <select>，对于哪些元素可以出现在其内部是有严格限制的。  
+有些元素，诸如 <li>、<tr> 和 <option>，只能出现在其它某些特定的元素内部。  
+
+这种情况下使用is="component"属性来指定引用的组件  
+使用下列来源的组件没有这条限制
+- 字符串 (例如：template: '...')
+- 单文件组件 (.vue)
+- &lt script type="text/x-template">
