@@ -433,7 +433,7 @@ $emit('enlarge-text',event)触发一个自定义的事件，在父级引用的�
 ```
 
 ### 插槽
-组件内使用<slot/>占位，用引用组件时的内容填充
+组件内使用 &ltslot/>占位，用引用组件时的内容填充
 
 ### 动态组件
 ```
@@ -450,11 +450,105 @@ $emit('enlarge-text',event)触发一个自定义的事件，在父级引用的�
   ```
 
   ### 解析 DOM 模板时的注意事项
-有些 HTML 元素，诸如 <ul>、<ol>、<table> 和 <select>，对于哪些元素可以出现在其内部是有严格限制的。  
-有些元素，诸如 <li>、<tr> 和 <option>，只能出现在其它某些特定的元素内部。  
+有些 HTML 元素，诸如 &ltul>、&ltol>、&lttable> 和 &ltselect>，对于哪些元素可以出现在其内部是有严格限制的。  
+有些元素，诸如 &ltli>、&lttr> 和 &ltoption>，只能出现在其它某些特定的元素内部。  
 
 这种情况下使用is="component"属性来指定引用的组件  
 使用下列来源的组件没有这条限制
 - 字符串 (例如：template: '...')
 - 单文件组件 (.vue)
 - &lt script type="text/x-template">
+
+## 组件注册
+### 组件名  
+Vue.component('my-component-name', { /* ... */ })
+组件名建议 [W3C 规范][w3c_componentname]字母全小写且必须包含-  
+参考[风格指南](https://cn.vuejs.org/v2/style-guide/#基础组件名-强烈推荐)
+
+[w3c_componentname]:https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
+
+使用keybab-case定义(注册)必须用keybab-case引用
+使用PascalCase定义的在DOM模板中可以用PascalCase或者keybab-case引用,在字符串模板中心内用PascalCase
+
+### 全局注册  
+Vue.component('my-component-name', { /* ... */ })  
+注册之后可以用在任何新创建的 Vue 根实例 (new Vue) 的模板中。  
+子组件中也可用
+
+### 局部注册
+用js对象定义组件  
+在components选项(对象)中声明，对象key即自定义元素名字
+在其子组件中不可用
+```
+var ComponentA = { /* ... */ }
+var ComponentB = {
+  components: {
+    'component-a': ComponentA
+  },
+}
+
+//ES2015
+import ComponentA from './ComponentA.vue'
+export default {
+  components: {
+    ComponentA //即ComponentA: ComponentA
+  },
+}
+```
+
+### 模块系统
+Babel 和 webpack 的模块系统  
+组件放在components 目录下 用import引入  
+
+自动化全局注册：  
+(webpack 的 Vue CLI 3+)
+src/main.js
+```
+import Vue from 'vue'
+import upperFirst from 'lodash/upperFirst'
+import camelCase from 'lodash/camelCase'
+
+const requireComponent = require.context(
+  // 其组件目录的相对路径
+  './components',
+  // 是否查询其子目录
+  false,
+  // 匹配基础组件文件名的正则表达式
+  /Base[A-Z]\w+\.(vue|js)$/
+)
+
+requireComponent.keys().forEach(fileName => {
+  // 获取组件配置
+  const componentConfig = requireComponent(fileName)
+  
+  //componentConfig(req) //Module模块 即import导入的效果
+  //.resolve(req) 搜索相对路径转为项目相对路径
+  //.keys() 匹配的模块名字列表
+  //.id {String} -执行环境的id 即输入参数用在module.hot.accept
+
+
+
+  // 获取组件的 PascalCase 命名
+  const componentName = upperFirst(
+    camelCase(
+      // 剥去文件名开头的 `./` 和结尾的扩展名
+      fileName.replace(/^\.\/(.*)\.\w+$/, '$1')
+    )
+  )
+
+  // 全局注册组件
+  Vue.component(
+    componentName,
+    // 如果这个组件选项是通过 `export default` 导出的，
+    // 那么就会优先使用 `.default`，
+    // 否则回退到使用模块的根。
+    componentConfig.default || componentConfig
+  )
+})
+```
+**全局注册(Vue.component())必须在根 Vue 实例 (通过 new Vue) 创建之前**
+
+[使用require.context实现前端工程自动化](https://www.jianshu.com/p/c894ea00dfec)  
+[webpack](https://webpack.docschina.org/guides/dependency-management/)  
+[upperfirst](https://www.html.cn/doc/lodash/#_upperfirststring)
+[camelcase](https://www.html.cn/doc/lodash/#_camelcasestring)
