@@ -67,6 +67,7 @@ v-bind:href v-on:click //指令的参数
 
 **动态参数**  
 v-bind:[attr] v-on:[event]  
+动态的属性名称  
 参数异常将解释为null 移除绑定  
 不解析空格和引号等
 
@@ -416,9 +417,9 @@ data:为函数 需要返回一个对象(这样可以保证实例的参数独立)
  props:[]接收属性作为参数
 
 ### 监听子组件事件
-v-on:click="$emit('enlarge-text',event)"  
+在模板中：v-on:click="$emit('enlarge-text',event)"  
 $emit('enlarge-text',event)触发一个自定义的事件，在父级引用的地方绑定这个事件,并带上事件参数  
-如果引用处绑定一个方法，参数会自动填充
+如果引用处绑定一个方法，会自动填充事件的参数
 
 ### 组件上使用 v-model
 - value属性绑定到prop 的value里
@@ -467,8 +468,8 @@ Vue.component('my-component-name', { /* ... */ })
 
 [w3c_componentname]:https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
 
-使用keybab-case定义(注册)必须用keybab-case引用
-使用PascalCase定义的在DOM模板中可以用PascalCase或者keybab-case引用,在字符串模板中心内用PascalCase
+使用keybab-case定义(注册)必须用keybab-case引用  
+使用PascalCase定义的在中字符串模板中可以用PascalCase或者keybab-case引用,在DOM模板只能用keybab-case(因为DOM大小写不敏感)
 
 ### 全局注册  
 Vue.component('my-component-name', { /* ... */ })  
@@ -517,17 +518,15 @@ const requireComponent = require.context(
   /Base[A-Z]\w+\.(vue|js)$/
 )
 
+ //componentConfig(req) //Module模块 import导入的效果
+ //.resolve(req) 搜索相对路径转为项目相路径
+ //.keys() 匹配的模块名字列表
+ //.id {String} -执行环境的id 即输入参数用在module.hot.accept
+
 requireComponent.keys().forEach(fileName => {
   // 获取组件配置
   const componentConfig = requireComponent(fileName)
   
-  //componentConfig(req) //Module模块 即import导入的效果
-  //.resolve(req) 搜索相对路径转为项目相对路径
-  //.keys() 匹配的模块名字列表
-  //.id {String} -执行环境的id 即输入参数用在module.hot.accept
-
-
-
   // 获取组件的 PascalCase 命名
   const componentName = upperFirst(
     camelCase(
@@ -552,3 +551,391 @@ requireComponent.keys().forEach(fileName => {
 [webpack](https://webpack.docschina.org/guides/dependency-management/)  
 [upperfirst](https://www.html.cn/doc/lodash/#_upperfirststring)
 [camelcase](https://www.html.cn/doc/lodash/#_camelcasestring)
+
+## Prop
+Prop 的大小写 同[组件名](#组件名)的规则
+```
+通过数组列出
+props: ['title', 'likes', 'isPublished', 'commentIds', 'author']
+
+//通过属性和数据类型列出
+props: {
+  title: String,
+  likes: Number,
+  isPublished: Boolean,
+  commentIds: Array,
+  author: Object
+}
+```
+
+## 传递静态或动态 Prop
+传#递prop：  
+通过属性赋值静态传递  
+通过v-bind传递变量
+
+```
+//传递对象的所有属性 对象的属性即生成标签的属性
+<tag v-bind="{a:123,b:234}"/>
+```
+
+### 单向数据流
+**单向下行绑定** prop只会从父对象传递到子对象和同步刷新，在子组件中是只读的
+1. 需要修改的prop则在data:内定义一个变量来使用
+2. 需要转换类型的则定义一个computed:作为转类型的常量引用
+
+*prop作为引用传递，子组件无法修改prop的引用也无法通过修改prop来改变父组件的对象，但是子组件可以修改引用内的属性值同时影响父组件对象内的属性值*
+
+### Prop 验证
+```javascript
+Vue.component('my-component', {
+  props: {
+    // 基础的类型检查 (`null` 和 `undefined` 会通过任何类型验证)
+    propA: Number,
+    // 多个可能的类型
+    propB: [String, Number],
+   
+    propC: {
+      type: String,
+      required: true, // 必填的字符串
+      default: 100// 带有默认值的数字
+    },
+    // 带有默认值的对象
+    propE: {
+      type: Object,
+      // 对象或数组默认值必须从一个工厂函数获取
+      default: function () {
+        return { message: 'hello' }
+      }
+    },
+    // 自定义验证函数
+    propF: {
+      validator: function (value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['success', 'warning', 'danger'].indexOf(value) !== -1
+      }
+    }
+  }
+})
+```
+> prop 会在一个组件实例创建之前验证，实例的属性 (如 data、computed 等) 在 default 或 validator 函数中不可用。
+
+可使用原生构造函数或自定义的构造函数来验证
+用于验证的原生构造函数
+- String
+- Number
+- Boolean
+- Array
+- Object
+- Date
+- Function
+- Symbol
+
+在DOM中引用组件时，非prop定义的属性也会自动加到组件的根元素上
+
+1. 传入的属性会替换掉模板内的属性
+2. class 和 style的属性会合并
+
+### 禁用特性继承
+引用组件时添加的属性将绑定在组件根元素上  
+在创建组件的属性中添加 inheritAttrs: false 则不继承根元素属性(不会影响 style 和 class)  
+$attrs 在模板中引用没有声明的prop属性
+```
+<template>
+	<div>
+		attrs: {{$attrs['gender']}}  
+	</dir>
+</template>
+```
+
+## 自定义事件
+### 事件名
+事件名不会keybab-case 和pascalCase自动转换，要完全匹配
+
+### 自定义组件的 v-model
+2.2.0+ 新增  
+v-model 用名为 value 的 prop 和名为 input 的事件  
+创建组件的model:属性可以重新设置v-model绑定的prop和事件
+```
+ model: {
+    prop: 'checked',
+    event: 'change'
+}
+```
+
+事件的.native修饰符：监听原生DOM事件(vue中部分事件会执行默认动作而静默掉)
+
+通过$listeners将模板内某个标签的所有事件转移作为组件的事件  
+以下是一个完全透明的包裹器：
+```javascript
+Vue.component('base-input', {
+  inheritAttrs: false,
+  props: ['label', 'value'],
+  computed: {
+    inputListeners: function () {//给模板里的标签注册事件处理回调
+      var vm = this
+      // `Object.assign` 将所有的对象合并为一个新对象
+      return Object.assign({},//合并对象
+        // 我们从父级添加所有的监听器
+        this.$listeners,//引用时注册的回调
+        // 然后我们添加自定义监听器，
+        // 或覆写一些监听器的行为
+        {
+          // 这里确保组件配合 `v-model` 的工作
+          input: function (event) {//注册input回调
+            vm.$emit('input', event.target.value)//触发模板的vevnt事件 //为什么还需要这个
+          }
+        }
+      )
+    }
+  },
+  template: `
+    <label>
+      {{ label }}
+      <input
+        v-bind="$attrs" //添加未命名的prop
+        v-bind:value="value"
+        v-on="inputListeners"
+      >
+    </label>
+  `
+})
+```
+
+[vue中'. native'修饰符的使用](https://blog.csdn.net/qq_29468573/article/details/80771625)
+
+### sync 修饰符
+2.3.0+ 新增
+
+一般使用this.$emit('update:myPropName', newTitle)更新父对象的属性
+
+```
+<text-document
+  v-bind:title="doc.title"
+  v-on:update:title="doc.title = $event"
+></text-document>
+
+//缩写为
+<text-document v-bind:title.sync="doc.title"></text-document>
+
+//同步绑定对象的属性
+<text-document v-bind.sync="doc"></text-document>
+```
+.sync修饰符只能绑定属性名，不能是表达式
+
+## 插槽
+
+2.6.0 中用v-slot 合并了插槽和作用域插槽(slot slot-scope)
+
+父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。
+
+在组件的模板中 slot 标签内的内容作为后备内容
+
+### 具名插件
+(&lt 2.6.0 的slot语法)
+
+```html
+<!-- 组件模板 -->
+<slot name="header"></slot>
+<slot></slot><!-- 隐含名字“default” -->
+<slot name="footer"></slot>
+
+<!-- 引用 -->
+<base-layout>
+  <template v-slot:header>
+    <h1>Here might be a page title</h1>
+  </template>
+
+	<!-- default域 -->
+  <p>A paragraph for the main content.</p>
+  <p>And another one.</p>
+
+  <template v-slot:footer>
+    <p>Here's some contact info</p>
+  </template>
+</base-layout>
+```
+
+### 作用域插槽
+1. 组件内通过给slot标签v-bind绑定变量到slot的prop中
+2. 引用时使用 v-slot:xxx="slotProps"获取slot prop
+```html
+<!-- 组件模板 -->
+<span>
+  <slot v-bind:user="user">
+    {{ user.lastName }}
+  </slot>
+</span>
+
+<!-- 引用 -->
+<current-user>
+  <template v-slot:default="slotProps">
+    {{ slotProps.user.firstName }}
+  </template>
+</current-user>
+<!-- 或者 -->
+<!-- 只有default插槽可以将v-slot放在模板标签内 -->
+<!-- 缩写语法不能和具名插槽混用!!!!只使用default插槽时才能使用缩写 -->
+<current-user v-slot="slotProps">
+  {{ slotProps.user.firstName }}
+</current-user>
+```
+
+### 解构插槽 Prop
+插槽的工作原理相当于传递一个包含插槽内容和参数的函数到组件中  
+因此在支持的环境下 (单文件组件或现代浏览器)使用组件引入插槽prop时可以使用解构赋值 重命名 后备值等方法
+
+[单文件组](https://cn.vuejs.org/v2/guide/single-file-components.html)  
+[现代浏览器](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#浏览器兼容)  
+[ES2015解构(解构赋值)](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#解构对象)  
+
+```html
+<current-user v-slot="{ user }">
+  {{ user.firstName }}
+</current-user>
+
+<current-user v-slot="{ user: person }">
+  {{ person.firstName }}
+</current-user>
+
+<current-user v-slot="{ user = { firstName: 'Guest' } }">
+  {{ user.firstName }}
+</current-user>
+```
+
+### 动态插槽名
+
+即[动态指令参数](#动态参数)语法，用表达式来指定插槽
+```
+<base-layout>
+  <template v-slot:[dynamicSlotName]>
+    ...
+  </template>
+</base-layout>
+```
+
+### 具名插槽缩写
+v-slot: 缩写为 #
+```html
+<base-layout>
+  <template #header>
+  </template>
+
+  <p>A paragraph for the main content.</p>
+
+  <template #footer>
+  </template>
+</base-layout>
+
+
+<current-user #default="{ user }">
+  {{ user.firstName }}
+</current-user>
+
+<!-- <current-user #="{ user }"> 这样是无效的 -->
+```
+
+### 示例
+```html
+<!-- 组件模板 -->
+<ul>
+  <li
+    v-for="todo in filteredTodos"
+    v-bind:key="todo.id"
+  >
+    <slot name="todo" v-bind:todo="todo">
+      <!-- 后备内容 -->
+      {{ todo.text }}
+    </slot>
+  </li>
+</ul>
+
+<!-- 引用 -->
+<todo-list v-bind:todos="todos">
+  <template v-slot:todo="{ todo }">
+    <span v-if="todo.isComplete">✓</span>
+    {{ todo.text }}
+  </template>
+</todo-list>
+```
+[Vue Virtual Scroller](https://github.com/Akryum/vue-virtual-scroller) 用于在DOM中的任何位置呈现组件的模板  
+[Vue Promised](https://github.com/posva/vue-promised) 异步处理过程的显示
+[Portal Vue](https://github.com/LinusBorg/portal-vue) 滚动浏览组件
+
+## 动态组件 异步组件
+### keep-alive
+
+使用keep-alive缓存动态标签，保存状态避免反复重建  
+组件必须有自己的名字(name选项 局部/全局注册)  
+[动态组件](#动态组件)  
+[keep-alive](https://cn.vuejs.org/v2/api/#keep-alive)
+
+```
+<!-- 失活的组件将会被缓存！-->
+<keep-alive>
+  <component v-bind:is="currentTabComponent"></component>
+</keep-alive>
+```
+
+### 异步组件
+从服务器加载一个模块,使用工厂函数会异步解析组件定义，只有需要被渲染的时候才触发工厂函数并且缓存起来  
+//注册组件可以由promise方法来提供
+```javascript
+Vue.component('async-example', function (resolve, reject) {
+  setTimeout(function () {//ajax
+    // 向 `resolve` 回调传递组件定义
+    resolve({
+      template: '<div>I am async!</div>'
+    })
+  }, 1000)
+})
+```
+
+使用 webpack 的 code-splitting (拆分代码 按需加载)  
+[code-splitting](https://webpack.js.org/guides/code-splitting/)
+
+```javascript
+Vue.component('async-webpack-example', function (resolve) {
+  // 这个特殊的 `require` 语法将会告诉 webpack
+  // 自动将你的构建代码切割成多个包，这些包
+  // 会通过 Ajax 请求加载
+  require(['./my-async-component'], resolve)
+})
+
+//使用ES2015 语法
+//全局注册
+Vue.component(
+  'async-webpack-example',
+  () => import('./my-async-component')
+)
+//局部注册
+new Vue({
+  components: {
+    'my-component': () => import('./my-async-component')
+  }
+})
+
+
+//2.3.0+ 新增
+//这里的异步组件工厂函数也可以返回一个如下格式的对象：
+
+const AsyncComponent = () => ({
+  // 需要加载的组件 (应该是一个 `Promise` 对象)
+  component: import('./MyComponent.vue'),
+  // 异步组件加载时使用的组件
+  loading: LoadingComponent,
+  // 加载失败时使用的组件
+  error: ErrorComponent,
+  // 展示加载时组件的延时时间。默认值是 200 (毫秒)
+  delay: 200,
+  // 如果提供了超时时间且组件加载也超时了，
+  // 则使用加载失败时使用的组件。默认值是：`Infinity`
+  timeout: 3000
+})
+```
+Vue.component > {name,{component_data}}
+Vue.component > promise > {name,{component_data}}
+Vue.component > conf_obj > promise > {name,{component_data}}
+
+
+不支持[Browserify](http://browserify.org)
+[browserify-handbook](https://www.npmjs.com/package/browserify-handbook)
