@@ -1038,4 +1038,4 @@ Vue.component('hello-world', {
 this.$forceUpdate()刷新  
 影响实例本身和插入插槽内容的子组件，而不包含子组件
 
-DOM添加v-once 属性定义只渲染一次
+DOM添加v-once 属性定义静态的模板，只渲染一次
