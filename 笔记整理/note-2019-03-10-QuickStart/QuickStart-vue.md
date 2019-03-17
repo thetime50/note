@@ -939,3 +939,103 @@ Vue.component > conf_obj > promise > {name,{component_data}}
 
 不支持[Browserify](http://browserify.org)
 [browserify-handbook](https://www.npmjs.com/package/browserify-handbook)
+
+## 处理边界情况
+### 访问元素 组件
+通过 this.$store 访问根实例，引用根实例的属性和方法  
+(建议用vuex来管理状态)
+
+通过 this.$parent 访问父级对象
+(上下文环境发生变化时容易出问题，建议用[依赖注入](#依赖注入))
+
+访问子组件
+```
+//通过ref赋予子组件ID引用
+<tag ref="comtid"/>
+
+//通过id引用子组件
+this.$refs.comtid
+```
+和for一起用时this.$refs.comtid将是一个数组
+1. $refs在组件渲染完成之后生效
+2. 不是响应式的
+3. 避免在模板或计算属性中访问 
+
+依赖注入  
+同样是非响应式的 建议用vuex替代
+```
+//通过provide属性提供
+provide: function () {
+  return {
+    getMap: this.getMap
+  }
+}
+//在任何后代中可以通过inject引用
+inject: ['getMap']
+```
+
+### 程序化的事件侦听器
+- $on(eventName, eventHandler) 侦听事件
+- $once(eventName, eventHandler) 侦听一次性事件
+- $off(eventName, eventHandler) 停止侦听事件
+```javascript
+//使用时间绑定统一管理数据生成和释放
+mounted: function () {
+  this.attachDatepicker('startDateInput')
+  this.attachDatepicker('endDateInput')
+},
+methods: {
+  attachDatepicker: function (refName) {
+    var picker = new Pikaday({
+      field: this.$refs[refName],
+      format: 'YYYY-MM-DD'
+    })
+    this.$once('hook:beforeDestroy', function () {
+      picker.destroy()
+    })
+  }
+}
+```
+
+### 循环引用
+引用自身  
+用Vue.component全局注册组件，ID将作为组件的name属性  
+在组件内也可引用自身
+
+组件间循环引用  
+ webpack 或 Browserify构造工具会陷入循环  
+ ```javascript
+//动态注册组件
+beforeCreate: function () {
+  this.$options.components.TreeFolderContents = require('./tree-folder-contents.vue').default
+}
+//或者
+//webpack 的异步 import
+components: {
+  TreeFolderContents: () => import('./tree-folder-contents.vue')
+}
+ ```
+
+### 模板定义的替代品
+内联模板  
+标签的inline-template属性存在时即作为组件模板  
+建议用组件的template对象或template 标签定义模板
+
+X-Template  
+通过type="text/x-template" 的script定义，id索引
+```
+//定义模板
+script type="text/x-template" id="hello-world-template">
+  <p>Hello hello hello</p>
+</script>
+//组件通过ID引用模板
+Vue.component('hello-world', {
+  template: '#hello-world-template'
+})
+```
+
+### 控制更新
+this.$forceUpdate()刷新  
+影响实例本身和插入插槽内容的子组件，而不包含子组件
+
+DOM添加v-once 属性定义只渲染一次
