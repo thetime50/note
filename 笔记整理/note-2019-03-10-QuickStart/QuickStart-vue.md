@@ -1039,3 +1039,148 @@ this.$forceUpdate()刷新
 影响实例本身和插入插槽内容的子组件，而不包含子组件
 
 DOM添加v-once 属性定义静态的模板，只渲染一次
+
+## 进入 离开 列表过渡
+Vue 在插入、更新或者移除 DOM 时实现过渡效果的方法
+- 在 CSS 过渡和动画效果
+- 第三方 CSS 动画库，如 Animate.css
+- 使用 JavaScript 钩子函数，直接操作 DOM
+- 使用第三方 JavaScript 动画库，如 Velocity.js
+
+### 单元素 组件的过渡
+Vue 的 transition 组件，可用于
+1. 条件渲染 (使用 v-if)
+2. 条件展示 (使用 v-show)
+3. 动态组件
+4. 组件根节点
+
+transition 组件的处理方式
+1. 使用css动画的自动添加删除css类名
+2. 使用js钩子函数将在恰当和时候被调用
+3. 不使用动画的将在浏览器逐帧动画的下一帧执行；
+
+使用transition标签包裹过渡DOM元素 用name标识  
+用v-if v-show 动态组件等在transition标签内控制过渡DOM元素  
+过渡的DOM元素必须在transition内的根节点上
+用name-enter-active 等css控制过渡过程的渲染效果
+
+未命名的transition默认为v-xxx
+
+### 过度动画的类名
+|     |                |   |
+| :-- | :------------- | :-- |
+| 1.  | v-enter        | 渲染为起始状态后一帧删除 |
+| 2.  | v-enter-active | 整个过渡过程 可定义曲线等 |
+| 3.  | v-enter-to     | 插入后下一帧生效结束状态 |
+| 4.  | v-leave        |  |
+| 5.  | v-leave-active |  |
+| 6.  | v-leave-to     |  |
+
+![transition](img/QuickStart-vue/transition.png)
+
+### css过渡
+```html
+<div id="example-1">
+  <button @click="show = !show">
+    Toggle render
+  </button>
+  <transition name="slide-fade">
+    <p v-if="show">hello</p> <!-- @transitionend= -->
+  </transition>
+</div>
+
+<script>
+new Vue({
+  el: '#example-1',
+  data: {
+    show: true
+  }
+})
+</script>
+
+<style>
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
+```
+
+### css动画
+使用css的 @keyframes name-in 创建动画  
+在-active样式中用animation引入动画
+```html
+<div id="example-2">
+  <button @click="show = !show">Toggle show</button>
+  <transition name="bounce">
+    <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+  </transition>
+</div>
+<script>
+new Vue({
+  el: '#example-2',
+  data: {
+    show: true
+  }
+})
+</script>
+<style>
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+</style>
+
+```
+
+### 定义过渡的类名
+使用自定义过渡效果类名，可引用第三方动画效果  
+自定义效果类名优先级高于普通的类名
+
+- enter-class
+- enter-active-class
+- enter-to-class (2.1.8+)
+- leave-class
+- leave-active-class
+- leave-to-class (2.1.8+)
+
+```html
+<link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+
+<div id="example-3">
+  <button @click="show = !show">
+    Toggle render
+  </button>
+  <transition
+    name="custom-classes-transition"
+    enter-active-class="animated tada"
+    leave-active-class="animated bounceOutRight"
+  >
+    <p v-if="show">hello</p>
+  </transition>
+</div>
+```
+
+transitionend 或 animationend 事件监听过渡或动画结束  
