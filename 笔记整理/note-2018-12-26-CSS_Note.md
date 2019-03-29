@@ -1310,8 +1310,8 @@ css中.class_name对应html里的class='class_name'属性
 #### 多类选择器
 - 多类的元素
 html元素中class属性内类名间用空格分隔 class="class_name1 class_name2"
+选择器使用 .class_name1.class_name2
 元素**需要**包含选择器中的所有类名才匹配
-元素**只要**包含选择器中的所有类名即可匹配
 \<p class='a b'\>可以同时匹配选择器.a/.b/.a.b
 
 - 多类的选择器
@@ -1365,6 +1365,25 @@ p[class~="important"] {color: red;}
 #### 特定属性选择器
 [att|="val"]匹配val必须是完整且唯一的单词，或者以-分隔开
 [lang|=en]     --\>  \<p lang="en"\>  \<p lang="en-us"\>
+
+```html
+<style>
+		[tyy~='ijk'] {
+			background-color:#ff8
+		}
+		[txx|='abc'] {
+			background-color:#88f
+		}
+</style>
+<p tyy='ijk'>ijk</p>                 <!-- 匹配 -->
+<p tyy='ijk lmn'>ijk lmn</p>         <!-- 匹配 -->
+<p tyy='ijk-lmn'>ijk-lmn</p>         <!--  -->
+<p tyy='lmn-ijk-lmn'>lmn-ijk-lmn</p> <!--  -->
+<p txx='abc'>abc</p>                 <!-- 匹配 -->
+<p txx='abc def'>abc def</p>         <!--  -->
+<p txx='abc-def'>abc-def</p>         <!-- 匹配 -->
+<p txx='def-abc-def'>def-abc-def</p> <!--  -->
+```
 
 ### 后代选择器
 [后代选择器](#后代选择器)
