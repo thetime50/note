@@ -1363,7 +1363,7 @@ p[class~="important"] {color: red;}
 | \[abc*="def"\] | 包含子串 "def" 的元素(包含空格标点等) |
 
 #### 特定属性选择器
-[att|="val"]匹配val必须是完整且唯一的单词，或者以-分隔开
+[att|="val"]匹配val必须是完整且唯一的单词，或者以-分隔开 (以var开头-或空格隔开)  
 [lang|=en]     --\>  \<p lang="en"\>  \<p lang="en-us"\>
 
 ```html
@@ -1378,11 +1378,11 @@ p[class~="important"] {color: red;}
 <p tyy='ijk'>ijk</p>                 <!-- 匹配 -->
 <p tyy='ijk lmn'>ijk lmn</p>         <!-- 匹配 -->
 <p tyy='ijk-lmn'>ijk-lmn</p>         <!--  -->
-<p tyy='lmn-ijk-lmn'>lmn-ijk-lmn</p> <!--  -->
+<p tyy='opq-ijk-lmn'>opq-ijk-lmn</p> <!--  -->
 <p txx='abc'>abc</p>                 <!-- 匹配 -->
 <p txx='abc def'>abc def</p>         <!--  -->
 <p txx='abc-def'>abc-def</p>         <!-- 匹配 -->
-<p txx='def-abc-def'>def-abc-def</p> <!--  -->
+<p txx='ghi-abc-def'>ghi-abc-def</p> <!--  -->
 ```
 
 ### 后代选择器
