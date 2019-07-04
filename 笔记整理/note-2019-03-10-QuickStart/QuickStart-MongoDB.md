@@ -90,8 +90,32 @@ BASE NoSQL数据库对可用性 一致性的弱要求原则
 "Soft state" 可以理解为"无连接"的, 而 "Hard state" 是"面向连接"的
 - Eventual Consistency -- 最终一致性， 也是是 ACID 的最终目的。
 
-# NoSQL 数据库分类
+### NoSQL 数据库分类
 
 列存储 文档存储 key-value存储 图存储 对象存储 xml数据库
 
 [NoSQL 数据库分类](https://www.runoob.com/mongodb/nosql.html#NoSQL-数据库分类)
+
+## MongoDB 简介
+数据由key=>value组成，存储为文档，value可以是文档/数组等
+
+特点
+- 记录中设置属性索引排序
+- 通过本地或者网络创建数据镜像扩展
+- 分布式、分担负载
+- 用json形式标记的查询指令
+- updata替换文档/字段
+- Map/reduce 批量处理/聚合
+- Map调用emit(key,value)遍历记录，传给reduce处理
+- 用db.runCommand/mapreduce执行命令
+- GridFS存放小文件
+- 服务端存储/执行脚本
+
+### mongoDB工具
+内置Munin 系统/网络监控工具  
+内置Gangila 系统监视工具  
+Cacti 查看cpu负载/带宽利用率/监控MongoDB插件
+
+GUI
+- Fang of Mongo 网页式
+- Mongo3 – Ruby
