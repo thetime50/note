@@ -126,8 +126,8 @@ GUI
 
 ### 创建数据库
 在根目录下创建数据库文件夹data/db  
-在MongoDB安装目录内(mongodb\bin)运行 mongod --dbpatch D:\data\db 设置数据库路径  
-运行nongo.exe 连接数据库
+在MongoDB安装目录内(mongodb\bin)运行 mongod --dbpath D:\data\db 设置数据库路径  
+运行mongo.exe 连接数据库
 
 **配置mongo服务**  
 创建文件夹\data\db \data\log  
@@ -277,13 +277,6 @@ dbname.system.*
 
 ### 数据类型
 
-
-## 创建集合
-```
-db.createCollection(name,options)
-```
-
-
 | 数据类型 | 描述 |
 | :---- | :---- |
 | String | 字符串 UTF-8 编码 |
@@ -326,3 +319,72 @@ newObject.str //16进制字符串
 - 日期  
   Unix格式
   new Date()  或 ISODate()
+
+## 连接
+在MongoDB安装目录bin下运行mongodb启动服务(*之前不是说运行mongod么*)
+
+使用mongodb shell连接服务
+URL语法
+```
+mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+```
+- mongodb:// 协议
+- username:passworld@ 用户 密码
+- hostx 连接服务器/复制集地址
+- portx 指定端口
+- /database 指定连接的数据库 默认位test
+- ?options (/?options)连接选项name=value& 或name=value;
+
+- replicaSet=name	验证replica set的名称。 Impliesconnect=replicaSet.
+- slaveOk=true|false	
+  - true:
+    - connect=direct 驱动会连接第一台机器，即使这台服务器不是主服务器
+    - 在connect=replicaSet模式下，驱动会发送所有的写请求到主并且把读取操作分布在其他从服务器。
+  - false:
+    - connect=direct 驱动会自动找寻主服务器
+    - connect=replicaSet 驱动仅仅连接主服务器，并且所有的读写命令都连接到主服务器。
+- safe=true|false
+  - true: 在执行更新操作之后，驱动都会发送getLastError命令来确保更新成功。(还要参考 wtimeoutMS).
+- w=n	驱动添加 { w : n } 到getLastError命令. *应用于safe=true*。
+- wtimeoutMS=ms	驱动添加 { wtimeout : ms } 到 getlasterror 命令. *应用于 safe=true*.
+- fsync=true|false true: 驱动添加 { fsync : true } 到 getlasterror 命令.*应用于 safe=true*.
+- journal=true|false	如果设置为 true, 同步到 journal (在提交到数据库前写入到实体中). *应用于 safe=true*
+- connectTimeoutMS=ms	可以打开连接的时间。
+- socketTimeoutMS=ms	发送和接受sockets的时间。
+
+```
+mongodb://localhost
+```
+
+## 创建数据库
+- use DATABASE_NAME 创建或切换数据库 (需要插入数据后才能用show dbs显示)
+- db.COLLECTION_NAME.insert({key:value}) 插入数据
+
+插入数据后才真正创建数据库
+
+## 删除数据库
+- db.dropDatabase() 删除当前数据库
+- db.createCollection('xxx') 创建集合
+- db.collection.drop() 删除集合
+
+## 创建集合
+- db.createCollection(name,options)
+  - name: collection name
+  - options:
+    - capped: bool capped collection 固定集合
+    - autoIndexdId: bool(false) 自动在_id字段创建索引
+    - size: word capped is true use
+    - max: capped 文档最大数量
+
+- show collections (show tables) 查看集合
+- db.COLLECTION_NAME.insert({key:value}) 插入(并创建)集合
+
+## 删除集合
+- db.COLLECTION_NAME.drop() 成功返回true
+
+## 插入文档
+MongoDB文档以BJSON格式存储
+
+- db.COLLECTION_NAME.insert({xxx}) 向集合中插入文档(_id不允许重复)
+- db.COLLECTION_NAME.find() 显示集合下的文件
+- db.COLLECTION_NAME.save() 插入(添加)文档 指定_id则覆盖文档
