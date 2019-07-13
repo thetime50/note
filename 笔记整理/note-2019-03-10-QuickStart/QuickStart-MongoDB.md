@@ -1,6 +1,10 @@
 # QuickStart-MongoDB
 [link](https://www.runoob.com/mongodb/nosql.html)
 
+```
+'E:\Program Files\MongoDB\Server\4.0\bin'
+```
+
 ## 数据库简介
 MongoDB是非关系型数据库(NoSQL Not-Only-SQL 不仅仅是SQL)  
 RDMBS 关系型数据库
@@ -104,7 +108,7 @@ BASE NoSQL数据库对可用性 一致性的弱要求原则
 - 通过本地或者网络创建数据镜像扩展
 - 分布式、分担负载
 - 用json形式标记的查询指令
-- updata替换文档/字段
+- update()替换文档/字段
 - Map/reduce 批量处理/聚合
 - Map调用emit(key,value)遍历记录，传给reduce处理
 - 用db.runCommand/mapreduce执行命令
@@ -171,7 +175,7 @@ mongod.exe --remove
 db
 
 //插入记录 查询
-db.runoob.inseert({x:10})
+db.runoob.insert({x:10})
 db.runoob.find()
 
 ```
@@ -388,3 +392,84 @@ MongoDB文档以BJSON格式存储
 - db.COLLECTION_NAME.insert({xxx}) 向集合中插入文档(_id不允许重复)
 - db.COLLECTION_NAME.find() 显示集合下的文件
 - db.COLLECTION_NAME.save() 插入(添加)文档 指定_id则覆盖文档
+
+## 更新文档
+
+- update
+```javascript
+db.dollection.update(
+  <query/>,
+  <update/>,
+  {
+    upsert:<bollean/>,
+    multi:<bollean/>,
+    writeConcern:<document/>,
+  }
+)
+```
+
+- query: 查询条件 (key:value)(类似SQL update查询内的where)
+- update: 更新的对象和操作符($,$inc),(类似SQL update查询的set)
+- upset: 可选(flase) 如果不存在记录是否自动插入objNew(自动创建)
+- multi: 可选(false) 更新所有匹配记录
+- writeConcern 可选 定义抛出异常的级别
+
+```javascript
+//json格式化输出
+db.COLLECTION_NAME.find().prettry()
+```
+
+- save
+```javascript
+db.COLLECTRY_NAME.save(
+  <document/>,
+  {
+    writeConcern:<document/>,
+  }
+)
+```
+- document 文档数据{'_id':objectId("xxx"),xxx:xxx}
+- writeConcern 异常级别
+
+## 删除文档
+执行删除前建议先执行find确认执行条件正确
+
+```javascript
+db.COLLECTION_NAME.remove(
+  <query/>,
+  {
+    justOne:<Boolean/>,
+    writeConcern:<document/>
+  }
+)
+```
+- query: 可选 删除条件
+- justOne: 可选(false) 只删除一个文档
+- writeConcern: 抛出异常级别
+
+## 查询文档
+find()查找文档 以非结构化的方式显示
+```javascript
+db.COLLECTION_NAME.find(query.projection)
+db.COLLECTION_NAME.find().pretty()
+```
+- query: 可选 查询条件
+- projection: 可选 使用投影操作符指定返回的键
+
+### 数值比较
+MongoDB 与 RDBMS Where 条件查询指令对比
+| 操作    | 格式                | RDBMS Where        |
+| :----- | :------------------ | :----------------- |
+| 等于    | {key:value}         | where key=value    |
+| 小于    | {key:{$lt:value}}   | where key < value  |
+| 小于等于 | {key:{$lte:value}} | where key <= value |
+| 大于     | {key:{$gt:value}}  | where key > value  |
+| 大于等于 | {key:{$gte:value}} | where key >= value |
+| 不等于   | {key:{$ne:value}}  | where key != value |
+
+### 逻辑条件
+and 传入多个key value用','隔开
+(*WHERE中 where key=value AND key=value*)
+
+or 关键字$or {$or:[{key:value},{key:value}]}
+(*where 中 where key=value OR key=value*)
