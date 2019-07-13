@@ -2,7 +2,9 @@
 [link](https://www.runoob.com/mongodb/nosql.html)
 
 ```
-'E:\Program Files\MongoDB\Server\4.0\bin'
+e:
+cd 'E:\Program Files\MongoDB\Server\4.0\bin'
+./mongo shell
 ```
 
 ## 数据库简介
@@ -393,6 +395,8 @@ MongoDB文档以BJSON格式存储
 - db.COLLECTION_NAME.find() 显示集合下的文件
 - db.COLLECTION_NAME.save() 插入(添加)文档 指定_id则覆盖文档
 
+- db.COLLECTION_NAME.insertMany([])
+
 ## 更新文档
 
 - update
@@ -473,3 +477,161 @@ and 传入多个key value用','隔开
 
 or 关键字$or {$or:[{key:value},{key:value}]}
 (*where 中 where key=value OR key=value*)
+
+## type操作符
+$type
+
+| 类型                   | 数值 |
+| :--------------------- | :---|
+| Double                 | 1   |
+| String                 | 2   |
+| Object                 | 3   |
+| Array                  | 4   |
+| Binary data            | 5   |
+| Undefined              | 6 已废弃 |
+| Object id              | 7   |
+| Boolean                | 8   |
+| Date                   | 9   |
+| Null                   | 10  |
+| Regular Expression     | 11  |
+| JavaScript             | 13  |
+| Symbol                 | 14  |
+| JavaScript (with scope)| 15  |
+| 32-bit integer         | 16  |
+| Timestamp              | 17  |
+| 64-bit integer         | 18  |
+| Min key 255 Query with | -1. |
+| Max key                | 127 |
+
+```javascript
+db.COLLECTION_NAME.find({"title":{$type:2}})
+db.COLLECTION_NAME.find({"title":{$type:"string"}})
+```
+
+## Limit方法Skip
+.limit()方法读取指定记录条数  
+.skip()方法跳过指定条数的数据
+
+```javascript
+db.COLLECTION_NAME.find().limit(n)
+db.COLLECTION_NAME.find().limit(m).skip(m)//谁先谁后没有区别吗
+```
+
+## sort方法
+.sort({key:1}) 升序 .sort({key:-1})降序
+
+```javascript
+db.COLLECTION_NAME.find().sort({key:1})
+```
+
+## 索引
+使用.createIndex()创建索引 对列进行排序
+
+```javascript
+db.COLLECTION_NAME.createIndex(keys,options)
+```
+- keys: {key1:1,key2:-1} keyn指定索引终字段 1为升序 -1降序
+- options: 可选
+| Parameter | Type | Description |
+| :-- | :-- | :-- |
+| background | Boolean | (false)创建索引时在后台创建，避免阻塞数据库操作 |
+| unique | Boolean | (false)创建索引为唯一索引 |
+| name | string | 索引名称，默认使用字段名和排序生成 |
+| dropDups | Boolean | 3.0.0弃用 创建唯一索引删除重复记录 |
+| sparse | Boolean | (false)索引的字段不存在的数据不回加入索引 |
+| expireAfterSeconds | integer | 设定集合生存时间 |
+| v | index version | 版本索引号 |
+| weights | document | 权重 1-99,999 |
+| default_language | string | 用于文本索引停用词的词干规则列表，默认英语 |
+| language_override | string | 用于文本索引指定包含在文档中的字段名，默认langrage |
+
+## aggregate
+aggregate聚合 统计平均值/求和  
+```javascript
+db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+```
+
+```javascript
+//data
+{
+   _id: ObjectId(7df78ad8902e)
+   title: 'Neo4j Overview', 
+   description: 'Neo4j is no sql database',
+   by_user: 'Neo4j',
+   url: 'http://www.neo4j.com',
+   tags: ['neo4j', 'database', 'NoSQL'],
+   likes: 750
+},
+
+db.COLLECTION_NAME.aggregate([{$group:{_id:"$by_user",num_tutorial:{$sum:1}}}])
+// ([$group{过滤器,统计数据}])
+//类似SQL select by_user,count(*) from mycol group by by_user
+>
+{
+   "result" : [
+      {
+         "_id" : "runoob.com",
+         "num_tutorial" : 2
+      },
+      {
+         "_id" : "Neo4j",
+         "num_tutorial" : 1
+      }
+   ],
+   "ok" : 1
+}
+```
+
+[\[link ->\]](https://www.runoob.com/mongodb/mongodb-aggregate.html)
+
+| 表达式    | 描述 |
+| :------   | :-- |
+| $sum      | 求和 |
+| $avg      | 平均数 |
+| $min      | 最小值 |
+| $max      | 最大值 |
+| $push     | 将取得的值插入到数组中 |
+| $addToSet | 插入到数组 但不创建副本 |
+| $first    | 按排序获取第一个数据 |
+| $last     | 按排序获取最后一个数据 |
+
+### 管道
+同linux 当前命令的输出结果作为下一条命令的参数  
+表达式: 处理文档并输出，是无状态的，只能用于处理当前聚合的文档
+- $project: 修改文档结构，重命名、增加删除域，可创建计算结果和嵌套文档
+- $match: 过滤数据
+- $limit: 限制聚合管道返回的文档数
+- $skip: 跳过指定文档返回剩余文档
+- $unwind: 拆分某一数组类型字段
+- $group: 将集合中的文档分组 用于统计
+- $sort: 文档排序
+- $geoNear: 输出接近某一地理位置的有序文档
+
+```javascript
+//只保留_id title author字段
+db.col.aggregate({
+  {$project:{
+    title:1,
+    author:1
+  }}
+})
+//去除_id字段
+db.col.aggregate({
+  {
+    $project{
+      _id:0,
+      title:1,
+      author:1
+    }
+  }
+})
+//过滤
+db.col.aggregate([
+  {$match:{score:{$gt:70,$lt:90}}},//先过滤数据
+  {$group:{_id:null,count:{$sum:1}}}//将结果分组
+])
+//$skip
+db.col.aggregate({$skip:5})
+```
+
+## 复制 副本集
