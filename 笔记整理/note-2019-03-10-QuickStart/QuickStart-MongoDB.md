@@ -254,7 +254,7 @@ capped collection内保存的文档和文档在磁盘上的位置由插入顺序
 需要显式的创建capped collection ，指定字节大小分配空间，保证磁盘上的存储位置不变  
 
 ```
-db.createcCollection("mycoll",{capped:true,size:100000})
+db.createCollection("mycoll",{capped:true,size:100000})
 ```
 
 - 能够添加对象
@@ -635,3 +635,25 @@ db.col.aggregate({$skip:5})
 ```
 
 ## 复制 副本集
+复制用来吧数据同步到多个服务器 提供冗余备份提高可用性  
+容灾 无需停机 分布式读取
+
+主节点处理客户端请求，从节点复制主节点数据  
+从节点定期轮询主节点的操作记录oplog,然后对数据副本执行操作  
+![replication](./img/QuickStart-MongoDB/replication.png)
+
+- n个节点的集群 任何节点都可以做主节点
+- 写入操作在主节点上
+- 故障转移 自动回复
+
+```javascript
+//启动服务
+mongod --prot "PORT" --dbpatch "PATH" --repSet "REPLICA_SET_INSTANCE_NAME"
+// mongod --port 27017 --dbpath "D:\set up\mongodb\data" --replSet rs0
+
+//副本集添加成员
+INSTAMCE_NAME.add(HOST:PORT)
+//rs.add("mongod1.net:27017")
+```
+只能通过主节点将Mongo服务添加到副本集中 sb.isMaster()查询当前节点是否为主节点  
+副本集主节点宕机后父节点会变为主节点
