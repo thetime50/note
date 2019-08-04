@@ -1,5 +1,6 @@
 # QuickStart-Scss
 
+# 快速入门
 [link](https://www.sasscss.com/getting-started/)
 
 - [SCSS 与 Sass 异同](http://sass.bootcss.com/docs/scss-for-sass-users/)  
@@ -236,3 +237,26 @@ $name: value
 (先编译双方嵌套的语法 再处理继承的语法)  
 - 在同一嵌套结构内使用继承，在同一个外层选择器下包含被继承选择器和继承的选择器  
 (在当前嵌套结构内处理继承，再处理嵌套结构)
+
+```scss
+.a .b { color: #123; }
+.c .d { 
+  @extend .b; 
+}
+
+.g {
+  .e .f { color: #456; }
+  .h { 
+    @extend .f; 
+  }
+}
+
+// >>out
+.a .b, .a .c .d, .c .a .d {
+  color: #123;
+}
+
+.g .e .f, .g .e .h {
+  color: #456;
+}
+```
