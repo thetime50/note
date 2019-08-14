@@ -82,10 +82,19 @@ XML语法特性
 </note>  
 ```
 
+<br><br>
+
+---
+<br>
+
+### DTD
+#### 声明
 XML DTD
 [link DTD->](http://www.w3school.com.cn/dtd/index.asp)
 
+**xml 内部声明**
 ```xml
+<!-- <!DOCTYPE 根元素 [元素声明]> -->
 <!DOCTYPE note [
   <!ELEMENT note (to,from,heading,body)>
   <!ELEMENT to      (#PCDATA)>
@@ -94,6 +103,140 @@ XML DTD
   <!ELEMENT body    (#PCDATA)>
 ]> 
 ```
+**xml 外部声明**
+```xml
+<!-- <!DOCTYPE 根元素 SYSTEM "文件名"> -->
+<?xml version="1.0"?>
+<!DOCTYPE note SYSTEM "note.dtd">
+<note>
+<to>George</to>
+<from>John</from>
+<heading>Reminder</heading>
+<body>Don't forget the meeting!</body>
+</note> 
+
+<!ELEMENT note (to,from,heading,body)>
+<!ELEMENT to (#PCDATA)>
+<!ELEMENT from (#PCDATA)>
+<!ELEMENT heading (#PCDATA)>
+<!ELEMENT body (#PCDATA)>
+```
+
+#### xml构建模块
+- 元素 标签
+- 属性 名称=值
+- 实体 &lt; &gt; &amp; &quot; &apos;
+- PCDATA 始标签与结束标签之间的文本 会被解析器检查实体以及标记
+- CDATA 不会被解析器解析的文本
+
+#### 元素
+```xml
+<!-- 类别 -->
+<!-- !ELEMENT 元素名称 类别> -->
+<!-- 元素 -->
+<!-- !ELEMENT 元素名称 (元素内容)> -->
+
+<!-- 空元素 -->
+<!-- <!ELEMENT 元素名称 EMPTY> -->
+<!ELEMENT br EMPTY>
+
+<!-- 任何内容 -->
+<!-- <!ELEMENT 元素名称 ANY> -->
+<!ELEMENT note ANY>
+
+<!-- #PCDATA -->
+<!-- <!ELEMENT 元素名称 (#PCDATA)> -->
+<!ELEMENT from (#PCDATA)>
+
+<!-- 元素 -->
+<!-- <!ELEMENT 元素名称 (子元素名称 1)> -->
+<!-- <!ELEMENT 元素名称 (子元素名称 1,子元素名称 2,.....)> -->
+<!ELEMENT note (to,from,heading,body)>
+
+<!-- 只出现一次的元素 -->
+<!-- <!ELEMENT 元素名称 (子元素名称)> -->
+<!-- 最少出现一次的元素 -->
+<!-- <!ELEMENT 元素名称 (子元素名称+)> -->
+<!-- 出现零次或多次的元素 -->
+<!-- <!ELEMENT 元素名称 (子元素名称*)> -->
+<!-- 出现零次或一次的元素 -->
+<!-- <!ELEMENT 元素名称 (子元素名称?)> -->
+<!-- 或类型 -->
+<!ELEMENT note (to,from,header,(message|body))>
+<!-- 混合类型 -->
+<!ELEMENT note (#PCDATA|to|from|header|message)*>
+```
+
+#### 属性
+| 类型 | 描述 |
+| :-- | :-- |
+| CDATA | 字符数据 |
+| (en1|en2|..) | 枚举列表 |
+| ID | 唯一id |
+| IDREF | 另外一个元素的 id |
+| IDREFS | 其他 id 的列表 |
+| NMTOKEN | 合法的 XML 名称 |
+| NMTOKENS | 合法的 XML 名称的列表 |
+| ENTITY | 一个实体 |
+| ENTITIES | 一个实体列表 |
+| NOTATION | 是符号的名称 |
+| xml: | 一个预定义的 XML 值 |
+
+| 值 | 解释 |
+| :-- | :-- |
+| value | 默认值 |
+| #REQUIRED | 属性是必需的 |
+| #IMPLIED | 属性不是必需的 |
+| #FIXED value | 属性值是固定的 |
+
+```xml
+<!-- <!ATTLIST 元素名称 属性名称 属性类型 默认值> -->
+<!ELEMENT square EMPTY>
+<!ATTLIST square width CDATA "0">
+<!ATTLIST contact fax CDATA #IMPLIED>
+<!-- <!ATTLIST 元素名称 属性名称 (en1|en2|..) 默认值> -->
+<!ATTLIST payment type (check|cash) "cash">
+```
+
+#### 实体
+即实体引用 通过实体标识替换引用  
+&amp;xxx;
+```xml
+<!-- DTD内部声明 -->
+<!-- <!ENTITY 实体名称 "实体的值"> -->
+<!ENTITY writer "Bill Gates">
+<!ENTITY copyright "Copyright W3School.com.cn">
+
+<!-- DTD外部声明 -->
+<!-- <!ENTITY 实体名称 SYSTEM "URI/URL"> -->
+<!ENTITY writer SYSTEM "http://www.w3school.com.cn/dtd/entities.dtd">
+<!ENTITY copyright SYSTEM "http://www.w3school.com.cn/dtd/entities.dtd">
+
+<!-- xml -->
+<author>&writer;&copyright;</author>
+```
+
+#### 验证
+```javascript
+var xmlDoc = new ActiveXObject("Microsoft.XMLDOM")
+xmlDoc.async="false"
+xmlDoc.validateOnParse="true"//打开或关闭验证
+//.load加载文件 .loadXML加载字符串
+xmlDoc.load("note_dtd_error.xml")
+
+document.write("<br>Error Code: ")
+document.write(xmlDoc.parseError.errorCode)
+document.write("<br>Error Reason: ")
+document.write(xmlDoc.parseError.reason)
+document.write("<br>Error Line: ")
+document.write(xmlDoc.parseError.line)
+```
+
+
+<br><br>
+
+---
+<br>
 
 XML Schema  
 [link->](http://www.w3school.com.cn/schema/index.asp)
