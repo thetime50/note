@@ -66,6 +66,9 @@ codebase="http://www.adobe.com/svg/viewer/install/" />
 <a href="circle1.svg">View SVG file</a>
 ```
 
+img标签 <img src="xxx.svg"/>
+css背景 background: white url(xxx.svg) repeat;
+
 ## 形状
 
 ```html
