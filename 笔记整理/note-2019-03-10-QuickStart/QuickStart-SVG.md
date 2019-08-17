@@ -1,7 +1,10 @@
 # QuickStart-SVG
 [link->](https://www.runoob.com/svg/svg-intro.html)  
 
-[svg元素 属性](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute)
+[svg元素 属性](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute)  
+[w3c org svg about](https://www.w3.org/Graphics/SVG/About.html)  
+[w3c org svg 11](https://www.w3.org/TR/SVG11/)  
+[w3c org svg 2](https://www.w3.org/TR/SVG2/)  
 
 ## 实例
 ```xml
