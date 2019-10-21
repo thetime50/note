@@ -6,6 +6,13 @@ youtobe: https://www.youtube.com/watch?v=CXgbekl66jc&list=PLJV_el3uVTsPy9oCRY30o
 https://pan.baidu.com/s/1Shjn2el7gr3RPNlUTnBtxw  
 bili: https://www.bilibili.com/video/av65521101/?p=1  
 
+***tool***  
+codecogs: https://www.codecogs.com/latex/eqneditor.php  
+codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
+
 ## 001
-	[file link ->](./001.md)
- xxx-xxx
+- [file link ->](./001.md)
+- [0-1 Introduction of Machine Learning](./001.md#0-1 Introduction-of-Machine-Learning)
+- [0-2 Why we need to learn machine learning?](./001.md#0-2-Why-we-need-to-learn-machine-learning?)
+- [1 回归 - 案例研究](./001.md#ML讲座1-回归---案例研究)
+- [1 Regression - Demo](./001.md#1-Regression---Demo)
