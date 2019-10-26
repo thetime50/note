@@ -16,3 +16,7 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 - [0-2 Why we need to learn machine learning?](./001.md#0-2-Why-we-need-to-learn-machine-learning?)
 - [1 回归 - 案例研究](./001.md#ML讲座1-回归---案例研究)
 - [1 Regression - Demo](./001.md#1-Regression---Demo)
+
+## 002
+- [file link ->](./002.md)
+- [2 Where does the error come from?](./002.md#2-Where-does-the-error-come-from)
