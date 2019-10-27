@@ -20,3 +20,9 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 ## 002
 - [file link ->](./002.md)
 - [2 Where does the error come from?](./002.md#2-Where-does-the-error-come-from)
+
+## 003
+- [file link ->](./003.md)
+- [3-1 Gradient Descent](./003.md#3-1-Gradient-Descent)
+- [3-2 Gradient Descent (Demo by AOE)](./003.md#3-2-Gradient-Descent-Demo-by-AOE)
+- [3-3 Gradient Descent (Demo by Minecraft)](./003.3-3-Gradient-Descent-Demo-by-Minecraft)
