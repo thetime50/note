@@ -34,3 +34,7 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 ## 005
 - [file link ->](./005.md)
 - [5 Logistic Regression](./005.md#5-Logistic-Regression)
+
+## 005
+- [file link ->](./006.md)
+- [5 Logistic Regression](./006.md#6-Brief-Introduction-of-Deep-Learning)
