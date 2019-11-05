@@ -49,3 +49,7 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 - [8-2 Keras 2-0](./008.md#8-2-Keras-2-0)
 - [8-3 Keras Demo](./008.md#8-3-Keras-Demo)
 
+
+## 009
+- [file link ->](./009.md)
+- [9-1 Tips for Training DNN](./009.md#9-1-Tips-for-Training-DNN)
