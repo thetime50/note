@@ -55,3 +55,8 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 - [9-1 Tips for Training DNN](./009.md#9-1-Tips-for-Training-DNN)
 - [9-2 Keras Demo 2](./009.md#9-2-Keras-Demo-2)
 - [9-3 Fizz Buzz in Tensorflow (sequel)](./009.md#9-3-Fizz-Buzz-in-Tensorflow-(sequel))
+
+## 010
+10 Convolutional Neural Network
+- [file link ->](./010.md)
+- [10 Convolutional Neural Network](./010.md#10-Convolutional-Neural-Network)
