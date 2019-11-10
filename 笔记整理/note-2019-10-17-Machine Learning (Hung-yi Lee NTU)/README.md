@@ -65,3 +65,8 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 11 Why Deep
 - [file link ->](./011.md)
 - [11 Why Deep](./011.md#11-Why-Deep)
+
+### 012
+12 Semi-supervised
+- [file link ->](./012.md)
+- [12 Semi-supervised](./012.md#12-Semi-supervised)
