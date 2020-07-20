@@ -157,3 +157,64 @@ geometry.index 属性
 - geometry.translate // 几何体沿着x轴平移50
 - geometry.rotateX // 几何体绕着x轴旋转45度
 - geometry.center // 居中：偏移的几何体居中
+
+## 3、材质对象
+### 1.常用材质介绍
+
+主要包含顶点着色器和片元着色器
+
+- 点材质
+- 线材质
+- 网格材质
+
+### 2.材质共有属性、私有属性
+
+```javascript
+var material = new THREE.MeshPhongMaterial({
+      color: 0xdd00ff,
+      // wireframe:true,//将几何图形渲染为线框
+      // transparent:true,//开启透明
+      // opacity:0.5,//透明度0.5
+      // 前面FrontSide  背面：BackSide 双面：DoubleSide
+      // side:THREE.DoubleSide,
+    }); //材质对象Material
+console.log(material.color.r)//范围为0-1
+material.color = new THREE.color(0xff00ff)
+material.setRGB(0.5,0.3,.09)
+
+```
+
+- 共有属性
+  - 渲染为线框模式
+  - transparent透明
+  - 显示前面 后面 双面
+- 私有属性
+  - 高光材质
+    - 高光颜色 高光亮度
+  - 点材质
+    - 点尺寸
+  - color材质
+    - 点线网格材质都有
+    - ShaderMaterial. RawShaderMaterial不具有
+  - mesh
+    - wirframe线框模式
+
+## 4、模型对象
+### 1.点、线、网格模型介绍
+
+```javascript
+//替换 覆盖材质 几何体
+
+var mesh = new THREE.Mesh( geometry, material1 )
+
+mesh.material=material2
+
+// THREE.Line //绘制点集
+// THREE.LineLoop
+// THREE.LineSegments
+
+// Three.Mesh({wirframe:true}) // 绘制面的边线
+
+// void gl.drawArrays() //绘制方式??
+```
+
