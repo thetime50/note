@@ -218,3 +218,10 @@ mesh.material=material2
 // void gl.drawArrays() //绘制方式??
 ```
 
+
+## 4、模型对象
+### 2.模型对象旋转平移缩放变换
+- .clone 方法 mesh  和 geometry 是共享的  
+  位置 角度 矩阵 是深拷贝的
+- .copy 方法 从拉一个网格模型拷贝 位置 角度 矩阵  
+  不拷贝 mesh 和 geometry
