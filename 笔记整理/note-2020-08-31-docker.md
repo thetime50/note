@@ -180,6 +180,8 @@ docker restart <容器 ID>
 docker attach <id/name># 退出终端 容器即停止
 docker exec <id/name>#推荐 此退出容器终端，不会导致容器的停止
 
+docker exec -it 243c32535da7 /bin/bash
+
 docker exec --help
 
 # 导出容器
@@ -340,6 +342,13 @@ docker network create -d bridge test-net
 docker network ls
 ```
 - -d：参数指定 Docker 网络类型，有 bridge、overlay。
+
+//todo
+- bridge模式：使用–net =bridge指定，默认设置；
+- host模式：使用–net =host指定；
+- none模式：使用–net =none指定；
+- container模式：使用–net =container:指定容器名；
+- overlay模式：使用--net=overlay
 
 运行一个容器并连接到新建的 test-net 网络:
 ```sh
