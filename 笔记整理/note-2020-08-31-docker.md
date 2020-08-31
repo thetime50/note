@@ -177,8 +177,8 @@ docker restart <容器 ID>
 
 ```sh
 # 进入容器
-docker attach # 退出终端 容器即停止
-docker exec #推荐 此退出容器终端，不会导致容器的停止
+docker attach <id/name># 退出终端 容器即停止
+docker exec <id/name>#推荐 此退出容器终端，不会导致容器的停止
 
 docker exec --help
 
@@ -235,3 +235,126 @@ docker rm wizardly_chandrasekhar
 
 ## 镜像使用
 
+```sh
+# 列出本地镜像
+docker images 
+
+```
+- REPOSITORY：表示镜像的仓库源
+- TAG：镜像的标签 (版本
+- IMAGE ID：镜像ID
+- CREATED：镜像创建时间
+- SIZE：镜像大小
+
+```sh
+# 使用指定 镜像:tag 运行shell
+docker run -t -i ubuntu:15.10 /bin/bash 
+
+# 获取/下载 新镜像
+docker pull ubuntu:13.10
+
+# 查找镜像
+docker search httpd
+# 然后 pull 拉取 run 运行
+docker pull httpd
+docker run httpd
+```
+- NAME: 镜像仓库源的名称
+- DESCRIPTION: 镜像的描述
+- OFFICIAL: 是否 docker 官方发布
+- stars: 类似 Github 里面的 star，表示点赞、喜欢的意思。
+- AUTOMATED: 自动构建。
+
+### 创建镜像
+
+1. 从已经创建的容器中更新镜像，并且提交这个镜像
+2. 使用 Dockerfile 指令来创建一个新的镜像
+
+### 更新镜像
+```sh
+# exec 进入容器环境
+apt-get update
+
+# docker commit 提交容器副本 到编辑镜像列表
+runoob@runoob:~$ docker commit -m="has update" -a="runoob" e218edb10161 runoob/ubuntu:v2
+sha256:70bf1840fd7c0d2d8ef0a42a817eb29f854c1af8f7c59fc03ac7bdee9545aff8
+```
+
+-m: 提交的描述信息
+-a: 指定镜像作者
+e218edb10161：容器 ID
+runoob/ubuntu:v2: 指定要创建的目标镜像名
+
+```sh
+# 使用(提交的)本地镜像创建容器
+docker run -t -i runoob/ubuntu:v2 /bin/bash                 
+```
+### 从新镜像构建
+
+创建一个 Dockerfile 文件提供构建流程  
+用 docker build 构建镜像
+
+Dockerfile
+```docker
+runoob@runoob:~$ cat Dockerfile #命令用于连接文件并打印到标准输出设备上。
+FROM    centos:6.7
+MAINTAINER      Fisher "fisher@sudops.com"
+
+RUN     /bin/echo 'root:123456' |chpasswd
+RUN     useradd runoob
+RUN     /bin/echo 'runoob:123456' |chpasswd
+RUN     /bin/echo -e "LANG=\"en_US.UTF-8\"" >/etc/default/local
+EXPOSE  22
+EXPOSE  80
+CMD     /usr/sbin/sshd -D
+```
+每一个指令都会在镜像上创建一个新的层，每一个指令的前缀都必须是大写的。  
+第一条FROM，指定使用哪个镜像源  
+RUN 指令告诉docker 在镜像内执行命令，安装了什么
+
+```sh
+# docker build 构建镜像 # todo 默认Dockerfile文件?
+docker build -t runoob/centos:6.7 .
+
+# docker images 查看 创建容器
+docker images
+docker run -t -i runoob/centos:6.7  /bin/bash
+```
+
+```sh
+# 设置镜像标签
+docker tag 860c279d2fec runoob/centos:dev
+```
+
+## Docker 容器连接
+```sh
+# 容器命名
+docker run -d -P --name runoob training/webapp python app.py
+```
+
+创建docker 网络
+```sh
+# 创建
+docker network create -d bridge test-net
+# 查看
+docker network ls
+```
+- -d：参数指定 Docker 网络类型，有 bridge、overlay。
+
+运行一个容器并连接到新建的 test-net 网络:
+```sh
+# 运行容器
+docker run -itd --name test1 --network test-net ubuntu /bin/bash
+docker run -itd --name test2 --network test-net ubuntu /bin/bash
+# 查看信息
+docker ps
+
+# 进入容器环境 ping 测试
+apt-get update
+apt install iputils-ping
+
+ping test2
+```
+多个容器之间需要互相连接使用 Docker Compose
+
+### 配置 DNS
