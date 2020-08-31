@@ -94,3 +94,144 @@ Linux系统目前存在的三种系统启动方式所对应的配置文件目录
 3. Systemd：/usr/lib/systemd目录；
 
 ## Hello World
+在指定镜像执行命令 (或者创建 下载镜像并执行)
+```sh
+runoob@runoob~$ docker run ubuntu:15.10 /bin/echo "Hello world"
+# docker run [镜像] [容器命令]
+```
+
+运行交互式容器
+```sh
+runoob@runoob:~$ docker run -i -t ubuntu:15.10 /bin/bash
+root@0123ce188bd8:/#
+```
+- -t: 在新容器内指定一个伪终端或终端。(指定终端)
+- -i: 允许你对容器内的标准输入 (STDIN) 进行交互。(允许交互)
+
+退出容器
+```sh
+exit
+# or [ctrl+d]
+```
+
+### 启动容器（后台模式）
+使用以下命令创建/启动一个以进程方式运行的容器
+```sh
+runoob@runoob:~$ docker run -d ubuntu:15.10 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+-> 2b1b7a428627c51ab8810d541d759f072b4fc75487eed05812646b8534a2fe63 #容器ID
+
+# 正在运行的容器
+docker ps
+
+# 容器shell输出
+docker logs 2b1b7a428627
+
+# 停止容器
+runoob@runoob:~$ docker stop amazing_cori
+runoob@runoob:~$ docker stop [id]
+```
+
+**docker ps**
+- CONTAINER ID: 容器 ID。
+- IMAGE: 使用的镜像。
+- COMMAND: 启动容器时运行的命令。
+- CREATED: 容器的创建时间。
+- STATUS: 容器状态。
+    - created（已创建）
+    - restarting（重启中）
+    - running（运行中）
+    - removing（迁移中）
+    - paused（暂停）
+    - exited（停止）
+    - dead（死亡）
+- PORTS: 容器的端口信息和使用的连接类型（tcp\udp）。
+- NAMES: 自动分配的容器名称。
+
+## Docker 容器使用
+```sh
+docker
+
+docker stats --help
+
+## 容器
+# 载入镜像
+docker pull ubuntu
+# 启动容器
+docker run -it ubuntu /bin/bash # 启动容器并启用交互
+# 退出
+exit
+
+# 查看容器
+docker ps -a
+# 启动停止的容器
+docker start b750bbbcfd88 
+
+# 指定容器后台运行 -d
+docker run -itd --name ubuntu-test ubuntu /bin/bash
+# 停止容器
+docker stop <容器 ID>
+# 可以restart 重启
+docker restart <容器 ID>
+```
+
+
+```sh
+# 进入容器
+docker attach # 退出终端 容器即停止
+docker exec #推荐 此退出容器终端，不会导致容器的停止
+
+docker exec --help
+
+# 导出容器
+docker export 1e560fca3906 > ubuntu.tar
+# 快照导入到镜像
+cat docker/ubuntu.tar | docker import - test/ubuntu:v1
+# 从url 或目录导入
+docker import http://example.com/exampleimage.tgz example/imagerepo
+
+# 删除容器
+docker rm -f 1e560fca3906
+```
+
+### 运行web应用
+
+```sh
+docker pull training/webapp  # 载入镜像
+docker run -d -P training/webapp python app.py #随机映射端口
+
+docker run -d -p 5000:5000 training/webapp python app.py #指定映射端口 hostPort:containerPort/tcp
+
+docker port [id/containerName]
+```
+
+- -d:让容器在后台运行。
+- -P:将容器内部使用的网络端口随机映射到我们使用的主机上。
+
+ps 命令查看信息
+PORTS 0.0.0.0:32769->5000/tcp ( 主机端口 -> 容器内端口 )
+
+web应用日志
+```sh
+docker logs -f bf08b7f2cd89
+```
+-f: 循环读取，类型tail -f 一样来输出容器内部的标准输出。
+
+检查 WEB 应用程序
+```sh
+docker inspect wizardly_chandrasekhar
+```
+
+```sh
+# 停止WEB应用容器
+docker inspect wizardly_chandrasekhar
+# 重启WEB应用容器
+docker start wizardly_chandrasekhar
+# 查询最后一次创建容信的息 last
+docker ps -l 
+
+# 移除容器 (必须先stop
+docker rm wizardly_chandrasekhar
+```
+
+## 镜像使用
+
