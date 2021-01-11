@@ -1,0 +1,172 @@
+# react-start
+https://react.docschina.org/docs/react-component.html
+
+## 核心概念
+
+## 组合vs继承
+[JavaScript 教程](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)  
+[JSX 简介](https://react.docschina.org/docs/introducing-jsx.html)
+
+## JSX简介
+jsx里面
+- 通花括号{}引用表达式
+- 建议最外层包裹括号\(\)以避免自动插入分号
+- jsx 也是表达式(渲染函数)，可以赋值变量，作为参数
+- 标签属性用引号"指定为字符串，用大括号{}指定为表达式
+- 避免与js关键字冲突，class属性变为className,tabindex 变为tabIndex
+- 使用\<xx />闭合标签
+- 自动转义jsx里面的表达式字符串避免[xss](https://en.wikipedia.org/wiki/Cross-site_scripting)。[转义](https://stackoverflow.com/questions/7381974/which-characters-need-to-be-escaped-in-html)  
+  \& becomes \&amp;  
+  \< becomes \&lt;  
+  \> becomes \&gt;  
+  \" becomes \&quot;  
+  \' becomes \&#39;  
+- jsx 会转义为 React.createElement()
+
+```js
+const element = (
+  <h1 className="greeting">
+    Hello, world!
+  </h1>
+);
+```
+==>
+```js
+const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'Hello, world!'
+);
+```
+```js
+const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'Hello, world!'
+  }
+};
+```
+
+## 元素渲染
+### 根节点
+ReactDOM渲染根节点
+```html
+<div id="root"></div>
+```
+```js
+const element = <h1>Hello, world</h1>;
+ReactDOM.render(element, document.getElementById('root'));
+```
+
+react支持多个根组件
+
+### 更新
+React元素是(不可变对象)[https://en.wikipedia.org/wiki/Immutable_object]  
+创建后不可更改，通过创建新的元素覆盖
+
+React 会对新元素和旧元素进行比较，只更新必要的部分
+
+## 组件 Props
+
+[详细组件 API](https://react.docschina.org/docs/react-component.html)
+
+函数组件：
+```js
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+
+类组件
+```js
+class Welcome extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+```
+
+**组件名称必须以大写字母开头**避免和原生标签冲突
+[深入jsx](https://react.docschina.org/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized)
+
+### Props的只读性
+**无论哪种组件都不能修改Props数据**
+
+纯函数 - 不会修改入参的数据
+
+### State 生命周期
+- state 是私有的，并且完全受控于当前组件。
+
+函数组件改为class组件
+- 继承 class xxx extends React.Component
+- render() 方法
+- 使用this.props替代props参数
+
+每次组件更新render方法都会被调用，只要在相同的dom节点里渲染组件就仅会实例化一个组件class
+
+
+- 使用constructor添加state  
+- 使用this.state.xxx引用
+- 使用 this.setState() 更新
+```js
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);//注意要传递props
+    this.state = {date: new Date()};
+  }
+  componentDidMount() { // 组件已经被渲染到 DOM 中后运行
+  }
+
+  componentWillUnmount() {
+  }
+  render() {
+    return (
+      <div>
+        {this.state.date.toLocaleTimeString()}
+      </div>
+    );
+  }
+}
+```
+
+1. 实例化类组件并添加state
+2. 调用render()方法渲染组件
+3. 调用ComponentDidMount()勾子
+4. setState()触发render()执行
+5. 组件从dom中移除时调用ComponentWillUnmount()构子
+
+### State 的更新可能是异步的
+
+react会把多个setState合并为一次执行
+
+setState通过接受一个函数实现异步更新,传递setState更新执时数据状态：  
+setState((state,props)=>{{xxx: state.a+props.b}})  
+// todo demo里面的state 和props里面的例子是什么意思
+
+如果有数据依赖其他数据的状态就需要使用异步更新
+```js
+onclick(){
+    this.setState({a:this.state.a+1})
+    // this.setState({b:this.state.a+1}) //这样是不对的
+    this.setState((state,props)=>{{b:state.a+1}})
+}
+```
+
+### State 的更新会被合并
+https://react.docschina.org/docs/state-and-lifecycle.html#state-updates-are-merged
+
+
+
+
+
+## API REFERENCE
+### React.Component
+#### 类组件
+- 需要继承React.Component
+- 必须的render() 方法
+- 建议你不要创建自己的组件基类
+
+代码重用的主要方式是组合而不是[继承](#组合vs继承)
+- 区分不同模块去调用降低耦合逻辑清晰
+
