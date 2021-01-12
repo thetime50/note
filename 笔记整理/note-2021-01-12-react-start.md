@@ -263,6 +263,8 @@ ReactDOM.render(
 
 ### 9 表单
 
+\<input type="submit" value="提交" /> 会触发form提交
+
 #### 受控组件
 
 用户输入通过setState更新state - 受控组件
@@ -365,6 +367,78 @@ class Calculator extends React.Component {
 }
 ```
 
+### 11 组合 继承
+
+推荐使用组合而非继承来实现组件间的代码重用。
+
+- 包含关系 默认slot  ==> props.children
+
+```js
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  );
+}
+function WelcomeDialog() {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+    </FancyBorder>
+  );
+}
+```
+
+- 直接通过属性传递
+```js
+function SplitPane(props) {
+  return (
+    <div className="SplitPane">
+      <div className="SplitPane-left">
+        {props.left}
+      </div>
+      <div className="SplitPane-right">
+        {props.right}
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <SplitPane
+      left={
+        <Contacts />
+      }
+      right={
+        <Chat />
+      } />
+  );
+}
+```
+
+- 特例关系
+  通用组件和特例，通过设置props进行封装配置
+
+
+### 12 React 哲学
+有ui设计 api数据
+1. 将设计好的 UI 划分为组件层级  
+  根据[单一功能原则](https://en.wikipedia.org/wiki/Single-responsibility_principle)划分组件  
+  如果模型设计得恰当，UI（或者说组件结构）便会与数据模型一一对应
+2. 用 React 创建一个静态版本  
+  构建应用静态版本时，通过 props 传入所需的数据。state 代表了随时间会产生变化的数据
+3. 确定 UI state 的最小（且完整）表示  
+  [DRY: Don’t Repeat Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)。只保留应用所需的可变 state 的最小集合，其他数据均由它们计算产生
+4. 确定 state 放置的位置  
+  需要根据这个 state 进行渲染的所有组件，该共同所有者组件或者比它层级更高的组件应该拥有该 state
+5. 添加反向数据流
 
 
 
