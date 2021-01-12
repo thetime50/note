@@ -3,11 +3,11 @@ https://react.docschina.org/docs/react-component.html
 
 ## 核心概念
 
-## 组合vs继承
+### 1 组合vs继承
 [JavaScript 教程](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript)  
 [JSX 简介](https://react.docschina.org/docs/introducing-jsx.html)
 
-## JSX简介
+### 2 JSX简介
 jsx里面
 - 通花括号{}引用表达式
 - 建议最外层包裹括号\(\)以避免自动插入分号
@@ -48,8 +48,8 @@ const element = {
 };
 ```
 
-## 元素渲染
-### 根节点
+### 3 元素渲染
+#### 根节点
 ReactDOM渲染根节点
 ```html
 <div id="root"></div>
@@ -61,13 +61,13 @@ ReactDOM.render(element, document.getElementById('root'));
 
 react支持多个根组件
 
-### 更新
+#### 更新
 React元素是(不可变对象)[https://en.wikipedia.org/wiki/Immutable_object]  
 创建后不可更改，通过创建新的元素覆盖
 
 React 会对新元素和旧元素进行比较，只更新必要的部分
 
-## 组件 Props
+### 4 组件 Props
 
 [详细组件 API](https://react.docschina.org/docs/react-component.html)
 
@@ -90,12 +90,12 @@ class Welcome extends React.Component {
 **组件名称必须以大写字母开头**避免和原生标签冲突
 [深入jsx](https://react.docschina.org/docs/jsx-in-depth.html#user-defined-components-must-be-capitalized)
 
-### Props的只读性
+#### Props的只读性
 **无论哪种组件都不能修改Props数据**
 
 纯函数 - 不会修改入参的数据
 
-### State 生命周期
+### 5 State 生命周期
 - state 是私有的，并且完全受控于当前组件。
 
 函数组件改为class组件
@@ -136,7 +136,7 @@ class Clock extends React.Component {
 4. setState()触发render()执行
 5. 组件从dom中移除时调用ComponentWillUnmount()构子
 
-### State 的更新可能是异步的
+#### State 的更新可能是异步的
 
 react会把多个setState合并为一次执行
 
@@ -153,8 +153,51 @@ onclick(){
 }
 ```
 
-### State 的更新会被合并
-https://react.docschina.org/docs/state-and-lifecycle.html#state-updates-are-merged
+#### State 的更新会被合并
+setState使用的是浅合并，仅对传入的属性做替换，其余的保留不变
+
+#### 数据单向流动
+state 又称局部/封装，父组件不能操作子组件内的state(直接读写)  
+有state的组件-有状态组件
+
+### 6 事件处理
+- react事件命名使用小驼峰
+- 传入函数处理事件
+- 阻止默认行为要在回调函数里调用 e.preventDefault();
+
+```js
+// 函数调用时里面的this为undifine
+<button onClick={this.fun}> 
+  Activate Lasers
+</button>
+
+// 实验性的类箭头函数语法
+// class Bork {
+// fun = () => {
+//   return this.instanceProperty;
+// };
+<button onClick={this.fun}>
+  Activate Lasers
+</button>
+
+// 使用箭头函数处理
+<button onClick={()=> this.fun()}>
+  Activate Lasers
+</button>
+```
+
+#### 向事件处理程序传递参数
+- 一般在元素创建时设置监听，不调用addEventListener 
+
+```js
+// 使用箭头函数
+<button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+// 使用bind处理
+// e会在隐式的作为第二个参数传入
+<button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
+```
+
+### 7 条件渲染
 
 
 
