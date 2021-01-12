@@ -198,7 +198,172 @@ state 又称局部/封装，父组件不能操作子组件内的state(直接读�
 ```
 
 ### 7 条件渲染
+- 判断语句
+```js
+ReactDOM.render(
+  if (true) {
+    return <div>TRUE</div>
+  }
+  return <div>FALSE</div>
+);
+```
 
+- 元素变量
+```js
+  render() {
+    const isLoggedIn = this.state.isLoggedIn;
+    let button;
+    if (isLoggedIn) {
+      button = <LogoutButton onClick={this.handleLogoutClick} />;
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick} />;
+    }
+  }
+```
+
+- 与运算符
+- 三目运算符
+- 阻止组件渲染/隐藏组件
+```js
+  render() {
+      if(hidden){
+          return null
+      }
+      return (
+        <div>
+            <div>
+                {login && <div>{userName}</div>}
+            </div>
+            <div>
+                <b>{isLoggedIn ? 'currently' : 'not'}</b>
+            </div>
+            <div></div>
+            <div></div>
+        </div>
+      )
+  }
+```
+
+### 8 列表 key
+```js
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  <li  key={number.toString()}>{number}</li>
+);
+
+ReactDOM.render(
+  <ul>{listItems}</ul>,
+  document.getElementById('root')
+);
+```
+- 不建议使用index作为key,key用来识别数据和dom的对应关系，减少不必要的dom更新
+- 就近在使用map的地方使用key 而不是一定要挂载在dom上，(map构造的第一层数据)
+- key在兄弟节点间必须唯一
+- 可以在jsx中嵌入map (map的调用也是表达式)
+
+### 9 表单
+
+#### 受控组件
+
+用户输入通过setState更新state - 受控组件
+
+```js
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('提交的名字: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={(e) => this.handleSubmit(e)}>
+        <label>
+          名字:
+          <input type="text" value={this.state.value} onChange={() => this.handleChange(e)} />
+        </label>
+        <input type="submit" value="提交" />
+      </form>
+    );
+  }
+}
+```
+
+- textarea 标签
+- select 标签
+- select 可多选 \<select multiple={true} value=\{\[\'B', 'C']}\>
+- 文件 input \<input type="file">
+
+- 使用元素属性标记对应字段信息，在同一个回调函数中处理，通过e.target.xx获取标记
+
+
+- 受控组件设定value为常量则用户无法更改
+- 设置value为undifined或null 用户可编辑
+
+[非受控组件？？](https://react.docschina.org/docs/uncontrolled-components.html)
+
+使用[Formik](https://formik.org/)  //todo
+
+### 10 状态提升
+
+通过props向子组件传递方法，子组件调用方法触发父组件函数更新父组件状态
+
+```js
+class MyInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleChange(e) {
+    this.props.handleChange(e.target.value);
+  }
+
+  render() {
+    const val = this.props.val;
+    return (
+      <fieldset>
+        <input value={val}
+               onChange={(e) => this.handleChange(e))} />
+      </fieldset>
+    );
+  }
+}
+
+
+class Calculator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {val:1};
+  }
+
+  handleChange(e) {
+    this.setState({val:e.val});
+  }
+
+  render() {
+    const val = this.state.val;
+    return (
+      <div>
+        <myInput
+            val={val}
+          handleChange={(e) => this.handleChange(e)} />
+        <myInput
+            val={val}
+          handleChange={(e) => this.handleChange(e)} />
+        <div>{val}</div>
+      </div>
+    );
+  }
+}
+```
 
 
 
