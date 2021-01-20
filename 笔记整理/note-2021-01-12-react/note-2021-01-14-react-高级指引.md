@@ -614,3 +614,153 @@ class App extends React.Component {
 
 ### 废弃的 API
 https://react.docschina.org/docs/context.html#legacy-api
+
+
+## 4 错误边界
+### 错误边界（Error Boundaries）
+React 16 引入了一个新的概念 —— 错误边界。  
+可以捕获并打印发生在其子组件树任何位置的 JavaScript 错误，并且，它会渲染出备用 UI
+事件边界无法处理以下错误
+- 事件处理（[了解更多](#关于事件处理器)）
+- 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
+- 服务端渲染
+- 它自身抛出来的错误（并非它的子组件）
+
+如果一个 class 组件中定义了 
+[static getDerivedStateFromError()](https://react.docschina.org/docs/react-component.html#static-getderivedstatefromerror) 或 
+[componentDidCatch()](https://react.docschina.org/docs/react-component.html#componentdidcatch)
+ 这两个生命周期方法中的任意一个（或两个）时，那么它就变成一个错误边界。  
+当抛出错误后，使用 static getDerivedStateFromError() 渲染备用 UI ，使用 componentDidCatch() 打印错误信息。
+
+不同的地方在于错误边界只针对 React 组件。只有 class 组件才可以成为错误边界组件。
+
+### 在线演示
+
+[例子](https://codepen.io/gaearon/pen/wqvxGa?editors=0010)
+
+### 未捕获错误（Uncaught Errors）的新行为
+
+**自 React 16 起，任何未被错误边界捕获的错误将会导致整个 React 组件树被卸载。**
+
+我们也鼓励使用 JS 错误报告服务（或自行构建），这样你能了解关于生产环境中出现的未捕获异常，并将其修复。
+
+[通过onerror事件收集错误报告](https://blog.csdn.net/baitui1989/article/details/102452221)全局window.onerror,资源onerror事件
+
+### 组件栈追踪
+在开发环境下，React 16 会把渲染期间发生的所有错误打印到控制台，即使该应用意外的将这些错误掩盖。
+ Create React App 项目中默认可以查看文件名和行号
+
+如果没有使用 Create React App，可以手动将[该插件](https://www.npmjs.com/package/babel-plugin-transform-react-jsx-source)添加到你的 Babel 配置中。注意它**仅用于开发环境**，在生产环境必须将其禁用 
+
+*栈追踪中的显示依赖于 Function.name 属性[->](https://react.docschina.org/docs/error-boundaries.html#component-stack-traces)*
+
+### 关于 try/catch
+
+try / catch 仅能用于命令式代码（imperative code）
+然而，React 组件是声明式的并且具体指出 什么 需要被渲染,在任何子组件内不管在生命周期的任何位置都能够被捕获到
+
+### 关于事件处理器
+事件处理器不会在渲染期间触发，错误边界无法捕获事件处理器内部的错误。  
+如果需要在事件处理器内部捕获错误，使用普通的 JavaScript try / catch 语句：
+
+### 自 React 15 的命名更改
+React 15的 unstable_handleError 不再起作用  
+在React 16 beta 起 修改为 componentDidCatch
+
+
+## 5 Refs 转发
+将 [ref](#Refs_&_DOM) 自动地通过组件传递到其一子组件的技巧
+### 转发 refs 到 DOM 组件
+```js
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+// 你可以直接获取 DOM button 的 ref：
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+```
+1. 我们通过调用 React.createRef 创建了一个 React ref 并将其赋值给 ref 变量。
+2. 我们通过指定 ref 为 JSX 属性，将其向下传递给 &lt;FancyButton ref={ref}>。
+3. React 传递 ref 给 forwardRef 内函数 (props, ref) => ...，作为其第二个参数。
+4. 我们向下转发该 ref 参数到 &lt;button ref={ref}>，将其指定为 JSX 属性。
+5. 当 ref 挂载完成，ref.current 将指向 &lt;button> DOM 节点。
+
+---
+1. 通过React.forwardRef((props, ref) => ())声明ref组件 通过ref参数挂载dom
+2. 父组件使用前声明 const ref = React.createRef();用来接收
+3. 父组件通过ref.current引用dom
+
+### 组件库维护者的注意事项
+当你开始在组件库中使用 forwardRef 时，你应当将其视为一个破坏性更改，并发布库的一个新的主版本。
+
+当 React.forwardRef 存在时有条件地使用它也是不推荐的：它改变了你的库的行为，并在升级 React 自身时破坏用户的应用。// todo 怎么理解
+
+
+### 高阶组件中转发 refs
+
+[高阶组件(HOC)](#高阶组件)  
+一个输出组件 props 到控制台的 HOC 示例开始：
+```js
+function logProps(WrappedComponent) {
+  class LogProps extends React.Component {
+    componentDidUpdate(prevProps) {
+      console.log('old props:', prevProps);
+      console.log('new props:', this.props);
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+
+  return LogProps;
+}
+```
+“logProps” HOC 透传（pass through）所有 props 到其包裹的组件，所以渲染结果将是相同的。例如：
+```js
+class FancyButton extends React.Component {
+  focus() {
+    // ...
+  }
+
+  // ...
+}
+
+// 我们导出 LogProps，而不是 FancyButton。
+// 虽然它也会渲染一个 FancyButton。
+export default logProps(FancyButton);
+```
+但是refs 将不会透传下去，ref和key一样被 React 进行了特殊处理了。该 ref 将引用最外层的容器组件，而不是被包裹的组件。
+
+所以需要在高阶组件内 用 React.forwardRef构造ref函数组件 显示的传递ref
+```js
+function logProps(Component) {
+  class LogProps extends React.Component {
+    componentDidUpdate(prevProps) {
+      console.log('old props:', prevProps);
+      console.log('new props:', this.props);
+    }
+
+    render() {
+      const {forwardedRef, ...rest} = this.props;
+
+      // 将自定义的 prop 属性 “forwardedRef” 定义为 ref
+      return <Component ref={forwardedRef} {...rest} />;
+    }
+  }
+
+  // 注意 React.forwardRef 回调的第二个参数 “ref”。
+  // 我们可以将其作为常规 prop 属性传递给 LogProps，例如 “forwardedRef”
+  // 然后它就可以被挂载到被 LogProps 包裹的子组件上。
+  return React.forwardRef((props, ref) => {
+    return <LogProps {...props} forwardedRef={ref} />;
+  });
+}
+```
+
+### 在 DevTools 中显示自定义名称
+React.forwardRef来构造 ref 转发组件，接收一个渲染函数作为参数
+
