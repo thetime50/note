@@ -762,5 +762,104 @@ function logProps(Component) {
 ```
 
 ### 在 DevTools 中显示自定义名称
-React.forwardRef来构造 ref 转发组件，接收一个渲染函数作为参数
+React.forwardRef来构造 ref 转发组件，接收一个渲染函数作为参数  
+如果参数为命名函数，那么DevTool里会将函数名作为标识的名称  
+或者显示的定义displayName属性
 
+```js
+const WrappedComponent = React.forwardRef(
+  function myFunction(props, ref) {
+    return <LogProps {...props} forwardedRef={ref} />;
+  }
+);
+
+function logProps(Component) {
+  class LogProps extends React.Component {
+    // ...
+  }
+
+  function forwardRef(props, ref) {
+    return <LogProps {...props} forwardedRef={ref} />;
+  }
+
+  // 在 DevTools 中为该组件提供一个更有用的显示名。
+  // 例如 “ForwardRef(logProps(MyComponent))”
+  const name = Component.displayName || Component.name;
+  forwardRef.displayName = `logProps(${name})`;
+
+  return React.forwardRef(forwardRef);
+}
+```
+
+## 6 Fragments
+
+Fragments 允许你将子列表分组，而无需向 DOM 添加额外节点。
+
+```js
+render() {
+  return (
+    <React.Fragment>
+      <ChildA />
+      <ChildB />
+      <ChildC />
+    </React.Fragment>
+  );
+}
+```
+
+### 动机
+例如 table 的 Columns
+
+### 短语法
+```js
+class Columns extends React.Component {
+  render() {
+    return (
+      <>
+        <td>Hello</td>
+        <td>World</td>
+      </>
+    );
+  }
+}
+```
+
+### 带 key 的 Fragments
+
+使用显式 <React.Fragment> 语法声明的片段可能具有 key
+
+```js
+function Glossary(props) {
+  return (
+    <dl>
+      {props.items.map(item => (
+        // 没有`key`，React 会发出一个关键警告
+        <React.Fragment key={item.id}>
+          <dt>{item.term}</dt>
+          <dd>{item.description}</dd>
+        </React.Fragment>
+      ))}
+    </dl>
+  );
+}
+```
+
+### 在线 Demo
+
+[codepen](https://codepen.io/reactjs/pen/VrEbjE?editors=1000)
+
+
+### 高阶组件 HOC
+
+基于 React 的组合特性而形成的设计模式。
+
+**高阶组件是<u>参数</u>为组件，返回值为新<u>组件</u>的函数。**
+
+在 React 的第三方库中很常见，
+例如 Redux 的 [connect](https://github.com/reduxjs/react-redux/blob/master/docs/api/connect.md#connect) 和 Relay 的 [createFragmentContainer](http://facebook.github.io/relay/docs/en/fragment-container.html)。
+
+[为什么抛弃 mixins](https://react.docschina.org/blog/2016/07/13/mixins-considered-harmful.html)
+1. Mixins引入隐式依赖
+2. Mixins导致名称冲突
+3. Mixins导致滚雪球的复杂性 在相同作用域下，业务逻辑不互相独立 
+- 等等
