@@ -3,6 +3,7 @@
 [code->](https://github.com/thetime50/ts-practice/blob/main/p01-start/p01-start.ts)
 
 ## p04-JavaScript迁移
+[code->](https://github.com/thetime50/ts-practice/tree/main/p04-jstrans)
 
 ### 书写配置文件
 ```json
