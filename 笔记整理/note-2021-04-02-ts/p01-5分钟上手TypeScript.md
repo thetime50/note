@@ -23,8 +23,9 @@
 3. 生成的所有文件放在built目录下（通过outDir）。
 4. 将JavaScript代码降级到低版本比如ECMAScript 5（通过target）。
 
-- noImplicitReturns 会防止你忘记在函数末尾返回值。
-- noFallthroughCasesInSwitch 会防止在switch代码块里的两个case之间忘记添加break语句。
+- noImplicitReturns 选项 会防止你忘记在函数末尾返回值。
+- noFallthroughCasesInSwitch 选项 会防止在switch代码块里的两个case之间忘记添加break语句。
+- 设置allowUnreachableCode和allowUnusedLabels选项 发现那些执行不到的代码和标签。
 
 [ts结合gulp](https://www.tslang.cn/docs/handbook/gulp.html)
 
@@ -33,6 +34,9 @@ ts-loader + source-map-loader
 ```cmd
 npm install ts-loader source-map-loader
 ```
+
+将 .js文件重命名为.ts文件。 如果你使用了JSX，则重命名为 .tsx文件。
+
 **要注意的是ts-loader必须在其它处理.js文件的加载器之前运行**
 ```js
 // webpack.config.js
@@ -66,7 +70,7 @@ module.exports = {
 };
 ```
 - 如果不想在发生错误的时候，TypeScript还会被编译成JavaScript，你可以使用*noEmitOnError*选项。
-- 如果你不想让TypeScript将没有明确指定的类型默默地推断为 any类型，可以在修改文件之前启用*noImplicitAny*
+- 如果你不想让TypeScript将没有明确指定的类型默默地推断为 any类型，可以在修改文件之前启用*noImplicitAny* 选项
 
 ### 模块导入
 如果有类似Cannot find name 'require'.和Cannot find name 'define'.的错误。 是使用导入模块引起的，需要申明 TypeScript它们是存在的：
