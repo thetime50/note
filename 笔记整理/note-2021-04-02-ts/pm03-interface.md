@@ -185,13 +185,13 @@ class Clock implements ClockConstructor {
 ```
 ```ts
 interface ClockConstructor { // 类构造函数声明 // 这个是不是可以直接修饰 constructor
-    new (hour: number, minute: number): ClockInterface; // 生成实例的构造函数
+    new (hour: number, minute: number): ClockInterface; // 生成实例的构造函数 检查类和初始化函数结构
 }
-interface ClockInterface { // 类实例声明
+interface ClockInterface { // 类实例声明 检查数据实例数据结构
     tick();
 }
 
-function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface { //类实例化函数 类参数检查 实例化参数检查
     return new ctor(hour, minute);
 }
 
@@ -211,3 +211,89 @@ class AnalogClock implements ClockInterface {
 let digital = createClock(DigitalClock, 12, 17);
 let analog = createClock(AnalogClock, 7, 32);
 ```
+
+### 继承接口
+
+```ts
+interface Shape {
+    color: string;
+}
+
+interface Square extends Shape {
+    sideLength: number;
+}
+
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+
+// 继承多个
+
+interface PenStroke {
+    penWidth: number;
+}
+
+interface Square extends Shape, PenStroke {
+    sideLength: number;
+}
+
+let square = <Square>{};
+square.color = "blue";
+square.sideLength = 10;
+square.penWidth = 5.0;
+```
+
+### 混合类型
+一个对象可以同时做为函数和对象使用，并带有额外的属性。
+```ts
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = <Counter>function (start: number) { };
+    counter.interval = 123;
+    counter.reset = function () { };
+    return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+```
+
+### 接口继承类
+
+接口同样会继承到类的private和protected成员
+
+接口继承类时即也声明了数据的继承关系，继承类的接口会检查数据的继承关系
+
+```ts
+class Control {
+    private state: any;
+}
+
+interface SelectableControl extends Control { // 接口继承类
+    select(): void;
+}
+
+class Button extends Control implements SelectableControl { // 继承父类 并应用继承接口的定义
+    // 通过继承产生state属性
+    select() { }
+}
+
+class TextBox extends Control {
+    select() { }
+}
+
+// 错误：“Image”类型缺少“state”属性。
+class Image implements SelectableControl {
+    select() { }
+}
+
+```
+ 因为 state是私有成员，所以只能够是Control的子类们才能实现SelectableControl接口。 ？？
+
