@@ -1,4 +1,5 @@
 ## pm03-接口
+[接口->](https://www.tslang.cn/docs/handbook/interfaces.html)  
 [code->](https://github.com/thetime50/ts-practice/tree/main/pm03-interface/pm03-interface.ts)
 
 检查属性存在并且类型匹配，不会检查顺序

@@ -1,5 +1,6 @@
 # 手册指南
 ## pm01-基础类型
+[基础类型->](https://www.tslang.cn/docs/handbook/basic-types.html)  
 [code->](https://github.com/thetime50/ts-practice/tree/main/pm01-type/pm01-type.ts)
 
 简单的数据单元：数字，字符串，结构体，布尔值等  

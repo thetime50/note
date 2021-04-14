@@ -1,4 +1,5 @@
 ## pm02-变量声明
+[变量声明->](https://www.tslang.cn/docs/handbook/variable-declarations.html)  
 [code->](https://github.com/thetime50/ts-practice/blob/main/pm02-variable/pm02-variable.ts)
 
 ### 变量声明
