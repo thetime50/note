@@ -56,8 +56,8 @@ class Animal {
 ```
 
 #### private
-私有的，不可外部访问
-private 和 protected 的成员的类型， **必须是来自同一处声明时**，我们才认为这两个类型是兼容的。
+私有的 不能在派送类中访问
+private 和 protected 的成员的类型， **必须是来自同一处声明时**，才认为这两个类型是兼容的。
 ```ts
 class Animal {
     private name: string;
@@ -82,7 +82,7 @@ animal = employee; // 错误: Animal 与 Employee 不兼容.
 ```
 
 #### protected
-受保护成员 不能在派送类中访问
+受保护成员，不可外部访问
 
 构造函数也可以被标记成 protected。 这意味着这个类不能在包含它的类外被实例化(必须声明子类来实例化？)，但是能被继承.
 
