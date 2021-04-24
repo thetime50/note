@@ -6,6 +6,7 @@
 
 ## todolist
 - uniapp wx
+- next ssr
 - vue3
 - 前端工程化
     - unit test
@@ -18,3 +19,6 @@
 - element-ui vue-element-admin D2Admin  源码
 - D3 G6 G2
 - three
+- houdini
+- ts
+- electen
