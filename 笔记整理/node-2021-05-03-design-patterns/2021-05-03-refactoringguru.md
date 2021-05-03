@@ -26,6 +26,7 @@ https://refactoringguru.cn/design-patterns
 
 使用特殊的工厂方法代替对于对象构造函数的直接调用，工厂方法返回的对象通常被称作 “产品(production)”
 
+#### 结构
 1. **创建者** （Creator） 类声明返回产品对象的工厂方法。  
     - 该方法的返回对象类型必须与产品接口相匹配。
     - 你可以将工厂方法声明为抽象方法， 强制要求每个子类以不同方式实现该方法。   
@@ -218,7 +219,7 @@ clientCode(new ConcreteCreator2());
 ```
 通过抽象工厂定义一系列的依赖数据类型的工厂方法
 ```
-
+#### 结构
 1. **抽象工厂** （Abstract Factory） 接口声明了一组创建各种抽象产品的方法。
 2. **抽象产品** （Abstract Product） 为构成系列产品的一组不同但相关的产品声明接口。
 3. **具体工厂** （Concrete Factory） 实现抽象工厂的构建方法。 每个具体工厂都对应特定产品变体， 且仅创建此种产品变体。
@@ -481,7 +482,7 @@ clientCode(new ConcreteFactory2());
 不同主管调用不同的初始化步骤生成不同产品
 
 ```
-
+#### 结构
 1. **主管** （Director） 类定义调用构造步骤的顺序， 这样你就可以创建和复用特定的产品配置。
 2. **生成器** （Builder） 接口声明在所有类型生成器中通用的产品构造步骤。
 3. **具体生成器** （Concrete Builders） 提供构造过程的不同实现。 具体生成器也可以构造不遵循通用接口的产品。
@@ -770,8 +771,312 @@ clientCode(director);
 </details>
 
 
+### 原型模式
+[link->](https://refactoringguru.cn/design-patterns/prototype)
+
+**原型模式**是一种创建型设计模式， 使你能够复制已有对象， 而又无需使代码依赖它们所属的类。
+
+1. 复制一个对象时，有些对象可能拥有私有成员变量， 它们在对象本身以外是不可见的。
+2. 必须知道对象所属的类才能创建复制品，但是有时你只知道对象所实现的接口， 而不知道其所属的具体类， 比如可向方法的某个参数传入实现了某个接口的任何对象。
+
+- 将克隆过程委派给被克隆的实际对象。
+- 绝大部分编程语言都允许对象访问其同类对象的私有成员变量。
+
+#### 结构
+**基本实现**
+1. **原型** （Prototype） 接口将对克隆方法进行声明。 在绝大多数情况下， 其中只会有一个名为 clone克隆的方法。
+2. **具体原型** （Concrete Prototype） 类将实现克隆方法。 除了将原始对象的数据复制到克隆体中之外， 该方法有时还需处理克隆过程中的极端情况， 例如克隆关联对象和梳理递归依赖等等。
+3. **客户端** （Client） 可以复制实现了原型接口的任何对象。
+
+**原型注册表实现**
+1. **原型注册表** （Prototype Registry） 提供了一种访问常用原型的简单方法， 其中存储了一系列可供随时复制的预生成对象。 最简单的注册表原型是一个 名称 → 原型的哈希表。 但如果需要使用名称以外的条件进行搜索， 你可以创建更加完善的注册表版本。
 
 
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 基础原型。
+abstract class Shape is
+    field X: int
+    field Y: int
+    field color: string
+
+    // 常规构造函数。
+    constructor Shape() is
+        // ...
+
+    // 原型构造函数。使用已有对象的数值来初始化一个新对象。
+    constructor Shape(source: Shape) is
+        this()
+        this.X = source.X
+        this.Y = source.Y
+        this.color = source.color
+
+    // clone（克隆）操作会返回一个形状子类。
+    abstract method clone():Shape
+
+
+// 具体原型。克隆方法会创建一个新对象并将其传递给构造函数。直到构造函数运
+// 行完成前，它都拥有指向新克隆对象的引用。因此，任何人都无法访问未完全生
+// 成的克隆对象。这可以保持克隆结果的一致。
+class Rectangle extends Shape is
+    field width: int
+    field height: int
+
+    constructor Rectangle(source: Rectangle) is
+        // 需要调用父构造函数来复制父类中定义的私有成员变量。
+        super(source)
+        this.width = source.width
+        this.height = source.height
+
+    method clone():Shape is
+        return new Rectangle(this)
+
+
+class Circle extends Shape is
+    field radius: int
+
+    constructor Circle(source: Circle) is
+        super(source)
+        this.radius = source.radius
+
+    method clone():Shape is
+        return new Circle(this)
+
+
+// 客户端代码中的某个位置。
+class Application is
+    field shapes: array of Shape
+
+    constructor Application() is
+        Circle circle = new Circle()
+        circle.X = 10
+        circle.Y = 10
+        circle.radius = 20
+        shapes.add(circle)
+
+        Circle anotherCircle = circle.clone()
+        shapes.add(anotherCircle)
+        // 变量 `anotherCircle（另一个圆）`与 `circle（圆）`对象的内
+        // 容完全一样。
+
+        Rectangle rectangle = new Rectangle()
+        rectangle.width = 10
+        rectangle.height = 20
+        shapes.add(rectangle)
+
+    method businessLogic() is
+        // 原型是很强大的东西，因为它能在不知晓对象类型的情况下生成一个与
+        // 其完全相同的复制品。
+        Array shapesCopy = new Array of Shapes.
+
+        // 例如，我们不知晓形状数组中元素的具体类型，只知道它们都是形状。
+        // 但在多态机制的帮助下，当我们在某个形状上调用 `clone（克隆）`
+        // 方法时，程序会检查其所属的类并调用其中所定义的克隆方法。这样，
+        // 我们将获得一个正确的复制品，而不是一组简单的形状对象。
+        foreach (s in shapes) do
+            shapesCopy.add(s.clone())
+
+        // `shapesCopy（形状副本）`数组中包含 `shape（形状）`数组所有
+        // 子元素的复制品。
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The example class that has cloning ability. We'll see how the values of field
+ * with different types will be cloned.
+ */
+class Prototype {
+    public primitive: any;
+    public component: object;
+    public circularReference: ComponentWithBackReference;
+
+    public clone(): this {
+        const clone = Object.create(this);
+
+        clone.component = Object.create(this.component);
+
+        // Cloning an object that has a nested object with backreference
+        // requires special treatment. After the cloning is completed, the
+        // nested object should point to the cloned object, instead of the
+        // original object. Spread operator can be handy for this case.
+        clone.circularReference = {
+            ...this.circularReference,
+            prototype: { ...this },
+        };
+
+        return clone;
+    }
+}
+
+class ComponentWithBackReference {
+    public prototype;
+
+    constructor(prototype: Prototype) {
+        this.prototype = prototype;
+    }
+}
+
+/**
+ * The client code.
+ */
+function clientCode() {
+    const p1 = new Prototype();
+    p1.primitive = 245;
+    p1.component = new Date();
+    p1.circularReference = new ComponentWithBackReference(p1);
+
+    const p2 = p1.clone();
+    if (p1.primitive === p2.primitive) {
+        console.log('Primitive field values have been carried over to a clone. Yay!');
+    } else {
+        console.log('Primitive field values have not been copied. Booo!');
+    }
+    if (p1.component === p2.component) {
+        console.log('Simple component has not been cloned. Booo!');
+    } else {
+        console.log('Simple component has been cloned. Yay!');
+    }
+
+    if (p1.circularReference === p2.circularReference) {
+        console.log('Component with back reference has not been cloned. Booo!');
+    } else {
+        console.log('Component with back reference has been cloned. Yay!');
+    }
+
+    if (p1.circularReference.prototype === p2.circularReference.prototype) {
+        console.log('Component with back reference is linked to original object. Booo!');
+    } else {
+        console.log('Component with back reference is linked to the clone. Yay!');
+    }
+}
+
+clientCode();
+```
+</details>
+
+
+### 单例模式
+[link->](https://refactoringguru.cn/design-patterns/singleton)
+
+**单例模式**是一种创建型设计模式， 让你能够保证一个类只有一个实例， 并提供一个访问该实例的全局节点。
+
+1. 保证一个类只有一个实例。 为什么会有人想要控制一个类所拥有的实例数量？ 最常见的原因是控制某些共享资源 （例如数据库或文件） 的访问权限。
+2. 为该实例提供一个全局访问节点。和全局变量一样， 单例模式也允许在程序的任何地方访问特定对象。 但是它可以保护该实例不被其他代码覆盖。
+
+- <u>将默认构造函数设为私有</u>， 防止其他对象使用单例类的 new运算符。
+- <u>新建一个静态构建方法作为构造函数</u>。 该函数会 “偷偷” 调用私有构造函数来创建对象， 并将其保存在一个静态成员变量中。 此后所有对于该函数的调用都将返回这一缓存对象。
+
+#### 结构
+1. **单例** （Singleton） 类声明了一个名为 get­Instance获取实例的静态方法来返回其所属类的一个相同实例。  
+单例的构造函数必须对客户端 （Client） 代码隐藏。 调用 获取实例方法必须是获取单例对象的唯一方式。
+
+
+
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 数据库类会对`getInstance（获取实例）`方法进行定义以让客户端在程序各处
+// 都能访问相同的数据库连接实例。
+class Database is
+    // 保存单例实例的成员变量必须被声明为静态类型。
+    private static field instance: Database
+
+    // 单例的构造函数必须永远是私有类型，以防止使用`new`运算符直接调用构
+    // 造方法。
+    private constructor Database() is
+        // 部分初始化代码（例如到数据库服务器的实际连接）。
+        // ...
+
+    // 用于控制对单例实例的访问权限的静态方法。
+    public static method getInstance() is
+        if (Database.instance == null) then
+            acquireThreadLock() and then
+                // 确保在该线程等待解锁时，其他线程没有初始化该实例。
+                if (Database.instance == null) then
+                    Database.instance = new Database()
+        return Database.instance
+
+    // 最后，任何单例都必须定义一些可在其实例上执行的业务逻辑。
+    public method query(sql) is
+        // 比如应用的所有数据库查询请求都需要通过该方法进行。因此，你可以
+        // 在这里添加限流或缓冲逻辑。
+        // ...
+
+class Application is
+    method main() is
+        Database foo = Database.getInstance()
+        foo.query("SELECT ...")
+        // ...
+        Database bar = Database.getInstance()
+        bar.query("SELECT ...")
+        // 变量 `bar` 和 `foo` 中将包含同一个对象。
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The Singleton class defines the `getInstance` method that lets clients access
+ * the unique singleton instance.
+ */
+class Singleton {
+    private static instance: Singleton;
+
+    /**
+     * The Singleton's constructor should always be private to prevent direct
+     * construction calls with the `new` operator.
+     */
+    private constructor() { }
+
+    /**
+     * The static method that controls the access to the singleton instance.
+     *
+     * This implementation let you subclass the Singleton class while keeping
+     * just one instance of each subclass around.
+     */
+    public static getInstance(): Singleton {
+        if (!Singleton.instance) {
+            Singleton.instance = new Singleton();
+        }
+
+        return Singleton.instance;
+    }
+
+    /**
+     * Finally, any singleton should define some business logic, which can be
+     * executed on its instance.
+     */
+    public someBusinessLogic() {
+        // ...
+    }
+}
+
+/**
+ * The client code.
+ */
+function clientCode() {
+    const s1 = Singleton.getInstance();
+    const s2 = Singleton.getInstance();
+
+    if (s1 === s2) {
+        console.log('Singleton works, both variables contain the same instance.');
+    } else {
+        console.log('Singleton failed, variables contain different instances.');
+    }
+}
+
+clientCode();
+```
+</details>
 ////////////////////////////////
 
 
