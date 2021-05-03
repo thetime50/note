@@ -33,6 +33,9 @@ https://refactoringguru.cn/design-patterns
 2. **具体创建者** （Concrete Creators） 将会重写基础工厂方法， 使其返回不同类型的产品。
 3. **产品** （Product） 将会对接口进行声明。 对于所有由创建者及其子类构建的对象， 这些接口都是通用的。
 
+<details>
+<summary>pseudocode</smmary>
+
 ```pseudocode
 // 创建者类声明的工厂方法必须返回一个产品类的对象。创建者的子类通常会提供
 // 该方法的实现。
@@ -101,3 +104,5 @@ class Application is
         this.initialize()
         dialog.render()
 ```
+
+</details>
