@@ -8,6 +8,10 @@ https://refactoringguru.cn/design-patterns
   - [refactoringguru.cn design-patterns](#refactoringguru.cn-design-patterns)
     - [创建型模式](#创建型模式)
       - [工厂方法模式](#工厂方法模式)
+      - [抽象工厂模式](#抽象工厂模式)
+      - [生成器模式](#生成器模式)
+      - [原型模式](#原型模式)
+      - [单例模式](#单例模式)
 
 [TOCEND]
 
