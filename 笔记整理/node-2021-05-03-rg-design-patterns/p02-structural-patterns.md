@@ -1,6 +1,18 @@
 ## 结构模式
 [link->](https://refactoringguru.cn/design-patterns/structural-patterns)
 
+[TOC]
+    - [结构模式](#结构模式)
+      - [适配器模式](#适配器模式)
+      - [桥接模式](#桥接模式)
+      - [组合模式](#组合模式)
+      - [装饰模式](#装饰模式)
+      - [外观模式](#外观模式)
+      - [享元模式](#享元模式)
+      - [代理模式](#代理模式)
+
+[TOCEND]
+
 ### 适配器模式
 [link->](https://refactoringguru.cn/design-patterns/adapter)
 
