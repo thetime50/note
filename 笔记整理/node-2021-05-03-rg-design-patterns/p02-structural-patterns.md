@@ -596,13 +596,9 @@ clientCode2(tree, simple);
 
 #### 结构
 1. **部件** （Component） 声明封装器和被封装对象的公用接口。
-
 2. **具体部件** （Concrete Component） 类是被封装对象所属的类。 它定义了基础行为， 但装饰类可以改变这些行为。
-
 3. **基础装饰** （Base Decorator） 类拥有一个指向被封装对象的引用成员变量。 该变量的类型应当被声明为通用部件接口， 这样它就可以引用具体的部件和装饰。 装饰基类会将所有操作委派给被封装的对象。
-
 4. **具体装饰类** （Concrete Decorators） 定义了可动态添加到部件的额外行为。 具体装饰类会重写装饰基类的方法， 并在调用父类方法之前或之后进行额外的行为。
-
 5. **客户端** （Client） 可以使用多层装饰来封装部件， 只要它能使用通用接口与所有对象互动即可。
 
 
@@ -823,5 +819,548 @@ const decorator1 = new ConcreteDecoratorA(simple);
 const decorator2 = new ConcreteDecoratorB(decorator1);
 console.log('Client: Now I\'ve got a decorated component:');
 clientCode(decorator2);
+```
+</details>
+
+### 外观模式
+[link->](https://refactoringguru.cn/design-patterns/facade)
+
+**外观模式**是一种结构型设计模式， 能为程序库、 框架或其他复杂类提供一个简单的接口。
+
+```
+包装复制的参数和调用逻辑
+```
+
+#### 结构
+1. **外观** （Facade） 提供了一种访问特定子系统功能的便捷方式， 其了解如何重定向客户端请求， 知晓如何操作一切活动部件。
+2. **创建附加外观** （Additional Facade） 类可以避免多种不相关的功能污染单一外观， 使其变成又一个复杂结构。 客户端和其他外观都可使用附加外观。
+3. **复杂子系统** （Complex Subsystem） 由数十个不同对象构成。 如果要用这些对象完成有意义的工作， 你必须深入了解子系统的实现细节， 比如按照正确顺序初始化对象和为其提供正确格式的数据。  
+子系统类不会意识到外观的存在， 它们在系统内运作并且相互之间可直接进行交互。
+4. **客户端** （Client） 使用外观代替对子系统对象的直接调用。
+
+
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 这里有复杂第三方视频转换框架中的一些类。我们不知晓其中的代码，因此无法
+// 对其进行简化。
+
+class VideoFile
+// ...
+
+class OggCompressionCodec
+// ...
+
+class MPEG4CompressionCodec
+// ...
+
+class CodecFactory
+// ...
+
+class BitrateReader
+// ...
+
+class AudioMixer
+// ...
+
+
+// 为了将框架的复杂性隐藏在一个简单接口背后，我们创建了一个外观类。它是在
+// 功能性和简洁性之间做出的权衡。
+class VideoConverter is
+    method convert(filename, format):File is
+        file = new VideoFile(filename)
+        sourceCodec = new CodecFactory.extract(file)
+        if (format == "mp4")
+            destinationCodec = new MPEG4CompressionCodec()
+        else
+            destinationCodec = new OggCompressionCodec()
+        buffer = BitrateReader.read(filename, sourceCodec)
+        result = BitrateReader.convert(buffer, destinationCodec)
+        result = (new AudioMixer()).fix(result)
+        return new File(result)
+
+// 应用程序的类并不依赖于复杂框架中成千上万的类。同样，如果你决定更换框架，
+// 那只需重写外观类即可。
+class Application is
+    method main() is
+        convertor = new VideoConverter()
+        mp4 = convertor.convert("funny-cats-video.ogg", "mp4")
+        mp4.save()
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The Facade class provides a simple interface to the complex logic of one or
+ * several subsystems. The Facade delegates the client requests to the
+ * appropriate objects within the subsystem. The Facade is also responsible for
+ * managing their lifecycle. All of this shields the client from the undesired
+ * complexity of the subsystem.
+ */
+class Facade {
+    protected subsystem1: Subsystem1;
+
+    protected subsystem2: Subsystem2;
+
+    /**
+     * Depending on your application's needs, you can provide the Facade with
+     * existing subsystem objects or force the Facade to create them on its own.
+     */
+    constructor(subsystem1: Subsystem1 = null, subsystem2: Subsystem2 = null) {
+        this.subsystem1 = subsystem1 || new Subsystem1();
+        this.subsystem2 = subsystem2 || new Subsystem2();
+    }
+
+    /**
+     * The Facade's methods are convenient shortcuts to the sophisticated
+     * functionality of the subsystems. However, clients get only to a fraction
+     * of a subsystem's capabilities.
+     */
+    public operation(): string {
+        let result = 'Facade initializes subsystems:\n';
+        result += this.subsystem1.operation1();
+        result += this.subsystem2.operation1();
+        result += 'Facade orders subsystems to perform the action:\n';
+        result += this.subsystem1.operationN();
+        result += this.subsystem2.operationZ();
+
+        return result;
+    }
+}
+
+/**
+ * The Subsystem can accept requests either from the facade or client directly.
+ * In any case, to the Subsystem, the Facade is yet another client, and it's not
+ * a part of the Subsystem.
+ */
+class Subsystem1 {
+    public operation1(): string {
+        return 'Subsystem1: Ready!\n';
+    }
+
+    // ...
+
+    public operationN(): string {
+        return 'Subsystem1: Go!\n';
+    }
+}
+
+/**
+ * Some facades can work with multiple subsystems at the same time.
+ */
+class Subsystem2 {
+    public operation1(): string {
+        return 'Subsystem2: Get ready!\n';
+    }
+
+    // ...
+
+    public operationZ(): string {
+        return 'Subsystem2: Fire!';
+    }
+}
+
+/**
+ * The client code works with complex subsystems through a simple interface
+ * provided by the Facade. When a facade manages the lifecycle of the subsystem,
+ * the client might not even know about the existence of the subsystem. This
+ * approach lets you keep the complexity under control.
+ */
+function clientCode(facade: Facade) {
+    // ...
+
+    console.log(facade.operation());
+
+    // ...
+}
+
+/**
+ * The client code may have some of the subsystem's objects already created. In
+ * this case, it might be worthwhile to initialize the Facade with these objects
+ * instead of letting the Facade create new instances.
+ */
+const subsystem1 = new Subsystem1();
+const subsystem2 = new Subsystem2();
+const facade = new Facade(subsystem1, subsystem2);
+clientCode(facade);
+```
+</details>
+
+
+### 享元模式
+
+**享元模式**是一种结构型设计模式， 它摒弃了在每个对象中保存所有数据的方式， 通过共享多个对象所共有的相同状态
+
+```
+共享静态数据 资源,可共享的实例
+//proto method
+```
+享元类的状态只能由构造函数的参数进行一次性初始化， 它不能对其他对象公开其设置器或公有成员变量。
+
+**享元工厂** (享元加单例)    
+为了能更方便地访问各种享元， 你可以创建一个工厂方法来管理已有享元对象的缓存池。 工厂方法从客户端处接收目标享元对象的内在状态作为参数， 如果它能在缓存池中找到所需享元， 则将其返回给客户端； 如果没有找到， 它就会新建一个享元， 并将其添加到缓存池中。
+
+#### 结构
+1. **享元模式**只是一种优化。 在应用该模式之前， 你要确定程序中存在与大量类似对象同时占用内存相关的内存消耗问题， 并且确保该问题无法使用其他更好的方式来解决。
+2. **享元** （Flyweight） 类包含原始对象中部分能在多个对象中共享的状态。 同一享元对象可在许多不同情景中使用。 享元中存储的状态被称为 “内在状态”。 传递给享元方法的状态被称为 “外在状态”。
+3. **情景** （Context） 类包含原始对象中各不相同的外在状态。 情景与享元对象组合在一起就能表示原始对象的全部状态。
+4. 通常情况下， 原始对象的行为会保留在享元类中。 因此调用享元方法必须*提供部分外在状态*作为参数。 但你也可将行为移动到情景类中， 然后将连入的享元作为单纯的数据对象。
+5. **客户端** （Client） 负责计算或存储享元的外在状态。 在客户端看来， 享元是一种可在运行时进行配置的模板对象， 具体的配置方式为向其方法中传入一些情景数据参数。
+6. **享元工厂** （Flyweight Factory） 会对已有享元的缓存池进行管理。 有了工厂后， 客户端就无需直接创建享元， 它们只需调用工厂并向其传递目标享元的一些内在状态即可。 工厂会根据参数在之前已创建的享元中进行查找， 如果找到满足条件的享元就将其返回； 如果没有找到就根据参数新建享元。
+
+仅在程序必须支持大量对象且没有足够的内存容量时使用享元模式。
+
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 享元类包含一个树的部分状态。这些成员变量保存的数值对于特定树而言是唯一
+// 的。例如，你在这里找不到树的坐标。但这里有很多树木之间所共有的纹理和颜
+// 色。由于这些数据的体积通常非常大，所以如果让每棵树都其进行保存的话将耗
+// 费大量内存。因此，我们可将纹理、颜色和其他重复数据导出到一个单独的对象
+// 中，然后让众多的单个树对象去引用它。
+class TreeType is
+    field name
+    field color
+    field texture
+    constructor TreeType(name, color, texture) { ... }
+    method draw(canvas, x, y) is
+        // 1. 创建特定类型、颜色和纹理的位图。
+        // 2. 在画布坐标 (X,Y) 处绘制位图。
+
+// 享元工厂决定是否复用已有享元或者创建一个新的对象。
+class TreeFactory is
+    static field treeTypes: collection of tree types
+    static method getTreeType(name, color, texture) is
+        type = treeTypes.find(name, color, texture)
+        if (type == null)
+            type = new TreeType(name, color, texture)
+            treeTypes.add(type)
+        return type
+
+// 情景对象包含树状态的外在部分。程序中可以创建数十亿个此类对象，因为它们
+// 体积很小：仅有两个整型坐标和一个引用成员变量。
+class Tree is
+    field x,y
+    field type: TreeType
+    constructor Tree(x, y, type) { ... }
+    method draw(canvas) is
+        type.draw(canvas, this.x, this.y)
+
+// 树（Tree）和森林（Forest）类是享元的客户端。如果不打算继续对树类进行开
+// 发，你可以将它们合并。
+class Forest is
+    field trees: collection of Trees
+
+    method plantTree(x, y, name, color, texture) is
+        type = TreeFactory.getTreeType(name, color, texture)
+        tree = new Tree(x, y, type)
+        trees.add(tree)
+
+    method draw(canvas) is
+        foreach (tree in trees) do
+            tree.draw(canvas)
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The Flyweight stores a common portion of the state (also called intrinsic
+ * state) that belongs to multiple real business entities. The Flyweight accepts
+ * the rest of the state (extrinsic state, unique for each entity) via its
+ * method parameters.
+ */
+class Flyweight {
+    private sharedState: any;
+
+    constructor(sharedState: any) {
+        this.sharedState = sharedState;
+    }
+
+    public operation(uniqueState): void {
+        const s = JSON.stringify(this.sharedState);
+        const u = JSON.stringify(uniqueState);
+        console.log(`Flyweight: Displaying shared (${s}) and unique (${u}) state.`);
+    }
+}
+
+/**
+ * The Flyweight Factory creates and manages the Flyweight objects. It ensures
+ * that flyweights are shared correctly. When the client requests a flyweight,
+ * the factory either returns an existing instance or creates a new one, if it
+ * doesn't exist yet.
+ */
+class FlyweightFactory {
+    private flyweights: {[key: string]: Flyweight} = <any>{};
+
+    constructor(initialFlyweights: string[][]) {
+        for (const state of initialFlyweights) {
+            this.flyweights[this.getKey(state)] = new Flyweight(state);
+        }
+    }
+
+    /**
+     * Returns a Flyweight's string hash for a given state.
+     */
+    private getKey(state: string[]): string {
+        return state.join('_');
+    }
+
+    /**
+     * Returns an existing Flyweight with a given state or creates a new one.
+     */
+    public getFlyweight(sharedState: string[]): Flyweight {
+        const key = this.getKey(sharedState);
+
+        if (!(key in this.flyweights)) {
+            console.log('FlyweightFactory: Can\'t find a flyweight, creating new one.');
+            this.flyweights[key] = new Flyweight(sharedState);
+        } else {
+            console.log('FlyweightFactory: Reusing existing flyweight.');
+        }
+
+        return this.flyweights[key];
+    }
+
+    public listFlyweights(): void {
+        const count = Object.keys(this.flyweights).length;
+        console.log(`\nFlyweightFactory: I have ${count} flyweights:`);
+        for (const key in this.flyweights) {
+            console.log(key);
+        }
+    }
+}
+
+/**
+ * The client code usually creates a bunch of pre-populated flyweights in the
+ * initialization stage of the application.
+ */
+const factory = new FlyweightFactory([
+    ['Chevrolet', 'Camaro2018', 'pink'],
+    ['Mercedes Benz', 'C300', 'black'],
+    ['Mercedes Benz', 'C500', 'red'],
+    ['BMW', 'M5', 'red'],
+    ['BMW', 'X6', 'white'],
+    // ...
+]);
+factory.listFlyweights();
+
+// ...
+
+function addCarToPoliceDatabase(
+    ff: FlyweightFactory, plates: string, owner: string,
+    brand: string, model: string, color: string,
+) {
+    console.log('\nClient: Adding a car to database.');
+    const flyweight = ff.getFlyweight([brand, model, color]);
+
+    // The client code either stores or calculates extrinsic state and passes it
+    // to the flyweight's methods.
+    flyweight.operation([plates, owner]);
+}
+
+addCarToPoliceDatabase(factory, 'CL234IR', 'James Doe', 'BMW', 'M5', 'red');
+
+addCarToPoliceDatabase(factory, 'CL234IR', 'James Doe', 'BMW', 'X1', 'red');
+
+factory.listFlyweights();
+```
+</details>
+
+### 代理模式
+
+**代理模式**是一种结构型设计模式， 让你能够提供对象*接口相同*的替代品或其占位符。 代理控制着对于原对象的访问， 并允许在将请求提交给对象前后进行一些处理。
+
+```
+增加了调用过程中的逻辑加工，实现
+1. 延迟初始化
+2. 访问控制
+3. 远程代理
+4. 记录日志
+5. 智能引用 // 引用监控 销毁管理
+```
+
+#### 结构
+1. **服务接口** （Service Interface） 声明了服务接口。 代理必须遵循该接口才能伪装成服务对象。
+2. **服务** （Service） 类提供了一些实用的业务逻辑。
+3. **代理** （Proxy） 类包含一个指向服务对象的引用成员变量。 代理完成其任务 （例如延迟初始化、 记录日志、 访问控制和缓存等） 后会将请求传递给服务对象。 通常情况下， 代理会对其服务对象的整个生命周期进行管理。
+4. **客户端** （Client） 能通过同一接口与服务或代理进行交互， 所以你可在一切需要服务对象的代码中使用代理。
+
+
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 远程服务接口。
+interface ThirdPartyTVLib is
+    method listVideos()
+    method getVideoInfo(id)
+    method downloadVideo(id)
+
+// 服务连接器的具体实现。该类的方法可以向腾讯视频请求信息。请求速度取决于
+// 用户和腾讯视频的互联网连接情况。如果同时发送大量请求，即使所请求的信息
+// 一模一样，程序的速度依然会减慢。
+class ThirdPartyTVClass implements ThirdPartyTVLib is
+    method listVideos() is
+        // 向腾讯视频发送一个 API 请求。
+
+    method getVideoInfo(id) is
+        // 获取某个视频的元数据。
+
+    method downloadVideo(id) is
+        // 从腾讯视频下载一个视频文件。
+
+// 为了节省网络带宽，我们可以将请求结果缓存下来并保存一段时间。但你可能无
+// 法直接将这些代码放入服务类中。比如该类可能是第三方程序库的一部分或其签
+// 名是`final（最终）`。因此我们会在一个实现了服务类接口的新代理类中放入
+// 缓存代码。当代理类接收到真实请求后，才会将其委派给服务对象。
+class CachedTVClass implements ThirdPartyTVLib is
+    private field service: ThirdPartyTVLib
+    private field listCache, videoCache
+    field needReset
+
+    constructor CachedTVClass(service: ThirdPartyTVLib) is
+        this.service = service
+
+    method listVideos() is
+        if (listCache == null || needReset)
+            listCache = service.listVideos()
+        return listCache
+
+    method getVideoInfo(id) is
+        if (videoCache == null || needReset)
+            videoCache = service.getVideoInfo(id)
+        return videoCache
+
+    method downloadVideo(id) is
+        if (!downloadExists(id) || needReset)
+            service.downloadVideo(id)
+
+// 之前直接与服务对象交互的 GUI 类不需要改变，前提是它仅通过接口与服务对
+// 象交互。我们可以安全地传递一个代理对象来代替真实服务对象，因为它们都实
+// 现了相同的接口。
+class TVManager is
+    protected field service: ThirdPartyTVLib
+
+    constructor TVManager(service: ThirdPartyTVLib) is
+        this.service = service
+
+    method renderVideoPage(id) is
+        info = service.getVideoInfo(id)
+        // 渲染视频页面。
+
+    method renderListPanel() is
+        list = service.listVideos()
+        // 渲染视频缩略图列表。
+
+    method reactOnUserInput() is
+        renderVideoPage()
+        renderListPanel()
+
+// 程序可在运行时对代理进行配置。
+class Application is
+    method init() is
+        aTVService = new ThirdPartyTVClass()
+        aTVProxy = new CachedTVClass(aTVService)
+        manager = new TVManager(aTVProxy)
+        manager.reactOnUserInput()
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The Subject interface declares common operations for both RealSubject and the
+ * Proxy. As long as the client works with RealSubject using this interface,
+ * you'll be able to pass it a proxy instead of a real subject.
+ */
+interface Subject {
+    request(): void;
+}
+
+/**
+ * The RealSubject contains some core business logic. Usually, RealSubjects are
+ * capable of doing some useful work which may also be very slow or sensitive -
+ * e.g. correcting input data. A Proxy can solve these issues without any
+ * changes to the RealSubject's code.
+ */
+class RealSubject implements Subject {
+    public request(): void {
+        console.log('RealSubject: Handling request.');
+    }
+}
+
+/**
+ * The Proxy has an interface identical to the RealSubject.
+ */
+class Proxy implements Subject {
+    private realSubject: RealSubject;
+
+    /**
+     * The Proxy maintains a reference to an object of the RealSubject class. It
+     * can be either lazy-loaded or passed to the Proxy by the client.
+     */
+    constructor(realSubject: RealSubject) {
+        this.realSubject = realSubject;
+    }
+
+    /**
+     * The most common applications of the Proxy pattern are lazy loading,
+     * caching, controlling the access, logging, etc. A Proxy can perform one of
+     * these things and then, depending on the result, pass the execution to the
+     * same method in a linked RealSubject object.
+     */
+    public request(): void {
+        if (this.checkAccess()) {
+            this.realSubject.request();
+            this.logAccess();
+        }
+    }
+
+    private checkAccess(): boolean {
+        // Some real checks should go here.
+        console.log('Proxy: Checking access prior to firing a real request.');
+
+        return true;
+    }
+
+    private logAccess(): void {
+        console.log('Proxy: Logging the time of request.');
+    }
+}
+
+/**
+ * The client code is supposed to work with all objects (both subjects and
+ * proxies) via the Subject interface in order to support both real subjects and
+ * proxies. In real life, however, clients mostly work with their real subjects
+ * directly. In this case, to implement the pattern more easily, you can extend
+ * your proxy from the real subject's class.
+ */
+function clientCode(subject: Subject) {
+    // ...
+
+    subject.request();
+
+    // ...
+}
+
+console.log('Client: Executing the client code with a real subject:');
+const realSubject = new RealSubject();
+clientCode(realSubject);
+
+console.log('');
+
+console.log('Client: Executing the same client code with a proxy:');
+const proxy = new Proxy(realSubject);
+clientCode(proxy);
 ```
 </details>
