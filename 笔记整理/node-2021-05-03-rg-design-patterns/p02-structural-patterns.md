@@ -585,3 +585,243 @@ console.log('Client: I don\'t need to check the components classes even when man
 clientCode2(tree, simple);
 ```
 </details>
+
+### 装饰模式
+[link->](https://refactoringguru.cn/design-patterns/decorator)
+
+**装饰模式**是一种结构型设计模式， 允许你通过将对象放入包含行为的特殊封装对象中来为原对象绑定新的行为。
+
+封装器包含与目标对象相同的一系列方法， 它会将所有接收到的请求委派给目标对象。 但是， 封装器可以在将请求委派给目标前后对其进行处理， 所以可能会改变最终结果。装饰器增加功能，不改变原本的功能。  
+<u>能够在运行时增加或删除功能</u>
+
+#### 结构
+1. **部件** （Component） 声明封装器和被封装对象的公用接口。
+
+2. **具体部件** （Concrete Component） 类是被封装对象所属的类。 它定义了基础行为， 但装饰类可以改变这些行为。
+
+3. **基础装饰** （Base Decorator） 类拥有一个指向被封装对象的引用成员变量。 该变量的类型应当被声明为通用部件接口， 这样它就可以引用具体的部件和装饰。 装饰基类会将所有操作委派给被封装的对象。
+
+4. **具体装饰类** （Concrete Decorators） 定义了可动态添加到部件的额外行为。 具体装饰类会重写装饰基类的方法， 并在调用父类方法之前或之后进行额外的行为。
+
+5. **客户端** （Client） 可以使用多层装饰来封装部件， 只要它能使用通用接口与所有对象互动即可。
+
+
+- 装饰能将业务逻辑组织为层次结构， 你可为各层创建一个装饰
+- 许多编程语言使用 final最终关键字来限制对某个类的进一步扩展。 复用最终类已有行为的唯一方法是使用装饰模式： 用封装器对其进行封装。
+
+- 创建一个具体组件类， 并定义其基础行为。
+- 创建装饰基类， <u>使用一个成员变量存储指向被封装对象的引用</u>。 该成员变量必须被声明为组件接口类型， 从而能在运行时连接具体组件和装饰。 装饰基类必须将所有工作委派给被封装的对象。
+- 确保所有类实现组件接口。
+
+<details>
+<summary><b>pseudocode</b></summary>
+
+```pseudocode
+// 装饰可以改变组件接口所定义的操作。
+interface DataSource is
+    method writeData(data)
+    method readData():data
+
+// 具体组件提供操作的默认实现。这些类在程序中可能会有几个变体。
+class FileDataSource implements DataSource is
+    constructor FileDataSource(filename) { ... }
+
+    method writeData(data) is
+        // 将数据写入文件。
+
+    method readData():data is
+        // 从文件读取数据。
+
+// 装饰基类和其他组件遵循相同的接口。该类的主要任务是定义所有具体装饰的封
+// 装接口。封装的默认实现代码中可能会包含一个保存被封装组件的成员变量，并
+// 且负责对其进行初始化。
+class DataSourceDecorator implements DataSource is
+    protected field wrappee: DataSource
+
+    constructor DataSourceDecorator(source: DataSource) is
+        wrappee = source
+
+    // 装饰基类会直接将所有工作分派给被封装组件。具体装饰中则可以新增一些
+    // 额外的行为。
+    method writeData(data) is
+        wrappee.writeData(data)
+
+    // 具体装饰可调用其父类的操作实现，而不是直接调用被封装对象。这种方式
+    // 可简化装饰类的扩展工作。
+    method readData():data is
+        return wrappee.readData()
+
+// 具体装饰必须在被封装对象上调用方法，不过也可以自行在结果中添加一些内容。
+// 装饰必须在调用封装对象之前或之后执行额外的行为。
+class EncryptionDecorator extends DataSourceDecorator is
+    method writeData(data) is
+        // 1. 对传递数据进行加密。
+        // 2. 将加密后数据传递给被封装对象 writeData（写入数据）方法。
+
+    method readData():data is
+        // 1. 通过被封装对象的 readData（读取数据）方法获取数据。
+        // 2. 如果数据被加密就尝试解密。
+        // 3. 返回结果。
+
+// 你可以将对象封装在多层装饰中。
+class CompressionDecorator extends DataSourceDecorator is
+    method writeData(data) is
+        // 1. 压缩传递数据。
+        // 2. 将压缩后数据传递给被封装对象 writeData（写入数据）方法。
+
+    method readData():data is
+        // 1. 通过被封装对象的 readData（读取数据）方法获取数据。
+        // 2. 如果数据被压缩就尝试解压。
+        // 3. 返回结果。
+
+
+// 选项 1：装饰组件的简单示例
+class Application is
+    method dumbUsageExample() is
+        source = new FileDataSource("somefile.dat")
+        source.writeData(salaryRecords)
+        // 已将明码数据写入目标文件。
+
+        source = new CompressionDecorator(source)
+        source.writeData(salaryRecords)
+        // 已将压缩数据写入目标文件。
+
+        source = new EncryptionDecorator(source)
+        // 源变量中现在包含：
+        // Encryption > Compression > FileDataSource
+        source.writeData(salaryRecords)
+        // 已将压缩且加密的数据写入目标文件。
+
+
+// 选项 2：客户端使用外部数据源。SalaryManager（工资管理器）对象并不关心
+// 数据如何存储。它们会与提前配置好的数据源进行交互，数据源则是通过程序配
+// 置器获取的。
+class SalaryManager is
+    field source: DataSource
+
+    constructor SalaryManager(source: DataSource) { ... }
+
+    method load() is
+        return source.readData()
+
+    method save() is
+        source.writeData(salaryRecords)
+    // ...其他有用的方法...
+
+
+// 程序可在运行时根据配置或环境组装不同的装饰堆桟。
+class ApplicationConfigurator is
+    method configurationExample() is
+        source = new FileDataSource("salary.dat")
+        if (enabledEncryption)
+            source = new EncryptionDecorator(source)
+        if (enabledCompression)
+            source = new CompressionDecorator(source)
+
+        logger = new SalaryManager(source)
+        salary = logger.load()
+    // ...
+```
+</details>
+
+<details>
+<summary><b>ts</b></summary>
+
+```ts
+/**
+ * The base Component interface defines operations that can be altered by
+ * decorators.
+ */
+interface Component {
+    operation(): string;
+}
+
+/**
+ * Concrete Components provide default implementations of the operations. There
+ * might be several variations of these classes.
+ */
+class ConcreteComponent implements Component {
+    public operation(): string {
+        return 'ConcreteComponent';
+    }
+}
+
+/**
+ * The base Decorator class follows the same interface as the other components.
+ * The primary purpose of this class is to define the wrapping interface for all
+ * concrete decorators. The default implementation of the wrapping code might
+ * include a field for storing a wrapped component and the means to initialize
+ * it.
+ */
+class Decorator implements Component {
+    protected component: Component;
+
+    constructor(component: Component) {
+        this.component = component;
+    }
+
+    /**
+     * The Decorator delegates all work to the wrapped component.
+     */
+    public operation(): string {
+        return this.component.operation();
+    }
+}
+
+/**
+ * Concrete Decorators call the wrapped object and alter its result in some way.
+ */
+class ConcreteDecoratorA extends Decorator {
+    /**
+     * Decorators may call parent implementation of the operation, instead of
+     * calling the wrapped object directly. This approach simplifies extension
+     * of decorator classes.
+     */
+    public operation(): string {
+        return `ConcreteDecoratorA(${super.operation()})`;
+    }
+}
+
+/**
+ * Decorators can execute their behavior either before or after the call to a
+ * wrapped object.
+ */
+class ConcreteDecoratorB extends Decorator {
+    public operation(): string {
+        return `ConcreteDecoratorB(${super.operation()})`;
+    }
+}
+
+/**
+ * The client code works with all objects using the Component interface. This
+ * way it can stay independent of the concrete classes of components it works
+ * with.
+ */
+function clientCode(component: Component) {
+    // ...
+
+    console.log(`RESULT: ${component.operation()}`);
+
+    // ...
+}
+
+/**
+ * This way the client code can support both simple components...
+ */
+const simple = new ConcreteComponent();
+console.log('Client: I\'ve got a simple component:');
+clientCode(simple);
+console.log('');
+
+/**
+ * ...as well as decorated ones.
+ *
+ * Note how decorators can wrap not only simple components but the other
+ * decorators as well.
+ */
+const decorator1 = new ConcreteDecoratorA(simple);
+const decorator2 = new ConcreteDecoratorB(decorator1);
+console.log('Client: Now I\'ve got a decorated component:');
+clientCode(decorator2);
+```
+</details>
