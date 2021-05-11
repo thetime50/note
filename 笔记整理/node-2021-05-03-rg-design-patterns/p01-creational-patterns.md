@@ -44,7 +44,7 @@ https://refactoringguru.cn/design-patterns
 ```pseudocode
 // 创建者类声明的工厂方法必须返回一个产品类的对象。创建者的子类通常会提供
 // 该方法的实现。
-class Dialog is
+class Dialog is // **创建者(定义)**
     // 创建者还可提供一些工厂方法的默认实现。
     abstract method createButton():Button
 
@@ -60,11 +60,11 @@ class Dialog is
 
 
 // 具体创建者将重写工厂方法以改变其所返回的产品类型。
-class WindowsDialog extends Dialog is
+class WindowsDialog extends Dialog is // **具体创建者**
     method createButton():Button is
         return new WindowsButton()
 
-class WebDialog extends Dialog is
+class WebDialog extends Dialog is // **具体创建者**
     method createButton():Button is
         return new HTMLButton()
 
@@ -96,9 +96,9 @@ class Application is
         config = readApplicationConfigFile()
 
         if (config.OS == "Windows") then
-            dialog = new WindowsDialog()
+            dialog = new WindowsDialog() // **产品**
         else if (config.OS == "Web") then
-            dialog = new WebDialog()
+            dialog = new WebDialog() // **产品**
         else
             throw new Exception("错误！未知的操作系统。")
 
@@ -225,7 +225,7 @@ clientCode(new ConcreteCreator2());
 ```
 #### 结构
 1. **抽象工厂** （Abstract Factory） 接口声明了一组创建各种抽象产品的方法。
-2. **抽象产品** （Abstract Product） 为构成系列产品的一组不同但相关的产品声明接口。
+2. **抽象产品** （Abstract Product） 为构成系列产品的一组不同但相关的产品声明接口 *\(产品声明)*。
 3. **具体工厂** （Concrete Factory） 实现抽象工厂的构建方法。 每个具体工厂都对应特定产品变体， 且仅创建此种产品变体。
 4. **具体产品** （Concrete Product） 是抽象产品的多种不同类型实现。 所有变体 （维多利亚/现代） 都必须实现相应的抽象产品 （椅子/沙发）。
 
