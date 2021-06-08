@@ -10,8 +10,12 @@
 - vue3
 - 前端工程化
     - unit test
+        - jest
+        - karma 
+        - mocha chai
     - e2e test
     - air test
+    - 无头浏览器 // 视频
 - 设计模式
 - 算法
 - flutter
@@ -22,3 +26,5 @@
 - houdini
 - ts
 - electen
+- webpack源码
+- es6
