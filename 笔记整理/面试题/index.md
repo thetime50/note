@@ -6,7 +6,7 @@
 
 ## todolist
 - uniapp wx
-- next ssr
+- nuxt ssr
 - vue3
 - 前端工程化
     - unit test
@@ -15,7 +15,7 @@
         - mocha chai
     - e2e test
     - air test
-    - 无头浏览器 // 视频
+    - 无头浏览器 // 鱼皮视频
 - 设计模式
 - 算法
 - flutter
