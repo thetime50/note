@@ -47,27 +47,76 @@ Vue 3 中需要关注的一些新功能包括：
 - [全局和内部 API 已经被重构为可 tree-shakable](https://v3.cn.vuejs.org/guide/migration/global-api-treeshaking.html)
 #### 全局API
 
+- (全局 Vue API 已更改为使用应用程序实例)[/guide/migration/global-api.html]
+- (全局和内部 API 已经被重构为可 tree-shakable)[/guide/migration/global-api-treeshaking.html]
+
 #### 模板指令
+- (组件上 v-model 用法已更改，替换 v-bind.sync)[/guide/migration/v-model.html]
+- (&lt;template v-for> 和非 v-for 节点上 key 用法已更改)[/guide/migration/key-attribute.html]
+- (在同一元素上使用的 v-if 和 v-for 优先级已更改)[/guide/migration/v-if-v-for.html]
+- (v-bind="object" 现在排序敏感)[/guide/migration/v-bind.html]
+- (v-on:event.native 修饰符已移除)[/guide/migration/v-on-native-modifier-removed.html]
+- (v-for 中的 ref 不再注册 ref 数组)[/guide/migration/array-refs.html]
 
 #### 组件
-
+- (只能使用普通函数创建功能组件)[/guide/migration/functional-components.html]
+- (functional 属性在单文件组件 (SFC) <template> 和 functional 组件选项被抛弃)[/guide/migration/functional-components.html]
+- (异步组件现在需要 defineAsyncComponent 方法来创建)[/guide/migration/async-components.html]
+- (组件事件现在需要在 emits 选项中声明)[/guide/migration/emits-option.html]
 #### 渲染函数
+- (渲染函数 API 改变)[/guide/migration/render-function-api.html]
+- ($scopedSlots property 已删除，所有插槽都通过 $slots 作为函数暴露)[/guide/migration/slots-unification.html]
+- ($listeners 被移除或整合到 $attrs)[./listeners-removed]
+- ($attrs 现在包含 class and style attribute)[/guide/migration/attrs-includes-class-style.html]
 
 #### 自定义元素
+- (自定义元素检测现在已经在编译时执行)[/guide/migration/custom-elements-interop.html]
+- (对特殊的 is prop 的使用只严格限制在被保留的 &lt;component> 标记中)[/guide/migration/custom-elements-interop.html#定制内置元素]
 
 #### 其他改变
+- destroyed 生命周期选项被重命名为 unmounted
+- beforeDestroy 生命周期选项被重命名为 beforeUnmount
+- (default prop 工厂函数不再可以访问 this 上下文)[/guide/migration/props-default-this.html]
+- (自定义指令 API 已更改为与组件生命周期一致)[/guide/migration/custom-directives.html]
+- (data 选项应始终被声明为一个函数)[/guide/migration/data-option.html]
+- (来自 mixin 的 data 选项现在为浅合并)[/guide/migration/data-option.html#mixin-合并行为变更]
+- (Attribute 强制策略已更改)[/guide/migration/attribute-coercion.html]
+- (一些过渡 class 被重命名)[/guide/migration/transition.html]
+- (&lt;TransitionGroup> 不再默认渲染包裹元素)[/guide/migration/transition-group.html]
+- (当侦听一个数组时，只有当数组被替换时，回调才会触发，如果需要在变更时触发，则需要指定 deep 选项)[/guide/migration/watch.html]
+- 没有特殊指令的标记 (v-if/else-if/else、v-for 或 v-slot) 的 &lt;template> 现在被视为普通元素，并将生成原生的 &lt;template> 元素，而不是渲染其内部内容。
+- (已挂载的应用不会取代它所挂载的元素)[/guide/migration/mount-changes.html]
+- (生命周期 hook: 事件前缀改为 vnode-)[/guide/migration/vnode-lifecycle-events.html]
 
 #### 移除api
+- (keyCode 支持作为 v-on 的修饰符)[/guide/migration/keycode-modifiers.html]
+- ($on、$off 和 $once 实例方法)[/guide/migration/events-api.html]
+- (过滤)[/guide/migration/filters.html]
+- (内联模板 attribute)/guide/migration/inline-template-attribute.html[]
+- ($children 实例 property)[/guide/migration/children.html]
+- (propsData 选项)[/guide/migration/props-data.html]
+- $destroy 实例方法。用户不应再手动管理单个 Vue 组件的生命周期。
+- 全局函数 set 和 delete 以及实例方法 $set 和 $delete。基于代理的变化检测不再需要它们了。
 
 ### 官方支持的库
 
 #### Vue CLI
+- (文档)[https://cli.vuejs.org/zh/]
+- (GitHub)[https://github.com/vuejs/vue-cli]
 
 #### Vue Router
+- (文档)[https://next.router.vuejs.org/]
+- (Github)[https://github.com/vuejs/vue-router-next]
+- (RFCs)[https://github.com/vuejs/rfcs/pulls?q=is%3Apr+is%3Amerged+label%3Arouter]
 
 #### Vuex
+- (文档)[https://next.vuex.vuejs.org/]
+- (Github)[https://github.com/vuejs/vuex/tree/4.0]
 
 #### Devtools Extension
+- Chrome：从 Chrome web 商店中安装
+    - beta 版本可能与 devtools 的稳定版本冲突
+- Firefox：下载签名扩展
 
 #### IDE 支持
 
