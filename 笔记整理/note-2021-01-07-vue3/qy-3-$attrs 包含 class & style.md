@@ -14,10 +14,10 @@
 - class 和 style 不受这个选项影响
 
 
-| inheritAttrs | true | false |
+| inheritAttrs | false | true |
 | :-- | :-- | :-- |
-| 被加到根元素上 |  |  |
-| 在$attrs中 |   |  |
+| 被加到根元素上 | × | √ |
+| 在$attrs中 | √ | √ |
 
 **vue3**
 $attrs 包含传递给组件的所有 attribute，包括 class 和 style。
