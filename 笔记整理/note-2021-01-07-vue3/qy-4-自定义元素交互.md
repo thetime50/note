@@ -43,4 +43,25 @@ app.config.isCustomElement = tag => tag === 'plastic-button'
 
 ### 定制内置元素
 
+vue2中 &lt;button is="plastic-button">点击我!&lt;/button> 的is语句会生效，将button标签替换为plastic-button组件
+
+vue3.0中is属性只会在&lt;component>标签上生效，在其他标签上表现为一般prop属性
+
+
+### dom模板解析方案
+直接在页面的 HTML 中写入 Vue 模板时，原生HTML解析规则会限制 &lt;ul>，&lt;ol>，&lt;table> 和 &lt;select>标签内部的元素，&lt;li>，&lt;tr>，和 &lt;option>标签指南出现在指定元素中
+
+vue2中使用is语法在限制标签内让引用组件能够生效
+```html
+<table>
+  <tr is="blog-post-row"></tr> <!-- htlm规则限制table内出现blog-post-row标签，通过is语法避免html规则限制来调用blog-post-row组件 -->
+</table>
+```
+
+vue3中使用 is="vue:xxx"前缀忽略is属性的component标签限制
+```html
+<table>
+  <tr is="vue:blog-post-row"></tr>
+</table>
+```
 
