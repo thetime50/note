@@ -18,9 +18,7 @@
 
 ## vue3 教程
 
-(jc -- 教程)
-
 官网 https://vue3js.cn/docs/zh/guide/introduction.html
 
-测试项目 
+测试项目和笔记 https://github.com/thetime50/vue3-practice
 
