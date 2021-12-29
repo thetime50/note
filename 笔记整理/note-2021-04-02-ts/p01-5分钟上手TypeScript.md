@@ -1,6 +1,8 @@
 ## p01-5分钟上手TypeScript
 https://www.tslang.cn/docs/home.html
 
+[online code](https://www.typescriptlang.org/play)
+
 [code->](https://github.com/thetime50/ts-practice/blob/main/p01-start/p01-start.ts)
 
 ## p04-JavaScript迁移

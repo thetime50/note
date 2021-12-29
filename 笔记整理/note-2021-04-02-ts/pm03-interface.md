@@ -2,6 +2,8 @@
 [接口->](https://www.tslang.cn/docs/handbook/interfaces.html)  
 [code->](https://github.com/thetime50/ts-practice/tree/main/pm03-interface/pm03-interface.ts)
 
+鸭式辩型： 如果它走起路来像鸭子，叫起来也是鸭子，那么它就是鸭子
+
 检查属性存在并且类型匹配，不会检查顺序
 
 ```ts
@@ -13,12 +15,16 @@ interface LabelledValue {
 function printLabel(labelledObj: LabelledValue) {
   console.log(labelledObj.label);
 }
+// 也可以直接在函数参数后面使用用匿名接口
+function printLabel(labelledObj: { label: string }) {
+  console.log(labelledObj.label);
+}
 
 let myObj = {size: 10, label: "Size 10 Object"};
 printLabel(myObj);
 
 
-// 可选属性
+// 可选属性 (可以缺少属性但是不能多出是属性)
 interface SquareConfig {
   color?: string;
   width?: number;
@@ -46,11 +52,11 @@ a = or as number[];
 // 做为变量使用的话用 const，若做为属性则使用readonly。
 
 
-// 额外的属性检查
-//  如果一个对象字面量存在任何“目标类型”不包含的属性时，你会得到一个错误
+// 额外的属性检查 (检查额外的属性)
+// 在变量赋值或者传递函数参数时，如果一个对象字面量存在任何“目标类型”不包含的属性时，会得到一个错误
 // error: 'colour' not expected in type 'SquareConfig'
 let mySquare = createSquare({ colour: "red", width: 100 });
-// 使用类型断言(强制转换)
+// 使用类型断言(强制转换) 去除报错
 let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 // 带有其他属性声明
 interface SquareConfig {
@@ -62,6 +68,45 @@ interface SquareConfig {
 let squareOptions = { colour: "red", width: 100 };
 let mySquare = createSquare(squareOptions);
 
+```
+
+```ts
+// 变量可以赋值给满足条件的接口
+// 但是字面量在变量赋值或者传递函数参数时时会被检查多余的属性
+interface Inf3 {
+    color?: string;
+    width?: number;
+    like?:string,
+}
+
+interface Inf1{
+    name:string;
+    age:number;
+    like:string;
+}
+interface Inf2{
+    name:string;
+    age:number;
+}
+
+const a = {
+    name:'666',
+    age:3,
+    like:'hekaf'
+}
+const b = {}
+
+
+const u1:Inf1={
+    name:'string',
+    age:23,
+    like:'string',
+}
+const u2:Inf1 = u1
+// 对于可选的字段
+const u31:Inf3 = u1 //有类型的变量需要至少一个匹配的属性
+const u32:Inf3 = {} // 可以接受空的字面量
+const u33:Inf3 = b // 可以接受空的变量
 ```
 
 ### 函数类型
