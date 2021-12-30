@@ -1,6 +1,6 @@
 ## pm04-类
 [类->](https://www.tslang.cn/docs/handbook/classes.html)  
-[code->](https://github.com/thetime50/ts-practice/tree/main/pm04-class/pm04-class.js)
+[code->](https://github.com/thetime50/ts-practice/tree/main/pm04-class/pm04-class.ts)
 
 ### 类
 从ECMAScript 2015，也就是ECMAScript 6开始，JavaScript程序员将能够使用基于类的面向对象的方式。
@@ -57,7 +57,7 @@ class Animal {
 
 #### private
 私有的 不能在派送类中访问
-private 和 protected 的成员的类型， **必须是来自同一处声明时**，才认为这两个类型是兼容的。
+private 和 protected 的成员的类型， **必须是来自同一处声明时**(继承)，才认为这两个类型是兼容的。
 ```ts
 class Animal {
     private name: string;
@@ -198,6 +198,12 @@ console.log(grid2.calculateDistanceFromOrigin({x: 10, y: 10}));
 - 抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 
 - 可以包含成员的实现细节。 **abstract**关键字是用于定义抽象类和在抽象类内部定义抽象方法。
 - 抽象类中的抽象方法使用abstract关键字修饰，可以包含访问修饰符。抽象方法不包含具体实现并且必须在派生类中实现。(抽象方法只包含数据声明 没有具体实现)
+
+1. 类名用 abstract 修饰
+2. 可以使用访问修饰符
+3. 可以包含具体实现
+4. 抽象属性用 abstract 修饰
+
 ```ts
 abstract class Department {
 

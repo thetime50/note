@@ -127,7 +127,8 @@ mySearch = function(source: string, subString: string) {
   return result > -1;
 }
 let mySearch1: SearchFunc;
-mySearch1 = function(src, sub): boolean {
+// 就像给变量分配一个没有类型说明的值 ts会尝试检查匹配对应的参数和返回值类型
+mySearch1 = function(src, sub) { 
   let result = src.search(sub);
   return result > -1;
 }
@@ -137,6 +138,7 @@ mySearch1 = function(src, sub): boolean {
 TypeScript支持两种索引签名：字符串和数字  
 可以同时使用,但是数字索引的返回值必须是字符串索引返回值类型的子类型。  
 数字索引也会被转为字符串  
+*ps和 Map 字典对象不同，字典对象可以区分数据类型 如 ('1' 和 1)*
 字符串索引签名能描述dictionary模式
 ```ts
 interface StringArray {
@@ -157,6 +159,7 @@ class Dog extends Animal {
 }
 
 // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
+// 字符串索引的数据类型要能够包含数值索引的数据类型
 interface NotOkay {
     [x: number]: Animal;
     [x: string]: Dog;
@@ -171,14 +174,14 @@ interface More {
     [x: string]: AD;
 }
 
-// 范围大的的父类型 (属性少)
+// 范围大的的父类型 (属性少) dictionary模式
 interface NumberDictionary {
-  [index: string]: number;
+  [index: string]: number; // 对对象的所有key-value类型约束
   length: number;    // 可以，length是number类型
   name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
 
-// 只读的索引签名
+// 只读的索引签名 (即固定了初始化时的属性索引， 不能增减少索引)
 interface ReadonlyStringArray {
     readonly [index: number]: string;
 }
@@ -188,6 +191,13 @@ myArray[2] = "Mallory"; // error!
 ```
 
 ### 类类型
+
+类静态属性/方法 直接通过类名引用 在类内部加static声明 货类声明后用类名加索引赋值  
+原型方法 类内直接声明的方法是原型方法
+原型属性 可以在实例中引用 类声明后用类名间原型赋值 ClassName.prototype.attr = value
+共有字段声明(实例属性) 直接在类内部声明 class ClassName { height; width=0; }
+私有字段声明 属性内部在字段前以#好开始
+
 接口描述了类的公共部分
 ```ts
 interface ClockInterface {
@@ -229,9 +239,14 @@ class Clock implements ClockConstructor {
     constructor(h: number, m: number) { }
 }
 ```
+
+ClockConstructor 生成器函数检查 生产函数检查 class 类，  
+ClockInterface 实例检查， 类声明、构造函数回、实例引用时使用
+
 ```ts
+// 构造器签名 用来检查 cass
 interface ClockConstructor { // 类构造函数声明 // 这个是不是可以直接修饰 constructor
-    new (hour: number, minute: number): ClockInterface; // 生成实例的构造函数 检查类和初始化函数结构
+    new (hour: number, minute: number): ClockInterface; //生成实例的构造函数 检查类和初始化函数结构
 }
 interface ClockInterface { // 类实例声明 检查数据实例数据结构
     tick();
