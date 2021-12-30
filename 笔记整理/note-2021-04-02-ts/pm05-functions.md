@@ -1,5 +1,5 @@
 ## pm05-函数
-[类->](https://www.tslang.cn/docs/handbook/function.html)  
+[函数->](https://www.tslang.cn/docs/handbook/functions.html)  
 [code->](https://github.com/thetime50/ts-practice/tree/main/pm05-function/pm05-function.js)
 
 函数可以使用函数体外部的变量,这时可以叫做函数‘捕获’了这些变量(闭包)
@@ -108,7 +108,7 @@ interface AddInterfack {
     a: number;
     b: number;
     fn: (this: AddInterfack) => number;
-
+}
 let addObj:AddInterfack = {
     a: 1,
     b: 2,
