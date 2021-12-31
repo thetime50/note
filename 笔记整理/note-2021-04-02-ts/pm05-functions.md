@@ -152,3 +152,66 @@ alert("card: " + pickedCard.card + " of " + pickedCard.suit);
 
 
 解决回调函数的this参数类型声明问题
+
+需要注意两个地方
+1. 注册回调函数的方法
+2. 回调函数的声明
+
+```ts
+// 在注册回调函数的方法上声明回调函数的this:viod 通配所有类型
+interface UIElement {
+    addClickListener(onclick: (this: void, e: Event) => void): void;
+}
+// .1 在回调函数上同样声明this:void 禁止 this 使用
+class Handler {
+    info: string;
+    onClickGood(this: void, e: Event) {
+        // can't use this here because it's of type void!
+        console.log('clicked!');
+    }
+}
+let h = new Handler();
+uiElement.addClickListener(h.onClickGood);
+
+// .2 使用箭头函数绑定 this 
+// 箭头函数不会捕获this (不会被引用影响) (通过不声明避 免注册时this:viod类型检查)
+// 这时 箭头函数是实例方法 不是原型方法
+class Handler {
+    info: string;
+    onClickGood = (e: Event) => { this.info = e.message }
+}
+
+```
+
+### 重载
+
+函数体之前的定义为重载定义  
+ts会按顺序检查重载列表，需要把最精确的放在前面
+```ts
+let suits = ["hearts", "spades", "clubs", "diamonds"];
+
+// 重载定义
+function pickCard(x: {suit: string; card: number; }[]): number;
+function pickCard(x: number): {suit: string; card: number; };
+// 函数体定义
+function pickCard(x): any {
+    // Check to see if we're working with an object/array
+    // if so, they gave us the deck and we'll pick the card
+    if (typeof x == "object") {
+        let pickedCard = Math.floor(Math.random() * x.length);
+        return pickedCard;
+    }
+    // Otherwise just let them pick the card
+    else if (typeof x == "number") {
+        let pickedSuit = Math.floor(x / 13);
+        return { suit: suits[pickedSuit], card: x % 13 };
+    }
+}
+
+let myDeck = [{ suit: "diamonds", card: 2 }, { suit: "spades", card: 10 }, { suit: "hearts", card: 4 }];
+let pickedCard1 = myDeck[pickCard(myDeck)];
+alert("card: " + pickedCard1.card + " of " + pickedCard1.suit);
+
+let pickedCard2 = pickCard(15);
+alert("card: " + pickedCard2.card + " of " + pickedCard2.suit);
+```
