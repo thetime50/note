@@ -1,6 +1,6 @@
-## pm05-函数
+## pm06-枚举
 [泛型->](https://www.tslang.cn/docs/handbook/generics.html)  
-[code->](https://github.com/thetime50/ts-practice/tree/main/pm05-generics/pm05-generics.js)
+[code->](https://github.com/thetime50/ts-practice/tree/main/pm06-generics/pm06-generics.js)
 
 相当与是一个类型变量 的语法糖  
 在使用事可以用自动类型推断
