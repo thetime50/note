@@ -231,7 +231,7 @@ class Clock implements ClockInterface {
 constructor存在于类的静态部分，所以不在检查的范围内。
 ```ts
 interface ClockConstructor {
-    new (hour: number, minute: number);
+    new (hour: number, minute: number); // 构造函数签名 构造类型函数签名
 }
 
 class Clock implements ClockConstructor {
@@ -240,8 +240,8 @@ class Clock implements ClockConstructor {
 }
 ```
 
-ClockConstructor 生成器函数检查 生产函数检查 class 类，  
-ClockInterface 实例检查， 类声明、构造函数回、实例引用时使用
+ClockConstructor 构造函数检查 生产函数检查 class 类，  
+ClockInterface 实例检查， 类声明、构造函数、实例引用时使用
 
 ```ts
 // 构造器签名 用来检查 cass
