@@ -26,7 +26,7 @@ https://www.typescriptlang.org/docs/handbook/type-inference.html#contextual-typi
 window.onmousedown = function (mouseEvent) {
   console.log(mouseEvent.button);
   console.log(mouseEvent.kangaroo);
-Property 'kangaroo' does not exist on type 'MouseEvent'.
+  // Property 'kangaroo' does not exist on type 'MouseEvent'.
 };
 
 ```
