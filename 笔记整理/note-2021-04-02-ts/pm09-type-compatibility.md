@@ -1,5 +1,5 @@
 [类型推论->](https://www.tslang.cn/docs/handbook/type-compatibility.html)  
-[code->](https://github.com/thetime50/ts-practice/tree/main/type-compatibility/type-compatibility.js)
+[code->](https://github.com/thetime50/ts-practice/tree/main/pm09-type-compatibility/pm09-type-compatibility.ts)
 
 
 TypeScript里的类型兼容性是基于结构子类型的。

@@ -1,6 +1,6 @@
 ## pm08-类型推论
 [类型推论->](https://www.tslang.cn/docs/handbook/type-inference.html)  
-[code->](https://github.com/thetime50/ts-practice/tree/main/pm08-type-inference/pm08-type-inference.js)
+[code->](https://github.com/thetime50/ts-practice/tree/main/pm08-type-inference/pm08-type-inference.ts)
 
 
 类型推论发生在 初始化变量和成员，设置默认参数值和决定函数返回值时。
