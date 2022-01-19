@@ -31,9 +31,13 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 - [file link ->](./004.md)
 - [4 Classification](./004.md#4-Classification)
 
+从高斯分布分析分类问题
+
 ## 005
 - [file link ->](./005.md)
 - [5 Logistic Regression](./005.md#5-Logistic-Regression)
+
+从概率问题分析分类问题
 
 ## 006
 - [file link ->](./006.md)
@@ -70,3 +74,18 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 12 Semi-supervised
 - [file link ->](./012.md)
 - [12 Semi-supervised](./012.md#12-Semi-supervised)
+
+
+
+## 整理
+
+// 输入数据类型 处理方式
+
+多输出处理
+
+| 问题 | 描述 | 分布模型 | 输出数据处理 | loss |
+| --- | --- | --- | --- | --- |
+| Linear Regression | 连续数值输出 | wx+b | | 方差 mean_squared_error |
+| Classification | 分类输出 |   |   |   |
+| Logistic Regression | 将输出转换为0-1的概率值 | &sigma;(wx+b)) | &sigma;()<br> Sigmoid function | 交叉熵 binary_crossentropy |
+
