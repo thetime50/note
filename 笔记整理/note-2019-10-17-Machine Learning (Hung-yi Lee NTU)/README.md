@@ -84,8 +84,10 @@ codecogs help: https://en.wikipedia.org/wiki/Help:Displaying_a_formula
 多输出处理
 
 | 问题 | 描述 | 分布模型 | 输出数据处理 | loss |
-| --- | --- | --- | --- | --- |
-| Linear Regression | 连续数值输出 | wx+b | | 方差 mean_squared_error |
-| Classification | 分类输出 |   |   |   |
-| Logistic Regression | 将输出转换为0-1的概率值 | &sigma;(wx+b)) | &sigma;()<br> Sigmoid function | 交叉熵 binary_crossentropy |
+| :--- | :--- | :--- | :--- | :--- |
+| Linear Regression | 一层的线代函数运算 连续数值输出 | wx+b | | 方差 mean_squared_error |
+| Classification | 分类输出 | 分别计算两输出分类的高斯模型 纯概率发布问题 | >0.5 | \  |
+| Logistic Regression | 一层的线代函数运算加s函数处理 将输出转换为0-1的概率值 | &sigma;(wx+b)) | &sigma;()<br> Sigmoid function |  <img src="https://latex.codecogs.com/gif.latex?\bg_white&space;L(w,b)=f_{w,b}(x^1)f_{w,b}(x^2)(1-f_{w,b}(x^3))...f_{w,b}(x^N)" title="L(w,b)=f_{w,b}(x^1)f_{w,b}(x^2)(1-f_{w,b}(x^3))...f_{w,b}(x^N)" /> 交叉熵 binary_crossentropy |
+| Multi-class | 多分类 | --- | <img src="https://latex.codecogs.com/gif.image?\dpi{110}&space;\bg_white&space;y_1&space;=&space;e^{Z_1}/\sum_{j=1}^{3}e^{Z_j}" title="\bg_white y_1 = e^{Z_1}/\sum_{j=1}^{3}e^{Z_j}" /> Shoftmax | --- |
+
 
