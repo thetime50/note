@@ -57,7 +57,7 @@ Random Forest 是在每一次产生branch 的时候都随机的决定哪一些fe
 
 初始化 weight 为 1
 
-**adaboost**  
+### adaboost  
 
 <!--对加工过的 training data 做 error function 的偏微分。-->记 f<sub>1</sub>在training data 的 error rate 为 &epsilon;<sub>1</sub>，  &epsilon;<sub>1</sub> = L<sub>f<sub>1</sub> | data 1</sub>
 
@@ -124,4 +124,74 @@ decision stump (决策柱？？)
 
 
 // todo Math 58'' 
+
+### Boosting 推导
+
+1式 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}H(x)&space;=&space;sign(\textstyle\sum_{t=1}^T&space;\alpha_t&space;f_t(x))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}H(x) = sign(\textstyle\sum_{t=1}^T \alpha_t f_t(x))" />  
+2式 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\alpha_1=ln{\sqrt{(1-\varepsilon_1)/\varepsilon_1}&space;}" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\alpha_1=ln{\sqrt{(1-\varepsilon_1)/\varepsilon_1} }" />
+
+
+
+H(x) 的error rate 为  
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}loss=&space;\frac{1}{N}&space;\sum_n&space;\delta(H(x^n)\neq&space;\hat{y}^n)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white} loss= \frac{1}{N} \sum_n \delta(H(x^n)\neq \hat{y}^n)" />
+
+令<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g(x)=\textstyle&space;\sum_{t=1}^T&space;\alpha_t&space;f_t(x)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g(x)=\textstyle \sum_{t=1}^T \alpha_t f_t(x)" /> 即H(x) 符号函数 sign()里面那项 用 *-1来解决 y&#770; 和 f(x) 是否相同的问题
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}loss=\frac{1}{N}\sum_n\delta(\hat{y}^n&space;g(x^n)<0)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}loss=\frac{1}{N}\sum_n\delta(\hat{y}^n g(x^n)<0)" />
+
+把上面1式的&alpha;带入
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\leq\frac{1}{N}\sum_n&space;exp(-\hat{y}^n&space;g(x^n))&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\leq\frac{1}{N}\sum_n exp(-\hat{y}^n g(x^n)) " /> 即upper bound
+
+
+d -> &delta; -> &alpha; 
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_t&space;=&space;\sum&space;d_t^n" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_t = \sum d_t^n" />
+
+3式 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_{T&plus;1}=\sum_n&space;u_{T&plus;1}^n\" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_{T+1}=\sum_n u_{T+1}^n\" />
+
+4式 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\left.\begin{matrix}u_1^n&space;=&space;1\\u_{t&plus;1}^n&space;=&space;u_t^n&space;\times&space;exp(-\hat{y}^nf_t(x^n)\alpha_t)\end{matrix}\right\}&space;u_{T&plus;1}^n=\prod_{t=1}^{T}&space;exp(-\hat{y}^nf_t(x^n)\alpha)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\left.\begin{matrix}u_1^n = 1\\u_{t+1}^n = u_t^n \times exp(-\hat{y}^nf_t(x^n)\alpha_t)\end{matrix}\right\} u_{T+1}^n=\prod_{t=1}^{T} exp(-\hat{y}^nf_t(x^n)\alpha)" />
+
+这个大门符号表示嵌套运算？？？
+
+把4式代入3式  
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\Z_{T&plus;1}=\sum_n\prod_{t=1}^{T}&space;exp(-\hat{y}^nf_t(x^n)\alpha)\\=\sum_n&space;exp(-\hat{y}^n\sum_{t=1}^T&space;f_t(x^n)\alpha_t)\\=\sum_n&space;exp(-\hat{y}^n&space;g(x))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\Z_{T+1}=\sum_n\prod_{t=1}^{T} exp(-\hat{y}^nf_t(x^n)\alpha)\\=\sum_n exp(-\hat{y}^n\sum_{t=1}^T f_t(x^n)\alpha_t)\\=\sum_n exp(-\hat{y}^n g(x))" />
+
+
+train data 的weight 和 和error 的 upper bound 有关  
+现在要证明weight的和会越来越小  
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\Z_1&space;=&space;N\\Z_t&space;=&space;Z_{t-1}\varepsilon_t&space;exp(\alpha_t)&space;&plus;&space;Z_{t-1}(1-\varepsilon_t)exp(-\alpha_t)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\Z_1 = N\\Z_t = Z_{t-1}\varepsilon_t exp(\alpha_t) + Z_{t-1}(1-\varepsilon_t)exp(-\alpha_t)" />
+
+第一项表示分类错误的数据，第二项表示分类正确的部分 &epsilon;就是error rate  
+带入 &epsilon; 得到  
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\=Z_{t-1}\varepsilon_t\sqrt{(1-\varepsilon_t)/\varepsilon_t}&space;&plus;&space;Z_{t-1}(1-\varepsilon_t)\sqrt{\varepsilon_t/(1-\varepsilon_t)}\\=Z_{t-1}\times&space;2\sqrt{\varepsilon_t(1-\varepsilon_t)}&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\=Z_{t-1}\varepsilon_t\sqrt{(1-\varepsilon_t)/\varepsilon_t} + Z_{t-1}(1-\varepsilon_t)\sqrt{\varepsilon_t/(1-\varepsilon_t)}\\=Z_{t-1}\times 2\sqrt{\varepsilon_t(1-\varepsilon_t)} " />
+
+
+因为后面的 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}2\sqrt{\varepsilon_t(1-\varepsilon_t)}&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}2\sqrt{\varepsilon_t(1-\varepsilon_t)} " />比1小 所以 Z<sub>t</sub> 会比 Z<sub>t-1</sub> 小  
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_{t&plus;1}=M\prod_{t=1}^{T}2\sqrt{\varepsilon_t(1-\varepsilon_t)}" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}Z_{t+1}=M\prod_{t=1}^{T}2\sqrt{\varepsilon_t(1-\varepsilon_t)}" />
+
+
+**adaboost 特性** 在train data上总和的 error rate变为0后继续学习在 test data上的error rate还会下降  
+adaboost 假设tain 的弱模型没有办法让error rate变0，否则会计算出错
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_{t&plus;1}^n&space;\leftarrow&space;u_t^n&space;\times&space;&space;exp(-\hat{y}^nf_t(x^n)\alpha_t)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_{t+1}^n \leftarrow u_t^n \times exp(-\hat{y}^nf_t(x^n)\alpha_t)" /> 不断迭代可以让数据分布更远离边界（类似SVM的效果）  
+
+**adaboost Decision Tree**
+
+
+### Gradient Boosting
+
+相比于adaboost，gradient boosting 会在每一步的f(x)都加上之前model 的总和。
+
+找到 f<sub>t</sub>(x) &alpha;<sub>t</sub> 改善 g<sub>t-1</sub>(x)
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\g_{t-1}(x)=\textstyle&space;\sum_{i=1}^{t-1}\alpha_if_i(x)\\g_t(x)=g_{t-1}(x)&plus;\alpha_t&space;f_t(x)\\Output:&space;H(x)&space;=&space;sign(g_T(x))&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\\g_{t-1}(x)=\textstyle \sum_{i=1}^{t-1}\alpha_if_i(x)\\g_t(x)=g_{t-1}(x)+\alpha_t f_t(x)\\Output: H(x) = sign(g_T(x)) " />
+
+怎么更新 f<sub>t</sub>(x) &alpha;<sub>t</sub>?   
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}L(g)=\sum_n&space;l(\hat({y}^n,g(x^n))=\sum_n&space;exp(-\hat{y}^n&space;g(x^n))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}L(g)=\sum_n l(\hat({y}^n,g(x^n))=\sum_n exp(-\hat{y}^n g(x^n))" />
+
+也可以用 Gradient Descent 来算
 
