@@ -195,3 +195,40 @@ adaboost 假设tain 的弱模型没有办法让error rate变0，否则会计算�
 
 也可以用 Gradient Descent 来算
 
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g_t&space;\leftarrow&space;&space;g_{t-1}&space;-&space;\eta&space;\left.\begin{matrix}\frac{\partial&space;L(g)&space;}{\partial&space;g}\end{matrix}\right|_{g=g_{t-1}}" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g_t \leftarrow g_{t-1} - \eta \left.\begin{matrix}\frac{\partial L(g) }{\partial g}\end{matrix}\right|_{g=g_{t-1}}" />
+
+用loss function 对 函数g 的偏微分来更新g,（对函数g的参数，整理的参数就是每个train data 乘的系数）  
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g_t(x)&space;\leftarrow&space;g_{t-1}(x)&space;&plus;&space;\alpha_tf_t(x)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}g_t(x) \leftarrow g_{t-1}(x) + \alpha_tf_t(x)" />
+
+希望 &alpha;<sub>t</sub>f<sub>t</sub>(x) 和上面 Gradient 的梯度项 反向是一样的
+
+要让左边的bossting 项 和右边的gradient 项反向越一致越好  
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}f_t(x)&space;\Leftrightarrow&space;\sum_n&space;exp(-\hat(y)^n&space;g_t(x^n))(\hat(y)^n)" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}f_t(x) \Leftrightarrow \sum_n exp(-\hat(y)^n g_t(x^n))(\hat(y)^n)" />
+
+就是要两式相乘大于0  
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\sum_n&space;exp(-\hat(y)^n&space;g_t(x^n))(\hat(y)^n)&space;f_t(x)&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}\sum_n exp(-\hat(y)^n g_t(x^n))(\hat(y)^n) f_t(x) " />
+
+即希望 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}(\hat(y)^n)&space;f_t(x)&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}(\hat(y)^n) f_t(x) " /> 同号， 前面的是一个weight： <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n" />
+
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n&space;=&space;exp(-\hat{y}^n&space;g_{t-1}(x^n))&space;=&space;exp(-\hat{y}^n&space;\sum_{i=1}^{t-1}\alpha_i&space;f_i(x^n))=\coprod_{i=1}^{t-1}&space;exp(-\hat{y}^n&space;\alpha_i&space;f_i(x^n))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n = exp(-\hat{y}^n g_{t-1}(x^n)) = exp(-\hat{y}^n \sum_{i=1}^{t-1}\alpha_i f_i(x^n))=\coprod_{i=1}^{t-1} exp(-\hat{y}^n \alpha_i f_i(x^n))" />
+
+adabossting 这里面的 weak classifier f<sub>t</sub> 就是 gradient descent 里的负的 gradient  
+  
+在做 adabossting 时，每次获取f<sub>t</sub> 都要做一次Gradient Descent 的iteration过程。所以要在得到一个f<sub>t</sub> 后，固定 f<sub>t</sub>， 找到最好的 learning rate &alpha;<sub>t</sub>
+
+
+
+![022-find-alpha-t](./img/022-find-alpha-t.jpg)
+
+
+可以定其他的 <u>Objective Function</u> 创造不一样 Bosting 的方法。
+
+exp(-y&#770; * g(x))
+
+
+### Stacking 
+
+结合独立train 出来的而不同model , Majority Vote(多数投票)
+
+或者 再把所有model 的output 接到一个 Classifier model 上 , 但是要把train data分一部分只用作 final classifier 的train data。因为前面的模型可能只是做 fit training data,能够检测出前面overfitting的情况 减少权重。
