@@ -211,7 +211,7 @@ adaboost 假设tain 的弱模型没有办法让error rate变0，否则会计算�
 
 即希望 <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}(\hat(y)^n)&space;f_t(x)&space;" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}(\hat(y)^n) f_t(x) " /> 同号， 前面的是一个weight： <img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n" />
 
-<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n&space;=&space;exp(-\hat{y}^n&space;g_{t-1}(x^n))&space;=&space;exp(-\hat{y}^n&space;\sum_{i=1}^{t-1}\alpha_i&space;f_i(x^n))=\coprod_{i=1}^{t-1}&space;exp(-\hat{y}^n&space;\alpha_i&space;f_i(x^n))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n = exp(-\hat{y}^n g_{t-1}(x^n)) = exp(-\hat{y}^n \sum_{i=1}^{t-1}\alpha_i f_i(x^n))=\coprod_{i=1}^{t-1} exp(-\hat{y}^n \alpha_i f_i(x^n))" />
+<img src="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n&space;=&space;exp(-\hat{y}^n&space;g_{t-1}(x^n))&space;=&space;exp(-\hat{y}^n&space;\sum_{i=1}^{t-1}\alpha_i&space;f_i(x^n))=\prod_{i=1}^{t-1}&space;exp(-\hat{y}^n&space;\alpha_i&space;f_i(x^n))" title="https://latex.codecogs.com/gif.image?\dpi{110}\bg{white}u_t^n = exp(-\hat{y}^n g_{t-1}(x^n)) = exp(-\hat{y}^n \sum_{i=1}^{t-1}\alpha_i f_i(x^n))=\prod_{i=1}^{t-1} exp(-\hat{y}^n \alpha_i f_i(x^n))" />
 
 adabossting 这里面的 weak classifier f<sub>t</sub> 就是 gradient descent 里的负的 gradient  
   
