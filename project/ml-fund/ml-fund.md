@@ -49,22 +49,70 @@
 docker 管理
 
 
-## 计划
-### 第一阶段
+## 章节
+### 空数据处理
+[机器学习中如何处理缺失数据？](https://www.zhihu.com/question/26639110)  
+<s>[机器学习中处理缺失值的9种方法](https://zhuanlan.zhihu.com/p/270551105) 机翻的</s>
 
-[第一阶段](./plan.md#第一阶段)
+- 缺失较多，&gt;10% 的行或者列舍弃掉
+- 缺失少的
+    1. 用 NaN 填充  
+        增加一个是否空值的布尔输入 维度诅咒
+    2. 均值 中位数 众数 等填充
+    3. 前/后数据填充
+    4. 插值 前后点的平均值
+    5. 删除缺失行或者列
+    6. 用RFR 随机森林预测填充
+    7. 使用KNN 填充
 
-- 现有方案分析 概念理解
-- 数据预处理
-    - 标准化 ??
-    - 空数据处理
-- 数据抓取
-    - 网站
-    - 技术工具
-- 数据库存储  
-    - mongoDB
+缺失数据可能和数据特征是随机的，也可能是有关的  
+// todo 能不能减少缺失数据的相关性对模型的影响？   
 
-#### 
-[机器学习中如何处理缺失数据？](https://www.zhihu.com/question/26639110)
-[机器学习中处理缺失值的9种方法](https://zhuanlan.zhihu.com/p/270551105)
+### 网站
+
+[股票、基金最全网站工具推荐](https://zhuanlan.zhihu.com/p/180240411)
+
+- 基金网站
+    - [**中证指数公司**](http://www.csindex.com.cn/)
+    - [天天基金网](https://fund.eastmoney.com/)
+    - [蛋卷基金](https://danjuanapp.com/)
+    - [晨星](网http://cn.morningstar.com/main)
+    - [且慢](https://qieman.com/)
+<!-- - 债券网站
+    - [**中国债券信息网**](https://www.chinabond.com.cn/)
+    - [集思录](https://www.jisilu.cn/) -->
+<!-- - 股票网站
+    - [东方财富网](https://www.eastmoney.com/)
+    - [同花顺财经](http://www.10jqka.com.cn/)
+    - [雪球](https://xueqiu.com/) -->
+- 官方财报
+    - [**上海证券交易所**](http://www.sse.com.cn/)
+    - [**深圳证券交易所**](http://www.szse.cn/) 
+    <!-- - [巨潮资讯网](http://www.cninfo.com.cn/new/index) -->
+- 国家级数据
+    - [国家统计局](http://www.stats.gov.cn/tjsj/)  
+        GDP、CPI、PPI、城镇就业率、各地房价、外汇储备,肉价，可以查到牲畜出栏量
+    <!-- - [中国人民银行](http://www.pbc.gov.cn/)  
+        降准降息等等，还有通胀利率、货币供应量等等专业数据，如果投资银行行业也可以多关注这个网站里的相关资讯。
+    - [国家外汇管理局](http://www.safe.gov.cn/)  
+      外汇储备、人民币汇率中间价，以及国家金融资产
+    - [中华人民共和国财政部](http://www.mof.gov.cn/index.htm) -->
+    - [中国证券登记结算有限公司](http://www.chinaclear.cn/)  
+        新增投资者数量，目前总的投资者数量，各类证券目前的登记情况
+    <!-- - [证监会](http://www.csrc.gov.cn/pub/newsite/)
+    - [银保监会](http://www.cbirc.gov.cn/cn/view/pages/index/index.html) -->
+<!-- - 实用工具
+    - [银行定期利率查询](https://bank.cngold.org/yhckll/)
+    - [中国理财网](https://www.chinawealth.com.cn/zzlc/index.shtml)
+    - [中财网数据中心](http://data.cfi.cn/cfidata.asp) -->
+
+
+上证综指  
+深证综指  
+沪深300  
+深证成指  
+创业板指  
+上证50  
+科创50  
+
 
