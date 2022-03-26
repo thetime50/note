@@ -123,10 +123,20 @@ docker 管理
     股票持仓 和占比
     基金距离
 - [蛋卷基金](https://danjuanapp.com/)
-    api 当日净值百分比
+    api 当日实时净值和百分比
     api 收益百分比
 - [晨星网](http://cn.morningstar.com/main)
 - [网易财经](http://quotes.money.163.com/)
+
+
+- [请问各位金融前辈，国内金融数据库有哪些？](https://www.zhihu.com/question/399717144)  
+  - 标配 通用型数据终端——[彭博(bloomberg）](https://www.bloombergchina.com/)
+  - 因为这是国内市场标配 [Wind（万得）](https://www.wind.com.cn/)
+  - 学术 [CSMAR](https://www.gtarsc.com/) 
+  <!-- - 宏观 [CEIC](https://www.ceicdata.com/zh-hans) -->
+
+注册都要企业信息等
+
 ### 基金概念
 
 上面的基金网站都是数据聚合网站，原始数据从各基金公司抓取  
@@ -163,3 +173,70 @@ docker 管理
 如果股市比过去70%的时候都便宜，每周开始定投股票基金。  
 如果股市比过去80%的时候都便宜，每周2倍定投股票基金。  
 如果股市比过去90%的时候都便宜，每周3倍定投股票基金。
+
+A股3个交易所
+- 上海证券交易所 2000支 最早 (大盘)
+- 深圳证券交易所 2500支
+- 北京证券交易所
+
+- 上证指数
+- 沪深300指数 标准
+- 基金 沪市基指
+
+比较典型的大的基金
+
+### 数据抓取
+
+- cheerio 服务端对dom文本解析节点操作库,类似JQuery
+- jsdom 浏览器环境
+
+- 浏览器环境
+  - 无头
+    - 经典 PhantomJS 基于QT
+    - headless chrome
+        - [无头 Chrome 入门](https://developers.google.com/web/updates/2017/04/headless-chrome),将Chromium 和 Blink 渲染引擎提供的所有现代 Web 平台功能带入命令行
+        - [chromium headless](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md)
+    - Puppeteer是 Chrome 团队开发的一个 Node 库。它提供了一个高级 API 来控制无头（或完整）Chrome
+    - nightmare 自动化工具 依赖 electron
+    - chrome-remote-interface 是比 Puppeteer 的 API 低级的库，直接使用DevTools 协议
+    - chrome-launcher 找到chrome位置
+    - Selenium 、WebDriver和ChromeDriver
+    - WebDriverIO是 Selenium WebDriver 之上的更高级别的 API
+    - [无头浏览器列表](https://github.com/dhamaniasad/HeadlessBrowsers)
+  - 有头
+    - Selenium chrom debug模式 
+- 纯api环境
+    - var http = require('http');
+    - const request = require('request');
+- 爬虫
+    - Scrapy py
+    - PySpider py
+    <!-- - Crawley py 数据库支持? 没有更新了 -->
+    - Apify SDK js
+        - CheerioCrawler。或生成无头浏览PlaywrightCrawler器PuppeteerCrawler
+    - Playwright 无头浏览器脚本的库 API与 Puppeteer 相同 但是跨浏览器
+    - botflow js 链式调用和一堆api 很久没更新了
+
+
+py ddt? 
+
+#### 判断无头浏览器
+Pluginsnavigator.plugins 会返回一个数组，里面是当前浏览器里的插件信息。通常，普通Chrome浏览器有一些缺省插件，比如 Chrome PDF viewer 或 Google Native Client。相反，在无头模式里，没有任何插件  
+无头模式里，navigator.languages 返回的是个空字符串  
+WebGL 提供了一组能在HTML canvas 里执行3D渲染的API,可以查询出图形驱动的 vendor 和 renderer  
+加载失败的图片宽高为0  
+
+
+## 代码设计
+
+### 爬虫
+
+先怕爬虫框架 其次直接调api 有问题再无头
+
+page实例 按页怕爬 随机时间
+
+蛋卷的每日实时净值数据 天天的历史净值数据
+
+先3得到5年，沪深300 相关基金， 大牌基金
+
+先存文件 再数据库
