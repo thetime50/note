@@ -35,3 +35,23 @@
 
 ### 2022-03-26
 - 爬虫整理
+
+### 2022-03-27
+
+蛋卷 登录 cookie刷新机制  
+两个网站的数据抓取 数据结构处理  
+服务器 新版本ES 打包编译
+
+- [如何在 Node.js 中打印堆栈跟踪？](https://ask.csdn.net/questions/712928)
+    - var stack = new Error().stack; console.log( stack )
+    - console.trace("Here I am!")
+    - [node util.inspect](https://nodejs.org/api/util.html#util_util_inspect_object_options)
+    - console.dir() 是有效的，可以解决引用循环的问题
+    - 类似浏览器的V8终端？
+- 使用Tasker app 转发验证短信信息
+
+先验证cookie  
+
+node 编译和调试环境
+
+node http/https 库太底层了，数据包都要直接串起来
