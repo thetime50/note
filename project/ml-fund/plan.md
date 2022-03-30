@@ -46,7 +46,7 @@
     - var stack = new Error().stack; console.log( stack )
     - console.trace("Here I am!")
     - [node util.inspect](https://nodejs.org/api/util.html#util_util_inspect_object_options)
-    - console.dir() 是有效的，可以解决引用循环的问题
+    - console.dir() 是有效的，可以解决引用循环的问题,但是较多的数据还是省略不显示
     - 类似浏览器的V8终端？
 - 使用Tasker app 转发验证短信信息
 

@@ -243,3 +243,41 @@ page实例 按页怕爬 随机时间
 
 使用Tasker app 转发验证短信信息  
 随机编译app?
+
+### 数据存储
+
+#### 方案分析
+json 结构更合理更符合编程过程中的各种数据类型，方便扩展  
+csv 数据结构简单，文件格式和数据格式有限，但是展示和编辑方便  
+
+使用json做数据索引记录和信息保存，用csv保存数据列表  
+
+蛋卷数据
+- json 数据索引记录和信息保存
+- csv 保存数据列表
+    - 3或6个月一个文件
+    - 每一比数据有原始数据字段和预处理数据字段
+    - 添加 _db_index 和 _db_json 单独一行进行数据分段和保存信息  
+        _db_index 使用 "dj-日期-xxx" 字符串作为索引
+
+数据备份和版本管理  
+json 索引部分放后面加
+
+#### 技术调研
+字符集判断?
+
+https://github.com/ysnglt/node-csvdb
+https://github.com/adaltas/node-csv
+https://github.com/DaoDeCyrus/CSV.js
+https://github.com/rwjblue/pivot.js
+https://github.com/SheetJS/sheetjs
+pandas js ?
+numpy js?
+
+[CSV RFC 4180](https://zh.wikipedia.org/wiki/逗号分隔值#进行中的标准化)  
+- 以（CR/LF）字符结束的DOS风格的行（最后一行可选）。
+- <s>一条可选的表头记录（没有可靠的方式来检测它是否存在，所以导入时必须谨慎）。</s>
+- 每条记录“应当”包含同样数量的逗号分隔字段。
+- <s>任何字段都可以被包裹（用双引号）。</s>
+- 包含换行符、双引号和/或逗号的字段应当被包裹。（否则，文件很可能不能被正确处理）。
+- <s>字段中的一个（双）引号字符必须被表示为两个（双）引号字符。</s>
