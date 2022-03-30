@@ -266,18 +266,23 @@ json 索引部分放后面加
 #### 技术调研
 字符集判断?
 
-https://github.com/ysnglt/node-csvdb
-https://github.com/adaltas/node-csv
-https://github.com/DaoDeCyrus/CSV.js
-https://github.com/rwjblue/pivot.js
-https://github.com/SheetJS/sheetjs
-pandas js ?
-numpy js?
+- [pivot.js](https://github.com/rwjblue/pivot.js) *16 Jun 2017* csv web文本解析和数据表格展示
+- [node-csvdb](https://github.com/ysnglt/node-csvdb) *2 Feb 2018* 轻量级 CRUD 数据库，使用 CSV 文件作为存储。
+- [node-csv](https://github.com/adaltas/node-csv) *2022-03-23* Node.js and web 解析 生成 转json
+- [CSV.js](https://github.com/DaoDeCyrus/CSV.js) *4 Oct 2016*  JavaScript 中简单、超快的 CSV 解析/编码。完全符合RFC 4180 
+- [sheetjs](https://github.com/SheetJS/sheetjs)
+---
+- [pandas js](https://github.com/StratoDem/pandas-js) \* *4 Sep 2017* 纯数据处理
+- [node-pandas-js](https://github.com/hygull/node-pandas) *21 Sep 2019* 下载量不多
+- [numjs](https://github.com/nicolaspanel/numjs) \* *27 Sep 2021* 纯数据处理
+- [stdlib](https://github.com/stdlib-js/stdlib) \* *2022-03-30* js数学库
+- [scikit.js](https://github.com/javascriptdata/scikit.js) *2022-02-28* js数学库
+- [node-json-db](https://github.com/Belphemur/node-json-db) \* *2022-08-25*
 
 [CSV RFC 4180](https://zh.wikipedia.org/wiki/逗号分隔值#进行中的标准化)  
 - 以（CR/LF）字符结束的DOS风格的行（最后一行可选）。
-- <s>一条可选的表头记录（没有可靠的方式来检测它是否存在，所以导入时必须谨慎）。</s>
+- <u>一条可选的表头记录（没有可靠的方式来检测它是否存在，所以导入时必须谨慎）。</u>
 - 每条记录“应当”包含同样数量的逗号分隔字段。
-- <s>任何字段都可以被包裹（用双引号）。</s>
+- <u>任何字段都可以被包裹（用双引号）。</u>
 - 包含换行符、双引号和/或逗号的字段应当被包裹。（否则，文件很可能不能被正确处理）。
-- <s>字段中的一个（双）引号字符必须被表示为两个（双）引号字符。</s>
+- <u>字段中的一个（双）引号字符必须被表示为两个（双）引号字符。</u>
