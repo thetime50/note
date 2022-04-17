@@ -46,7 +46,7 @@
     - var stack = new Error().stack; console.log( stack )
     - console.trace("Here I am!")
     - [node util.inspect](https://nodejs.org/api/util.html#util_util_inspect_object_options)
-    - console.dir() 是有效的，可以解决引用循环的问题
+    - console.dir() 是有效的，可以解决引用循环的问题,但是较多的数据还是省略不显示
     - 类似浏览器的V8终端？
 - 使用Tasker app 转发验证短信信息
 
@@ -55,6 +55,12 @@
 node 编译和调试环境
 
 node http/https 库太底层了，数据包都要直接串起来
+
+整理接口  
+基金选择 爬数据  
+
+python csv 选型
+模型结构设计  
 
 ### 2022-04-17
 
