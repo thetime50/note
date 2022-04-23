@@ -72,3 +72,23 @@ python csv 选型
 ### 2022-04-18
 
 抓取前 100 历史数据
+
+### 2022-04-21
+
+模型环境  
+使用conda 环境 https://github.com/thetime50/opencv-practice/blob/master/environment-tf-cv-20220107.yml
+
+
+### 2022-04-24
+[sec2sec]
+[Physica A: Financial time series](https://www.sciencedirect.com/search?qs=Financial%20time%20series&pub=Physica%20A%3A%20Statistical%20Mechanics%20and%20its%20Applications&cid=271529)
+
+一个基本的lstm
+
+1. 全连接神经网络本来就是寻找数据维度之间的关系的  
+    1.1 用所有维度数据训练完后累积影响 做减法 匹配固定一笔基金  
+    1.2 用少量维度数据训练后做加法 匹配固定一笔基金  
+    1.3 用少量维度数据训练 找到数据关系 然后合并  
+        1.3.1 如何描述关系
+
+不中  xclasss
