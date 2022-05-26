@@ -6,6 +6,8 @@
 
 检查属性存在并且类型匹配，不会检查顺序
 
+// todo option bag??
+
 ```ts
 // 接口
 interface LabelledValue {
@@ -64,7 +66,7 @@ interface SquareConfig {
     width?: number;
     [propName: string]: any;
 }
-// 使用变量跳过类型检查
+// 使用变量跳过类型检查 // todo 这里是为什么
 let squareOptions = { colour: "red", width: 100 };
 let mySquare = createSquare(squareOptions);
 
@@ -136,7 +138,7 @@ mySearch1 = function(src, sub) {
 
 ### 可索引的类型
 TypeScript支持两种索引签名：字符串和数字  
-可以同时使用,但是数字索引的返回值必须是字符串索引返回值类型的子类型。  
+可以同时使用,但是数字索引的返回值必须是字符串索引返回值类型的子类型。(字符串索引的范围更大)  
 数字索引也会被转为字符串  
 *ps和 Map 字典对象不同，字典对象可以区分数据类型 如 ('1' 和 1)*
 字符串索引签名能描述dictionary模式
@@ -176,7 +178,7 @@ interface More {
 
 // 范围大的的父类型 (属性少) dictionary模式
 interface NumberDictionary {
-  [index: string]: number; // 对对象的所有key-value类型约束
+  [index: string]: number; // !! 使用索引类型会对对象的所有key-value类型约束
   length: number;    // 可以，length是number类型
   name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
@@ -244,7 +246,9 @@ ClockConstructor 构造函数检查 生产函数检查 class 类，
 ClockInterface 实例检查， 类声明、构造函数、实例引用时使用
 
 ```ts
-// 构造器签名 用来检查 cass
+// 构造器签名 用来检查 class
+// 这个接口不能直接对类声明使用 implements 来检查构造函数
+// 但是是对类变量有效的
 interface ClockConstructor { // 类构造函数声明 // 这个是不是可以直接修饰 constructor
     new (hour: number, minute: number): ClockInterface; //生成实例的构造函数 检查类和初始化函数结构
 }
@@ -338,7 +342,7 @@ class Control {
 }
 
 interface SelectableControl extends Control { // 接口继承类
-    select(): void;
+    select(): void; // 这个
 }
 
 class Button extends Control implements SelectableControl { // 继承父类 并应用继承接口的定义
@@ -352,6 +356,7 @@ class TextBox extends Control {
 
 // 错误：“Image”类型缺少“state”属性。
 class Image implements SelectableControl {
+    // private state: any; // 这里的state必须是由Control 继承而来的 Control->state 类型
     select() { }
 }
 

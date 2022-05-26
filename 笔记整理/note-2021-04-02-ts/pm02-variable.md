@@ -14,6 +14,8 @@ const是对let的一个增强，它能阻止对一个变量再次赋值。
 下面的代码在ES2015，现代的运行时会抛出一个错误。而现今TypeScript是不会报错的。  
 对ts来说，可以在运行前引用但不能在运行前修改
 
+[暂时性死区](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_dead_zone_and_errors_with_let)
+
 ```ts
 function foo() {
     // okay to capture 'a'
@@ -48,6 +50,8 @@ function g() {
 ### 块级作用域变量的获取
 
 当let声明出现在循环体里时拥有完全不同的行为。 不仅是在循环里引入了一个新的变量环境，而是针对 每次迭代都会创建这样一个新作用域。 这就是我们在使用立即执行的函数表达式时做的事，所以在 setTimeout例子里我们仅使用let声明就可以了。
+
+!!let 和 var 在 for循环里的表显不一样!!
 
 ```ts
 for (let i = 0; i < 10 ; i++) {
@@ -132,7 +136,7 @@ let total = passthrough.b + passthrough.c.length;
 // 属性重命名
 let { a: newName1, b: newName2 } = o;
 
-// 类型指示
+// !!类型指示!!
 // 在变量后面完整的数据结构定义
 let {a, b}: {a: string, b: number} = o;
 
@@ -174,7 +178,8 @@ f({}); // error, 'a' is required if you supply an argument
 #### 展开
 
 **它仅包含对象 自身的可枚举属性**  
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties  
+[自身的可枚举属性](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Enumerability_and_ownership_of_properties)
 
 ```ts
 // 展开

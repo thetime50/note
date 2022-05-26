@@ -25,12 +25,18 @@ let sentence: string = `Hello, my name is ${ name }.
 
 I'll be ${ age + 1 } years old next month.`;
 
-// - 数组
+/**
+ * - 数组
+ */
 let list: number[] = [1, 2, 3]; // 元素类型后面接上 []
 let list: Array<number> = [1, 2, 3]; // Array<元素类型>：
+// 相当于
+// type Array<T> = []T;
 
-// - 元组 Tuple
-// 区别于数组 允许不同类型的数据
+/**
+ * - 元组 Tuple
+ */
+// 区别于数组 允许不同类型(联合类型)的数据 
 // Declare a tuple type
 let x: [string, number]; // 会限制长度
 // Initialize it
@@ -50,7 +56,10 @@ x1[2] = "b"
 // x1[4] = { a: 1 } // 类型限制
 console.log(x1)
 
-// - 枚举
+/**
+ * - 枚举类型
+ */
+// 像类的属性定义语法 不过又是逗号分隔 {field = value,}
 enum Color {Red, Green, Blue}
 let c: Color = Color.Green;
 enum Color1 {Red = 1, Green = 2, Blue = 4}
@@ -60,7 +69,9 @@ let colorName: string = Color3[2];
 console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 console.log(Color3.Red,Color3[Color3.Red]); 
 
-// - Any
+/**
+ * - Any
+ */
 let notSure: any = 4;
 notSure = "maybe a string instead";
 notSure = false; // okay, definitely a boolean
@@ -75,20 +86,26 @@ notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
 // 不同数据类型的数组
 let list: any[] = [1, true, "free"];
 
-// - Void
+/**
+ * - Void
+ */
 function warnUser(): void {
     console.log("This is my warning message");
 }
-// void类型的变量只能被赋值 undefined和null
+// void类型的变量只能被赋值 undefined和null  // 空值类型
 let unusable: void = undefined;
 
-// - Null 和 Undefined
+/**
+ * - Null 和 Undefined
+ */
 // 默认情况下null和undefined是所有类型的子类型。 除非使用strictNullChecks选项
 // Not much else we can assign to these variables!
 let u: undefined = undefined;
 let n: null = null;
 
-// - Never
+/**
+ * - Never
+ */
 // 永不存在的值的类型
 // 表示抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型
 // ever类型是任何类型的子类型，也可以赋值给任何类型
@@ -108,7 +125,9 @@ function infiniteLoop(): never {
     }
 }
 
-// - Object
+/**
+ * - Object
+ */
 // 表示非原始类型
 // 也就是除number，string，boolean，symbol，null或undefined之外的类型
 declare function create(o: object | null): void;
@@ -120,6 +139,12 @@ create(null); // OK
 // create("string"); // Error
 // create(false); // Error
 // create(undefined); // Error
+
+type TypeA = { a: String };
+type TypeB = { a: String, fn: Function };
+const objA: Object = { a: "a" } as TypeA;
+// const objB: Object = { a: "a" } as TypeB; // !! 有function 类型的属性不能赋值给 Object类型 !!
+
 ```
 
 ### 类型断言
