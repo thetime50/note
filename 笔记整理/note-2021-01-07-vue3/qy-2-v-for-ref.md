@@ -59,7 +59,7 @@ export default {
 }
 ```
 
-- itemRefs 不必是数组：它也可以是一个对象，其 ref 会通过迭代的 key 被设置。 (demo->)[https://codepen.io/thetime50/pen/GRmQQwv]
+- itemRefs 不必是数组：它也可以是一个对象，其 ref 会通过迭代的 key 被设置。 [demo->](https://codepen.io/thetime50/pen/GRmQQwv)
 - 如果需要，itemRef 也可以是响应式的且可以被监听。
 
 ## 异步组件

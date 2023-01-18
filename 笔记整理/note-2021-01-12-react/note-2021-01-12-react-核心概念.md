@@ -60,7 +60,7 @@ ReactDOM.render(element, document.getElementById('root'));
 react支持多个根组件
 
 ### 更新
-React元素是(不可变对象)[https://en.wikipedia.org/wiki/Immutable_object]  
+React元素是[不可变对象](https://en.wikipedia.org/wiki/Immutable_object)  
 创建后不可更改，通过创建新的元素覆盖
 
 React 会对新元素和旧元素进行比较，只更新必要的部分
