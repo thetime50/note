@@ -87,6 +87,11 @@ $ sudo service docker restart
 $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker
 ```
+
+- [Cannot find the daemon.json file in windows 10 after docker-desktop installation](https://stackoverflow.com/questions/55351659/cannot-find-the-daemon-json-file-in-windows-10-after-docker-desktop-installation)
+- [docker 设置国内镜像源](https://blog.csdn.net/whatday/article/details/86770609/)
+win %userprofile%\.docker\daemon.json
+
 ps:
 Linux系统目前存在的三种系统启动方式所对应的配置文件目录
 1. SysVinit：/etc/init.d目录；
