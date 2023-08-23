@@ -146,6 +146,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects
 
 ## 字符串
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String
+模板字符串 `${val}`
 ### 静态方法
 - String.fromCharCode()
   - 返回使用指定的 Unicode 值序列创建的字符串。
@@ -198,7 +199,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects
   - 返回一个数字，用于指示一个参考字符串 compareString 是否在排序顺序前面或之后或与给定字符串相同。
 
 - String.prototype.match()
-  - 用于将**正则**表达式 regexp 与字符串匹配。
+  - 用于将**正则**表达式 regexp 与字符串匹配。返回匹配项列表
 
 - String.prototype.matchAll()
   - 返回所有 **regexp** 的匹配项的迭代器。
@@ -222,7 +223,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects
   - 用于使用 replaceWith 替换所有出现的 searchFor。searchFor 可以是字符串或**正则**表达式，replaceWith 可以是字符串或函数。
 
 - String.prototype.search()
-  - 搜索**正则**表达式 regexp 和调用字符串之间的匹配项。
+  - 搜索**正则**表达式 regexp 和调用字符串之间的匹配项。 返回匹配索引位置
 
 - String.prototype.slice()
   - 提取字符串的一部分并返回一个新字符串。
@@ -312,7 +313,7 @@ String.prototype.replace 使用$1引用获取匹配
   - 运行脚本的期间（重新）编译正则表达式。
 
 - RegExp.prototype.exec()
-  - 在该字符串中执行匹配项的搜索。
+  - 在该字符串中执行匹配项的搜索。 执行一次匹配返回详细信息
 
 - RegExp.prototype.test()
   - 该正则在字符串里是否有匹配。
