@@ -1,4 +1,4 @@
-## gpt 项目整理
+gptgp## gpt 项目整理
 
 
 - [chain-of-thought-hub](https://github.com/FranxYao/chain-of-thought-hub) 各模型评估对比
@@ -19,5 +19,8 @@
   - [chatboxai](https://chatboxai.app/cn) 一个gpt客户端 内置开箱即用的 AI 服务?
 
 
+js嵌套创建目录
 chatGPT 和GPT-4 都可以正确的 js嵌套创建目录，bard输出不对也纠正不过来
 claude-2 输出类似chartGPT
+chatglm2 会使用'/'分隔，大致满足要求
+
