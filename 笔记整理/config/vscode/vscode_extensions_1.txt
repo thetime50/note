@@ -1,0 +1,144 @@
+GitHub Copilot
+[Deprecated] Live Share Audio
+微信小程序开发工具
+ANSI Colors
+any-rule
+AssemblyScript lang
+Auto Rename Tag
+AutoScssStruct4Vue
+Beautify
+Bookmarks
+C/C++
+C/C++ Extension Pack
+C/C++ Themes
+
+Can I Use
+Can I Use
+Chinese (Simplified) (简体中文) Language Pack for Visual Studio Code
+CMake
+CMake Tools
+Code Runner
+CodeBing
+CodeSwing
+CodeTour
+Conda Cheatsheet
+CSS Modules
+CSS Peek
+css-triggers
+
+Data Preview
+Debug Visualizer
+Debugger for Java
+Dev Containers
+Docker
+Draw.io Integration
+Edit csv
+ES7+ React/Redux/React-Native snippets
+ESLint
+eslint-disable-snippets
+eta-vscode
+Extension Pack for Java
+Foam
+
+GistPad
+Git Graph
+Git History Diff
+GitLens — Git supercharged
+goto node modules
+Gradle for Java
+Graphviz Interactive Preview
+Hex Editor
+HTMLHint
+iconfont-preview
+Import Cost
+Increment Selection
+IntelliCode
+IntelliCode API Usage Examples
+
+IntelliSense for CSS class names in HTML
+iview-snippets
+JavaScript (ES6) code snippets
+JSON5 syntax
+Jupyter
+Jupyter Cell Tags
+Jupyter Keymap
+Jupyter Notebook Renderers
+Jupyter Slide Show
+Kotlin
+Language Support for Java(TM) by Red Hat
+LaTeX Workshop
+Live Server
+Live Share
+
+Live Share Whiteboard
+Luna Paint — Image Editor
+Markdown PDF
+Markdown Preview Mermaid Support
+Maven for Java
+Mermaid Markdown Syntax Highlighting
+open in browser
+Partial Diff
+Path Autocomplete
+Paul's TypeScript Toolkit
+PowerShell
+Prettier - Code formatter
+Project Manager for Java
+
+Prolog
+px to rpx
+Pylance
+Python
+python snippets
+Quasar Snippets
+Red Hat Commons
+Red Hat Dependency Analytics
+REG
+Remote - SSH
+Remote - SSH: Editing Configuration Files
+Remote Explorer
+Sass (.sass only)
+Search node_modules
+
+Settings Sync
+Smarty
+SQLTools
+Stylelint
+stylus
+SVG
+SVG Editor
+Tailwind CSS IntelliSense
+Test Runner for Java
+Thinking in Data
+TODO Highlight
+TypeScript Debugger
+Typescript React code snippets
+TypeScript Vue Plugin (Volar)
+
+Vant Snippets
+Vetur
+VS Code Jupyter Notebook Previewer
+VS Color Picker
+vscode extension for ECharts
+vscode-css-doodle
+vscode-element-helper
+vscode-proto3
+VueHelper
+WebAssembly
+webpack
+Webpack Snippets
+webpack-helper
+
+WXML - Language Service
+YAML
+Zepp OS Dev Tools
+
+-- 
+GitDoc
+GitHub Pull Requests and Issues
+Prettify JSON
+Uniapp Enhanced
+Vue Language Features (Volar)
+Vue VSCode Snippets
+vue-helper
+Wepy
+WSL
