@@ -1,0 +1,115 @@
+{
+  "python.terminal.activateEnvironment": false,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "git.autofetch": true,
+  "vetur.validation.template": false,
+  "git.confirmSync": false,
+  "remote.SSH.remotePlatform": {
+    "zeromake.com": "linux",
+    "120.79.5.38": "linux",
+    "107.182.26.146": "linux"
+  },
+  "files.autoGuessEncoding": true,
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+  "terminal.integrated.copyOnSelection": true,
+  "editor.formatOnSaveMode": "modifications",
+  "editor.acceptSuggestionOnEnter": "off",
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "files.associations": {
+    "*.cjson": "jsonc",
+    "*.wxss": "css",
+    "*.wxs": "javascript"
+  },
+  "emmet.includeLanguages": {
+    "wxml": "html"
+  },
+  "minapp-vscode.disableAutoConfig": true,
+  // eslint
+  "explorer.confirmDelete": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  }, //保存自动修复eslint错误
+  "files.autoSave": "off",
+  "javascript.format.enable": false,
+  //**********
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  ],
+  "eslint.alwaysShowStatus": true,
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "scss",
+    "vue",
+    "sass"
+  ],
+  //**********
+  // stylelint
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "editor.inlineSuggest.enabled": true,
+  "px-to-rpx.baseWidth": 375,
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.formatOnPaste": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true,
+    "vue": true
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "files.eol": "\n",
+  "prettier.enable": false,
+  "editor.tabSize": 2,
+  "git.mergeEditor": false,
+  "[scss]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "yaml.schemas": {},
+  "zeus.showStatusBarShortcut": [
+    "dev",
+    "preview",
+    "bridge",
+    "build"
+  ],
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python",
+    "editor.formatOnType": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "easycode.userEmail": "thetime.lx@gmail.com",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+  "cmake.configureOnOpen": true,
+  "kotlin.languageServer.enabled": false,
+  "kotlin.debugAdapter.enabled": false,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "[vue]": {
+    "editor.defaultFormatter": "octref.vetur"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "python.condaPath": "E:\\Users\\holid\\anaconda3",
+  "python.languageServer": "Pylance"
+}
